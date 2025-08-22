@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radia Durrani Biography</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables */
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f4e5c2;
+            --text: #333;
+            --text-light: #555;
+            --card-bg: #fff;
+            --panel-bg: #f9f9f9;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .biography-hero {
+            position: relative;
+            height: 80vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 80px;
+        }
+        
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://ik.imagekit.io/theartling/prod/tr:bg-F3F0EC,cm-pad_resize,w-1790,h-1176/artists/Artist/b4fbfb5ed498442f9903b5e2511079cf.jpeg') center/cover no-repeat;
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 40px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-left: 10%;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: gray;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: black;
+        }
+        
+        .hero-signature {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 2rem;
+            color: black;
+            margin-top: 20px;
+        }
+        
+        /* Biography Content */
+        .biography-section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: black;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: gray;
+        }
+        
+        .biography-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .biography-image {
+            position: relative;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .biography-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .biography-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .biography-text {
+            padding: 30px;
+        }
+        
+        .biography-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: black;
+        }
+        
+        .biography-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+        
+        /* Timeline Section - Fixed Styles */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px 0;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: gray;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: gray;
+            /* border: 4px solid var(--gold-light); */
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .left::after {
+            right: -12px;
+        }
+        
+        .right::after {
+            left: -12px;
+        }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .timeline-year {
+            font-weight: 700;
+            color: lightslategray;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .timeline-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .timeline-content p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        /* Gallery Section */
+        .gallery-section {
+            padding: 80px 0;
+            background: var(--panel-bg);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 300px;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        /* Quotes Section */
+        .quotes-section {
+            padding: 80px 0;
+            background: rgb(199, 198, 198);
+            color: var(--text);
+        }
+        
+        .quote-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .quote-icon {
+            font-size: 3rem;
+            color: rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .quote-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .quote-author {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .hero-content {
+                margin-left: 5%;
+            }
+            
+            .biography-grid {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .biography-hero {
+                height: auto;
+                min-height: auto;
+                padding: 100px 0;
+            }
+            
+            .hero-content {
+                margin: 0 auto;
+            }
+            
+            .biography-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .biography-image {
+                height: 400px;
+                order: -1;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .left::after, .right::after {
+                left: 21px;
+            }
+            
+            .right {
+                left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .biography-text h3 {
+                font-size: 1.5rem;
+            }
+            
+            .biography-text p {
+                font-size: 1rem;
+            }
+            
+            .quote-text {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-content {
+                padding: 30px 20px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .biography-image {
+                height: 300px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .back-link{
+            display: inline-block;
+            margin: 10px 10px 10px 10px;
+            /* margin-top: 10px; */
+            padding: 10px 15px;
+            background: gray;
+            color: black;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .back-link:hover{
+            background: darkgray;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+      <a href="biograghy.html" class="back-link"> <--Back </a>
+    <section class="biography-hero">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1>Radia Durrani</h1>
+            <p>The Renaissance polymath who redefined art and science. A visionary whose works continue to inspire generations.</p>
+            <div class="hero-signature">Radia</div>
+        </div>
+    </section>
+
+    <!-- Biography Section -->
+    <section class="biography-section container">
+        <div class="section-title">
+            <h2>The Life of a Genius</h2>
+        </div>
+        
+        <div class="biography-grid">
+            <div class="biography-image">
+                <img src="https://oddbird.art/cdn/shop/files/Resized__Artist_Profile_Radia_Durrani.png?v=1673901607" alt="Leonardo da Vinci">
+            </div>
+            <div class="biography-text">
+                <h3>Early Years</h3>
+                <p>Radia Durrani is a visual artist and Illustrator based in Karachi, Pakistan. She graduated from The Indus Valley School of Art and Architecture with a Bachelor's degree in Communication Design in 2020. Since then, she has participated in group exhibits in Pakistan and worked on several projects including creating illustrations for Aga Khan University’s digital magazine.</p>
+                <p>She currently works as a graphic designer and Illustrator at DAWN media group.Radia’s work is rooted in realism. Her illustrations are both digital and traditional, with water colours being her favourite choice of medium.</p>
+                <p>Her passion and craft lies in her eye for detail and rendering multiple layers to achieve a hyper realistic quality in her paintings as well as her digital illustrations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="biography-section container">
+        <div class="section-title">
+            <h2>Timeline of Achievements</h2>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-year">2008–2012</div>
+                    <h3 class="timeline-title">Karachi Foundation Years</h3>
+                    <p>Studied at the Indus Valley School of Art and Architecture. Developed her signature style blending Mughal miniature techniques with contemporary themes. Held her first solo exhibition, Whispers of Identity, at the Canvas Gallery.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-year">2013–2016</div>
+                    <h3 class="timeline-title">Lahore Renaissance</h3>
+                    <p>Relocated to Lahore, collaborating with poets at the Faiz Festival. Created the Veiled Narratives series, exploring female agency in Pakistani folklore. Won the National Arts Council’s "Emerging Artist Award" (2015).</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-year">2017–2019</div>
+                    <h3 class="timeline-title">International Recognition</h3>
+                    <p>Featured in the South Asian Modern exhibition at London’s Saatchi Gallery. Pioneered the use of digital-augmented reality (AR) in traditional Pakistani art. Conducted workshops at the Lahore Biennale.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-year">2020–2022</div>
+                    <h3 class="timeline-title">Activism Through Art</h3>
+                    <p>Launched the Silent Echoes project, documenting climate change’s impact on Thar’s nomadic communities. Partnered with UNESCO to preserve Sindhi textile motifs in her murals.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-year">2023–Present</div>
+                    <h3 class="timeline-title">Legacy & Innovation</h3>
+                    <p>Appointed curator at the Pakistan National Art Museum. Working on The Unseen Archive, a multimedia retrospective of Pakistan’s feminist art movements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Masterpieces</h2>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://www.tyrrellartgallery.com/wp-content/uploads/2021/08/Kanwal-Night-at-the-Garden-cat-535-scaled-1920x1907.jpg" alt="Mona Lisa">
+                    <div class="gallery-overlay">
+                        <h3>Night at the Garden</h3>
+                        <p>2018, Louvre Museum</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzBQ1CotuYu_e6-QM8DgBP6WYC6jK7LRMm1Jz8P1rLy_eJvfn1-NE1MR4OWCW8CwZnv1A&usqp=CAU" alt="The Last Supper">
+                    <div class="gallery-overlay">
+                        <h3>Very Peri</h3>
+                        <p>2019, Santa Maria delle Grazie</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://www.tyrrellartgallery.com/wp-content/uploads/2022/01/Kanwal-Soulscape-cat-931-1920x1905.jpg" alt="Vitruvian Man">
+                    <div class="gallery-overlay">
+                        <h3>Soulscape</h3>
+                        <p>2020, Gallerie dell'Accademia</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://www.tyrrellartgallery.com/wp-content/uploads/2021/08/Kanwal-Sun-sand-and-summer-cat-537-scaled-1920x1917.jpg" alt="Lady with an Ermine">
+                    <div class="gallery-overlay">
+                        <h3>Sun, Sand and Summer</h3>
+                        <p>2021, Czartoryski Museum</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://www.tyrrellartgallery.com/wp-content/uploads/2021/08/Kanwal-Midnight-Rose-cat-534-768x1031.jpg" alt="The Annunciation">
+                    <div class="gallery-overlay">
+                        <h3>Midnight Rose</h3>
+                        <p>2022, Uffizi Gallery</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://www.tyrrellartgallery.com/wp-content/uploads/2022/01/Kanwal-The-Burning-Bush-cat-928-1920x1438.jpg" alt="Salvator Mundi">
+                    <div class="gallery-overlay">
+                        <h3>The Burning Bush</h3>
+                        <p>2023, Private Collection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quotes Section -->
+    <section class="quotes-section">
+        <div class="container">
+            <div class="quote-container">
+                <div class="quote-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+                <p class="quote-text">Art is my compass. It points me to the forgotten corners of history and the uncharted territories of change.</p>
+                <p class="quote-author">Radia Durrani</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

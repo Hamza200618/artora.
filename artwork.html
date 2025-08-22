@@ -1,0 +1,2443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artora - Art Collection</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Raleway:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ffffff;
+      --secondary: #000000;
+      --accent: #070707;
+      --text: #000000;
+      --text-light: #313030;
+      --gold: #2e2d2d;
+      --gold-light: #4a4949;
+      --card-bg: #f5f5f5;
+      --panel-bg: #f0f0f0;
+      --border-color: #e0e0e0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background-color: var(--primary);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background-color: white;
+      padding: 15px 40px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      position: relative;
+    }
+
+    .left-group {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 20px;
+      position: relative;
+    }
+
+    .nav-icons i {
+      color: var(--text);
+      font-size: 18px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .nav-icons i:hover {
+      color: var(--gold);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: var(--gold);
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      font-size: 24px;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-text {
+            font-weight: 700;
+            font-size: 24px;
+            text-transform: uppercase;
+            color: #111b12;
+            letter-spacing: 1px;
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+        }
+
+    /* .logo-text span {
+      color: var(--gold);
+    } */
+
+    .logo img {
+      height: 30px;
+      width: auto;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
+    .contact {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .whatsapp-icon {
+      color: #25D366;
+      font-size: 20px;
+    }
+
+    .contact span {
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .nav-rows {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 15px;
+    }
+
+    .nav-rows.active {
+      display: block;
+    }
+
+    .main-categories,
+    .sub-categories {
+      display: flex;
+      gap: 25px;
+      padding: 10px 0;
+    }
+
+    .main-categories {
+      font-weight: 500;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+
+    .sub-categories {
+      font-weight: 400;
+      font-size: 13px;
+      color: #777;
+    }
+
+    .nav-link {
+      color: #333;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: black;
+      font-weight: bolder;
+      text-decoration: none;
+    }
+
+    .mobile-contact {
+      display: none;
+      justify-content: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    @media (max-width: 768px) {
+      .top-bar {
+        flex-wrap: wrap;
+      }
+
+      .logo {
+        position: static;
+        order: 3;
+        width: 100%;
+        text-align: center;
+        transform: none;
+        padding-top: 15px;
+      }
+
+      .contact {
+        display: none;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .nav-rows {
+        display: none;
+      }
+
+      .main-categories {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .mobile-contact {
+        display: flex;
+      }
+    }
+
+    /* Search and Sort Container */
+    .search-container {
+      margin-top: 100px;
+      background-color: var(--primary);
+      padding: 20px 0;
+    }
+
+    .search-sort-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    .search-bar {
+      display: flex;
+      flex: 1;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 12px 20px;
+      border: 2px solid var(--gold);
+      border-radius: 30px 0 0 30px;
+      background: var(--primary);
+      color: var(--text);
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-bar button {
+      padding: 12px 20px;
+      background: var(--gold);
+      color: var(--primary);
+      border: none;
+      border-radius: 0 30px 30px 0;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .search-bar button:hover {
+      background: var(--gold-light);
+    }
+
+    .sort-dropdown {
+      padding: 12px 15px;
+      border-radius: 30px;
+      background: var(--gold);
+      color: var(--primary);
+      border: none;
+      cursor: pointer;
+      min-width: 180px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .search-container {
+        margin-top: 100px;
+      }
+
+      .search-sort-container {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px 20px;
+      }
+
+      .search-bar,
+      .sort-dropdown {
+        width: 100%;
+      }
+
+      .sort-dropdown {
+        width: 70%;
+      }
+    }
+
+    /* Page Title */
+    .page-title {
+      text-align: center;
+      padding: 150px 20px 60px;
+      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('explore.webp') no-repeat center center;
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+
+    .page-title h1 {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .page-title p {
+      color: wheat;
+      margin-top: 10px;
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Category Filter */
+    .category-filter {
+      padding: 40px 0;
+      background-color: var(--primary);
+    }
+
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .filter-btn {
+      padding: 10px 25px;
+      background: var(--primary);
+      border: 2px solid var(--gold);
+      color: var(--text);
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--gold);
+      color: var(--primary);
+    }
+
+    /* Artworks Grid */
+    .artworks-section {
+      padding: 60px 0;
+      background-color: var(--primary);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .section-header h2 {
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 15px;
+    }
+
+    .section-header p {
+      color: var(--text-light);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .artworks-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .artwork-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      position: relative;
+      border: 1px solid var(--border-color);
+    }
+
+    .artwork-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .artwork-image-container {
+      position: relative;
+      overflow: hidden;
+      height: 220px;
+    }
+
+    .artwork-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      cursor: pointer;
+    }
+
+    .artwork-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .zoom-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      cursor: pointer;
+    }
+
+    .artwork-image-container:hover .zoom-icon {
+      opacity: 1;
+    }
+
+    .artwork-info {
+      padding: 20px;
+    }
+
+    .artwork-info h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: var(--gold);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .artwork-description {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      height: 4.5em;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+
+    .artwork-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .artist-name {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 60%;
+    }
+
+    .artwork-price {
+      color: var(--gold);
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .artwork-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-view,
+    .btn-purchase,
+    .btn-add-to-cart {
+      display: block;
+      padding: 10px 15px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.3s;
+      text-align: center;
+      text-decoration: none;
+      flex: 1;
+      font-size: 0.9rem;
+    }
+
+    .btn-view {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+    }
+
+    .btn-view:hover {
+      background: rgba(102, 125, 89, 0.1);
+    }
+
+    .btn-purchase {
+      background: var(--gold);
+      color: var(--primary);
+    }
+
+    .btn-purchase:hover {
+      background: var(--gold-light);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-add-to-cart {
+      background: var(--gold);
+      color: var(--primary);
+    }
+
+    .btn-add-to-cart:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* Upload Artwork Section */
+    .upload-section {
+      padding: 80px 0;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+
+    .upload-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .upload-container h2 {
+      margin-bottom: 20px;
+      color: var(--gold);
+    }
+
+    .upload-container p {
+      margin-bottom: 30px;
+      color: var(--text-light);
+    }
+
+    .upload-btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background: var(--gold);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .upload-btn:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* Shopping Cart Sidebar */
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: none;
+    }
+
+    .cart-overlay.active {
+      display: block;
+    }
+
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 400px;
+      height: 100vh;
+      background: var(--panel-bg);
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      z-index: 1001;
+      transition: right 0.3s ease;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-sidebar.active {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .cart-header h3 {
+      color: var(--gold);
+    }
+
+    .close-cart {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .cart-items {
+      padding: 20px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .cart-item {
+      display: flex;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .cart-item-img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-right: 15px;
+    }
+
+    .cart-item-details {
+      flex: 1;
+    }
+
+    .cart-item-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .cart-item-price {
+      color: var(--gold);
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    .remove-item {
+      background: none;
+      border: none;
+      color: #ff6b6b;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .cart-total {
+      padding: 20px;
+      text-align: right;
+      font-size: 1.1rem;
+      color: var(--gold);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .cart-checkout {
+      display: block;
+      width: calc(100% - 40px);
+      margin: 20px;
+      padding: 12px;
+      background: var(--gold);
+      color: var(--primary);
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .cart-checkout:hover {
+      background: var(--gold-light);
+    }
+
+    /* Checkout Form */
+    .checkout-form {
+      display: none;
+      padding: 20px;
+    }
+
+    .checkout-form h4 {
+      margin-bottom: 20px;
+      color: var(--gold);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      background: var(--primary);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .form-btn {
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      flex: 1;
+    }
+
+    .btn-submit {
+      background: var(--gold);
+      color: var(--primary);
+      border: none;
+    }
+
+    .btn-submit:hover {
+      background: var(--gold-light);
+    }
+
+    .btn-cancel {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--text);
+    }
+
+    .btn-cancel:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    /* Order Confirmation */
+    .order-confirmation {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .order-confirmation i {
+      font-size: 50px;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .order-confirmation h3 {
+      color: var(--gold);
+      margin-bottom: 15px;
+    }
+
+    .order-confirmation p {
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    /* Artwork Detail Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: var(--primary);
+      color: var(--text);
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 800px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--gold);
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--gold);
+    }
+
+    .modal-header h3 {
+      color: var(--gold);
+      font-size: 1.5rem;
+    }
+
+    .close-modal {
+      color: var(--text);
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .close-modal:hover {
+      color: var(--gold);
+    }
+
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .modal-body {
+        flex-direction: row;
+      }
+    }
+
+    .modal-image {
+      flex: 1;
+    }
+
+    .modal-image img {
+      width: 100%;
+      border-radius: 5px;
+    }
+
+    .modal-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .detail-group {
+      margin-bottom: 10px;
+    }
+
+    .detail-label {
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .detail-value {
+      color: var(--text);
+    }
+
+    .artwork-description {
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .modal-btn {
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-confirm {
+      background: var(--gold);
+      color: var(--primary);
+      border: none;
+    }
+
+    .btn-confirm:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-cancel {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--text);
+    }
+
+    .btn-cancel:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    /* Image Zoom Modal */
+    .zoom-modal {
+      display: none;
+      position: fixed;
+      z-index: 10010;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .zoom-modal-content {
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    .zoom-modal-content img {
+      width: 100%;
+      height: auto;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+
+    .close-zoom {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Cart Notification */
+    .cart-notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--gold);
+      color: var(--primary);
+      padding: 15px 25px;
+      border-radius: 5px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1002;
+    }
+
+    .cart-notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Footer */
+    footer {
+      background: #f8f8f8;
+      color: rgb(0, 0, 0);
+      padding: 80px 0 30px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-column h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 2px;
+      background: #000000;
+      bottom: 0;
+      left: 0;
+    }
+
+    .footer-column p {
+      color: #080808;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: #444343;
+    }
+
+    .social-links-footer {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-links-footer a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #0000008f;
+      color: #f7f3f3;
+      transition: all 0.3s;
+    }
+
+    .social-links-footer a:hover {
+      background: rgb(59, 59, 59);
+      color: rgb(243, 242, 242);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid #030303;
+      color: #000000;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .cart-sidebar {
+        width: 90%;
+        right: -90%;
+      }
+
+      .modal-body {
+        flex-direction: column;
+      }
+
+      .artwork-actions {
+        flex-direction: column;
+      }
+
+      .btn-view,
+      .btn-purchase,
+      .btn-add-to-cart {
+        width: 100%;
+      }
+
+      .artworks-container {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+
+      .artwork-card img {
+        height: 180px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-title h1 {
+        font-size: 2rem;
+      }
+
+      .page-title p {
+        font-size: 1rem;
+      }
+
+      .section-header h2 {
+        font-size: 1.8rem;
+      }
+
+      .artworks-container {
+        grid-template-columns: 1fr;
+      }
+
+      .artwork-description {
+        font-size: 0.8rem;
+      }
+
+      .artist-name,
+      .artwork-price {
+        font-size: 0.8rem;
+      }
+
+      .btn-view,
+      .btn-purchase,
+      .btn-add-to-cart {
+        font-size: 0.8rem;
+        padding: 8px 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- New Navbar -->
+  <nav class="navbar">
+    <div class="top-bar">
+      <!-- Left Group (Icons - Always Visible) -->
+      <div class="left-group">
+        <div class="nav-icons">
+          <a href="sign.html" class="user-icon-link"><i class="fas fa-user"></i></a>
+          <a href="shipment.html" class="user-icon-link"><i class="fa-solid fa-headphones"></i></a>
+          <div style="position: relative;">
+            <i class="fas fa-shopping-bag" id="cartIcon"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Toggle Button (Top-Right) -->
+      <i class="fas fa-bars mobile-menu-toggle" id="mobileMenuToggle"></i>
+
+      <!-- Logo (Centered on desktop, below on mobile) -->
+      <div class="logo">
+        <a href="#" class="logo-text">Art<span>ora</span>
+          <img src="origami.png" alt="Artora Logo" />
+        </a>
+      </div>
+
+      <!-- Desktop Contact (Hidden on Mobile) -->
+      <div class="contact">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+        <span>+923397856555</span>
+      </div>
+    </div>
+
+    <!-- Navigation Rows (Hidden on Mobile by Default) -->
+    <div class="nav-rows" id="navRows">
+      <div class="main-categories">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="artist.html" class="nav-link">Artists</a>
+        <a href="artwork.html" class="nav-link">Gallery</a>
+        <a href="auction.html" class="nav-link">Auction</a>
+        <a href="biograghy.html" class="nav-link">Biography</a>
+        <a href="exhibition.html" class="nav-link">Exhibition</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <!-- Mobile Contact (Shows When Menu is Open) -->
+      <div class="mobile-contact">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+        <span>+923397856555</span>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- Search and Sort Container -->
+  <div class="search-container">
+    <div class="container">
+      <div class="search-sort-container">
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Search artworks...">
+          <button id="searchButton"><i class="fas fa-search"></i></button>
+        </div>
+        <select class="sort-dropdown" id="sortDropdown">
+          <option value="default">Sort by</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <section class="page-title">
+    <div class="container">
+      <h1>Explore Our Art Collection</h1>
+      <p>Discover exquisite paintings from talented artists around the world. Each piece tells a unique story.</p>
+    </div>
+  </section>
+
+  <!-- Category Filter -->
+  <section class="category-filter">
+    <div class="container">
+      <div class="filter-container">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="abstract">Abstract</button>
+        <button class="filter-btn" data-category="landscape">Landscape</button>
+        <button class="filter-btn" data-category="portrait">Portrait</button>
+        <button class="filter-btn" data-category="modern">Modern</button>
+        <button class="filter-btn" data-category="digital">Digital</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Artworks Grid -->
+  <section class="artworks-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Modern Art Collection</h2>
+        <p>Contemporary artworks that challenge traditional boundaries</p>
+      </div>
+      <div class="artworks-container" id="artworksGrid"></div>
+    </div>
+  </section>
+
+  <section class="artworks-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Classic Paintings</h2>
+        <p>Timeless masterpieces from renowned artists</p>
+      </div>
+      <div class="artworks-container" id="classicGrid"></div>
+    </div>
+  </section>
+
+  <section class="artworks-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Abstract Expressions</h2>
+        <p>Bold and unconventional artistic statements</p>
+      </div>
+      <div class="artworks-container" id="abstractGrid"></div>
+    </div>
+  </section>
+
+  <section class="artworks-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Landscape Wonders</h2>
+        <p>Nature's beauty captured on canvas</p>
+      </div>
+      <div class="artworks-container" id="landscapeGrid"></div>
+    </div>
+  </section>
+
+  <section class="artworks-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Portrait Gallery</h2>
+        <p>Captivating human expressions and emotions</p>
+      </div>
+      <div class="artworks-container" id="portraitGrid"></div>
+    </div>
+  </section>
+
+  <!-- Upload Artwork Section -->
+  <section class="upload-section">
+    <div class="container">
+      <div class="upload-container">
+        <h2>Have Artwork to Share?</h2>
+        <p>If you're an artist and would like to showcase your work in our gallery, we'd love to hear from you. Share details about your artwork and our team will review it for potential inclusion in our collection.</p>
+        <a href="contact.html" class="upload-btn">Contact Us to Upload Artwork</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shopping Cart Sidebar -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="close-cart" id="closeCart"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <!-- Cart items will be added here dynamically -->
+    </div>
+    <div class="cart-total">
+      Total: $<span id="cartTotal">0</span>
+    </div>
+    <button class="cart-checkout" id="checkoutBtn">Proceed to Checkout</button>
+
+    <!-- Checkout Form -->
+    <div class="checkout-form" id="checkoutForm">
+      <h4>Checkout Information</h4>
+      <div class="form-group">
+        <label for="checkout-name">Full Name</label>
+        <input type="text" id="checkout-name" required>
+      </div>
+      <div class="form-group">
+        <label for="checkout-email">Email</label>
+        <input type="email" id="checkout-email" required>
+      </div>
+      <div class="form-group">
+        <label for="checkout-phone">Phone Number</label>
+        <input type="tel" id="checkout-phone" required>
+      </div>
+      <div class="form-group">
+        <label for="checkout-address">Shipping Address</label>
+        <textarea id="checkout-address" rows="3" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="checkout-payment">Payment Method</label>
+        <select id="checkout-payment" required>
+          <option value="">Select Payment</option>
+          <option value="credit">Credit Card</option>
+          <option value="paypal">PayPal</option>
+          <option value="bank">Bank Transfer</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button class="form-btn btn-cancel" id="cancelCheckout">Cancel</button>
+        <button class="form-btn btn-submit" id="submitOrder">Place Order</button>
+      </div>
+    </div>
+
+    <!-- Order Confirmation -->
+    <div class="order-confirmation" id="orderConfirmation">
+      <i class="fas fa-check-circle"></i>
+      <h3>Your Order is Placed!</h3>
+      <p>Thank you for your purchase. We'll contact you shortly with the details.</p>
+      <button class="form-btn btn-submit" id="closeOrderConfirm">Continue Shopping</button>
+    </div>
+  </div>
+
+  <!-- Artwork Detail Modal -->
+  <div id="artworkModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalArtworkTitle">Artwork Title</h3>
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-image">
+          <img id="modalArtworkImage" src="" alt="Artwork">
+        </div>
+
+        <div class="modal-details">
+          <div class="detail-group">
+            <div class="detail-label">Artist</div>
+            <div class="detail-value" id="modalArtistName">Artist Name</div>
+          </div>
+
+          <div class="detail-group">
+            <div class="detail-label">Year</div>
+            <div class="detail-value" id="modalArtworkYear">2023</div>
+          </div>
+
+          <div class="detail-group">
+            <div class="detail-label">Medium</div>
+            <div class="detail-value" id="modalArtworkMedium">Oil on Canvas</div>
+          </div>
+
+          <div class="detail-group">
+            <div class="detail-label">Dimensions</div>
+            <div class="detail-value" id="modalArtworkDimensions">24" x 36"</div>
+          </div>
+
+          <div class="detail-group">
+            <div class="detail-label">Price</div>
+            <div class="detail-value" id="modalArtworkPrice">$1,200</div>
+          </div>
+
+          <div class="detail-group">
+            <div class="detail-label">Description</div>
+            <div class="artwork-description" id="modalArtworkDescription">
+              This artwork captures the essence of modern expressionism with bold strokes and vibrant colors. The artist
+              explores the relationship between form and space in this compelling composition.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="modal-btn btn-cancel" onclick="closeModal()">Close</button>
+        <button class="modal-btn btn-confirm" onclick="addToCartFromModal()">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Zoom Modal -->
+  <div id="zoomModal" class="zoom-modal">
+    <span class="close-zoom" onclick="closeZoomModal()">&times;</span>
+    <div class="zoom-modal-content">
+      <img id="zoomedImage" src="" alt="Zoomed Artwork">
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Artora Gallery</h3>
+          <p>A virtual space where art lovers and collectors can discover, experience, and acquire exceptional contemporary artworks from around the world.</p>
+          <div class="social-links-footer">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+         <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="artist.html">Artists</a></li>
+                        <li><a href="artworks.html">Gallery</a></li>
+                        <li><a href="auction.html">Auction & Trades</a></li>
+                        <li><a href="exhibition.html">Exhibitions</a></li>
+                        <li><a href="biograghy.html">Biography</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <!-- <li><a href="#">FAQ</a></li> -->
+                        <li><a href="shipment.html">Help & Support</a></li>
+                        <li><a href="privcay policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <p><i class="fas fa-map-marker-alt"></i> 123 Gallery Street, Art District, NY 10001</p>
+          <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+          <p><i class="fas fa-envelope"></i> info@artoragallery.com</p>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 Artora Virtual Gallery. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Artworks data - expanded with more items
+    const artworks = [
+      {
+        id: 1,
+        title: "Sunset Bliss",
+        artist: "Emily Stone",
+        year: 2021,
+        price: 1200,
+        img: "1.jpeg",
+        medium: "Oil on Canvas",
+        dimensions: "24\" x 36\"",
+        category: "landscape",
+        description: "A breathtaking sunset over rolling hills, capturing the golden hour with masterful brushwork and vibrant colors.",
+        section: "modern"
+      },
+      {
+        id: 2,
+        title: "Ocean Dreams",
+        artist: "Michael Chen",
+        year: 2020,
+        price: 1850,
+        img: "2.webp",
+        medium: "Acrylic",
+        dimensions: "30\" x 40\"",
+        category: "abstract",
+        description: "Abstract representation of ocean waves, blending blues and greens in a dynamic composition that evokes movement.",
+        section: "abstract"
+      },
+      {
+        id: 3,
+        title: "Forest Magic",
+        artist: "Sophia Rodriguez",
+        year: 2019,
+        price: 2200,
+        img: "3.webp",
+        medium: "Mixed Media",
+        dimensions: "36\" x 48\"",
+        category: "landscape",
+        description: "Enchanting forest scene with layers of texture and hidden details that reveal themselves upon closer inspection.",
+        section: "landscape"
+      },
+      {
+        id: 4,
+        title: "City Lights",
+        artist: "David Kim",
+        year: 2022,
+        price: 1500,
+        img: "4.jpeg",
+        medium: "Digital Art",
+        dimensions: "24\" x 36\"",
+        category: "modern",
+        description: "Vibrant cityscape capturing the energy of urban life at night with neon colors and dynamic lighting.",
+        section: "modern"
+      },
+      {
+        id: 5,
+        title: "Mountain Majesty",
+        artist: "Olivia Wilson",
+        year: 2018,
+        price: 2800,
+        img: "5.jpg",
+        medium: "Watercolor",
+        dimensions: "22\" x 30\"",
+        category: "landscape",
+        description: "Serene mountain landscape with delicate watercolor techniques that create a sense of atmospheric perspective.",
+        section: "landscape"
+      },
+      {
+        id: 6,
+        title: "Abstract Waves",
+        artist: "James Peterson",
+        year: 2021,
+        price: 1950,
+        img: "6.jpeg",
+        medium: "Acrylic",
+        dimensions: "36\" x 36\"",
+        category: "abstract",
+        description: "Bold abstract composition with flowing forms and contrasting colors that create visual tension and harmony.",
+        section: "abstract"
+      },
+      {
+        id: 7,
+        title: "Floral Symphony",
+        artist: "Emma Johnson",
+        year: 2020,
+        price: 1650,
+        img: "7.jpeg",
+        medium: "Oil on Canvas",
+        dimensions: "20\" x 24\"",
+        category: "modern",
+        description: "Lush floral arrangement with impressionistic brushstrokes that capture the delicate beauty of nature.",
+        section: "modern"
+      },
+      {
+        id: 8,
+        title: "Urban Vibes",
+        artist: "Daniel Lee",
+        year: 2019,
+        price: 2100,
+        img: "8.webp",
+        medium: "Photography",
+        dimensions: "24\" x 36\"",
+        category: "modern",
+        description: "Contemporary urban photography that captures the rhythm and energy of city life with striking composition.",
+        section: "modern"
+      },
+      {
+        id: 9,
+        title: "The Thinker",
+        artist: "Robert Chang",
+        year: 2022,
+        price: 3200,
+        img: "9.jpeg",
+        medium: "Bronze Sculpture",
+        dimensions: "18\" x 12\" x 10\"",
+        category: "portrait",
+        description: "Modern reinterpretation of the classic thinker pose, exploring themes of contemplation and human nature.",
+        section: "portrait"
+      },
+      {
+        id: 10,
+        title: "Digital Dreams",
+        artist: "Sarah Miller",
+        year: 2023,
+        price: 1450,
+        img: "10.webp",
+        medium: "Digital Print",
+        dimensions: "24\" x 36\"",
+        category: "digital",
+        description: "Futuristic digital artwork blending organic and geometric forms in a vibrant, otherworldly palette.",
+        section: "modern"
+      },
+      {
+        id: 11,
+        title: "Whispers of Time",
+        artist: "Thomas Wright",
+        year: 2020,
+        price: 2300,
+        img: "11.jpg",
+        medium: "Oil on Canvas",
+        dimensions: "30\" x 40\"",
+        category: "abstract",
+        description: "Abstract exploration of time and memory through layered textures and muted, nostalgic tones.",
+        section: "abstract"
+      },
+      {
+        id: 12,
+        title: "Portrait of a Lady",
+        artist: "Grace Hopper",
+        year: 2021,
+        price: 2750,
+        img: "12.jpeg",
+        medium: "Oil on Linen",
+        dimensions: "20\" x 24\"",
+        category: "portrait",
+        description: "Elegant portrait capturing the grace and personality of the subject with masterful lighting and detail.",
+        section: "portrait"
+      },
+      {
+        id: 13,
+        title: "Golden Fields",
+        artist: "Vincent Van Gogh",
+        year: 1889,
+        price: 4500,
+        img: "13.jpeg",
+        medium: "Oil on Canvas",
+        dimensions: "28\" x 36\"",
+        category: "landscape",
+        description: "Classic impressionist landscape with vibrant brushstrokes capturing the essence of rural life.",
+        section: "classic"
+      },
+      {
+        id: 14,
+        title: "The Last Supper",
+        artist: "Leonardo da Vinci",
+        year: 1498,
+        price: 9800,
+        img: "14.jpg",
+        medium: "Tempera on Gesso",
+        dimensions: "180\" x 350\"",
+        category: "portrait",
+        description: "Iconic religious scene depicting Jesus and his apostles, a masterpiece of Renaissance art.",
+        section: "classic"
+      },
+      {
+        id: 15,
+        title: "Starry Night",
+        artist: "Vincent Van Gogh",
+        year: 1889,
+        price: 5200,
+        img: "15.jpeg",
+        medium: "Oil on Canvas",
+        dimensions: "29\" x 36\"",
+        category: "landscape",
+        description: "Expressive night sky over a quiet village, one of the most recognized paintings in Western art.",
+        section: "classic"
+      },
+      {
+        id: 16,
+        title: "The Scream",
+        artist: "Edvard Munch",
+        year: 1893,
+        price: 6800,
+        img: "16.jpeg",
+        medium: "Oil, Tempera, Pastel",
+        dimensions: "36\" x 28\"",
+        category: "portrait",
+        description: "Powerful expression of human anxiety, a seminal work in the Expressionist movement.",
+        section: "classic"
+      },
+      {
+        id: 17,
+        title: "Girl with a Pearl Earring",
+        artist: "Johannes Vermeer",
+        year: 1665,
+        price: 7500,
+        img: "17.jpeg",
+        medium: "Oil on Canvas",
+        dimensions: "17\" x 15\"",
+        category: "portrait",
+        description: "Exquisite portrait of a young woman with an enigmatic expression and luminous pearl earring.",
+        section: "classic"
+      },
+      {
+        id: 18,
+        title: "The Persistence of Memory",
+        artist: "Salvador Dali",
+        year: 1931,
+        price: 6200,
+        img: "18.jpg",
+        medium: "Oil on Canvas",
+        dimensions: "24\" x 33\"",
+        category: "abstract",
+        description: "Surrealist masterpiece featuring melting clocks in a dreamlike landscape.",
+        section: "classic"
+      },
+      {
+        id: 19,
+        title: "Water Lilies",
+        artist: "Claude Monet",
+        year: 1919,
+        price: 5800,
+        img: "19.jpeg",
+        medium: "Oil on Canvas",
+        dimensions: "39\" x 79\"",
+        category: "landscape",
+        description: "Tranquil scene from Monet's famous garden in Giverny, exemplifying Impressionist techniques.",
+        section: "classic"
+      },
+      {
+        id: 20,
+        title: "The Birth of Venus",
+        artist: "Sandro Botticelli",
+        year: 1486,
+        price: 8900,
+        img: "20.jpg",
+        medium: "Tempera on Canvas",
+        dimensions: "68\" x 109\"",
+        category: "portrait",
+        description: "Renaissance masterpiece depicting the goddess Venus emerging from the sea as a fully grown woman.",
+        section: "classic"
+      },
+      {
+        id: 21,
+        title: "Modern Abstract I",
+        artist: "Alex Turner",
+        year: 2022,
+        price: 1850,
+        img: "21.jpg",
+        medium: "Acrylic on Canvas",
+        dimensions: "24\" x 24\"",
+        category: "abstract",
+        description: "Vibrant geometric patterns with bold color contrasts.",
+        section: "modern"
+      },
+      {
+        id: 22,
+        title: "Coastal Sunset",
+        artist: "Maria Garcia",
+        year: 2021,
+        price: 2200,
+        img: "22.png",
+        medium: "Oil on Canvas",
+        dimensions: "30\" x 40\"",
+        category: "landscape",
+        description: "Dramatic coastal sunset with rich textures and warm tones.",
+        section: "modern"
+      },
+      {
+        id: 23,
+        title: "Urban Portrait",
+        artist: "Jamal Williams",
+        year: 2023,
+        price: 1950,
+        img: "23.jpg",
+        medium: "Digital Art",
+        dimensions: "18\" x 24\"",
+        category: "portrait",
+        description: "Contemporary portrait with urban graffiti elements.",
+        section: "modern"
+      },
+      {
+        id: 24,
+        title: "Mountain Stream",
+        artist: "Olivia Chen",
+        year: 2020,
+        price: 2450,
+        img: "24.webp",
+        medium: "Watercolor",
+        dimensions: "22\" x 30\"",
+        category: "landscape",
+        description: "Serene mountain stream with delicate watercolor techniques.",
+        section: "modern"
+      },
+      {
+        id: 25,
+        title: "Abstract Emotions",
+        artist: "Thomas Reed",
+        year: 2022,
+        price: 1750,
+        img: "25.jpg",
+        medium: "Mixed Media",
+        dimensions: "24\" x 36\"",
+        category: "abstract",
+        description: "Expressive abstract work exploring human emotions.",
+        section: "abstract"
+      },
+      {
+        id: 26,
+        title: "City Rain",
+        artist: "Sophie Martin",
+        year: 2021,
+        price: 2100,
+        img: "817IpZKcCBS._AC_SL1500_.jpg",
+        medium: "Oil on Canvas",
+        dimensions: "24\" x 36\"",
+        category: "modern",
+        description: "Rainy city streets with reflective surfaces and neon lights.",
+        section: "modern"
+      },
+      {
+        id: 27,
+        title: "Desert Mirage",
+        artist: "Ahmed Khan",
+        year: 2023,
+        price: 2300,
+        img: "065d0e64a3514880bf2398126d0bcdca_sw-3815_sh-2501.webp",
+        medium: "Acrylic",
+        dimensions: "30\" x 40\"",
+        category: "landscape",
+        description: "Surreal desert landscape with heat wave effects.",
+        section: "modern"
+      },
+      {
+        id: 28,
+        title: "Floral Study",
+        artist: "Emma Wilson",
+        year: 2022,
+        price: 1650,
+        img: "26.jpeg",
+        medium: "Oil on Linen",
+        dimensions: "20\" x 24\"",
+        category: "modern",
+        description: "Detailed study of floral arrangements with soft lighting.",
+        section: "modern"
+      },
+      {
+        id: 29,
+        title: "Industrial Abstract",
+        artist: "Daniel Park",
+        year: 2021,
+        price: 1950,
+        img: "27.jpeg",
+        medium: "Metal Sculpture",
+        dimensions: "18\" x 12\" x 8\"",
+        category: "abstract",
+        description: "Industrial materials formed into abstract shapes.",
+        section: "abstract"
+      },
+      {
+        id: 30,
+        title: "Portrait of Youth",
+        artist: "Grace Lee",
+        year: 2023,
+        price: 2250,
+        img: "28.webp",
+        medium: "Oil on Canvas",
+        dimensions: "24\" x 30\"",
+        category: "portrait",
+        description: "Contemporary portrait capturing youthful energy.",
+        section: "portrait"
+      }
+    ];
+
+    // Shopping cart
+    let cart = JSON.parse(localStorage.getItem('artoraCart')) || [];
+    let currentModalArtwork = null;
+
+    // DOM elements
+    const artworksGrid = document.getElementById('artworksGrid');
+    const classicGrid = document.getElementById('classicGrid');
+    const abstractGrid = document.getElementById('abstractGrid');
+    const landscapeGrid = document.getElementById('landscapeGrid');
+    const portraitGrid = document.getElementById('portraitGrid');
+    const cartIcon = document.getElementById('cartIcon');
+    const cartCount = document.getElementById('cartCount');
+    const cartSidebar = document.getElementById('cartSidebar');
+    const cartOverlay = document.getElementById('cartOverlay');
+    const closeCart = document.getElementById('closeCart');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const sortDropdown = document.getElementById('sortDropdown');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const checkoutForm = document.getElementById('checkoutForm');
+    const cancelCheckout = document.getElementById('cancelCheckout');
+    const submitOrder = document.getElementById('submitOrder');
+    const orderConfirmation = document.getElementById('orderConfirmation');
+    const closeOrderConfirm = document.getElementById('closeOrderConfirm');
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const navRows = document.getElementById('navRows');
+    const zoomModal = document.getElementById('zoomModal');
+    const zoomedImage = document.getElementById('zoomedImage');
+
+    // Save cart to localStorage
+    function saveCartToStorage() {
+      localStorage.setItem('artoraCart', JSON.stringify(cart));
+    }
+
+    // Mobile menu toggle
+    mobileMenuToggle.addEventListener('click', function () {
+      navRows.classList.toggle('active');
+      document.body.style.overflow = navRows.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Close menu when clicking on a link
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navRows.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Header scroll effect
+    window.addEventListener('scroll', function () {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+      } else {
+        navbar.style.boxShadow = 'none';
+      }
+    });
+
+    // Display artworks in grid
+    function displayArtworks(filter = 'all', sort = 'default') {
+      let filteredArtworks = artworks;
+
+      // Apply category filter
+      if (filter !== 'all') {
+        filteredArtworks = artworks.filter(art => art.category === filter);
+      }
+
+      // Apply sorting
+      if (sort === 'price-low') {
+        filteredArtworks.sort((a, b) => a.price - b.price);
+      } else if (sort === 'price-high') {
+        filteredArtworks.sort((a, b) => b.price - a.price);
+      }
+
+      // Clear grids
+      artworksGrid.innerHTML = '';
+      classicGrid.innerHTML = '';
+      abstractGrid.innerHTML = '';
+      landscapeGrid.innerHTML = '';
+      portraitGrid.innerHTML = '';
+
+      // Populate each section
+      filteredArtworks.forEach(art => {
+        const artworkCard = createArtworkCard(art);
+
+        if (art.section === 'modern') {
+          artworksGrid.appendChild(artworkCard);
+        } else if (art.section === 'classic') {
+          classicGrid.appendChild(artworkCard);
+        } else if (art.section === 'abstract') {
+          abstractGrid.appendChild(artworkCard);
+        } else if (art.section === 'landscape') {
+          landscapeGrid.appendChild(artworkCard);
+        } else if (art.section === 'portrait') {
+          portraitGrid.appendChild(artworkCard);
+        }
+      });
+    }
+
+    // Create artwork card element
+    function createArtworkCard(artwork) {
+      const card = document.createElement('div');
+      card.className = 'artwork-card';
+      card.innerHTML = `
+        <div class="artwork-image-container">
+          <img src="${artwork.img}" alt="${artwork.title}" onclick="zoomImage('${artwork.img}')">
+          <div class="zoom-icon" onclick="zoomImage('${artwork.img}')">
+            <i class="fas fa-search-plus"></i>
+          </div>
+        </div>
+        <div class="artwork-info">
+          <h3>${artwork.title}</h3>
+          <div class="artwork-description">${artwork.description}</div>
+          <div class="artwork-meta">
+            <span class="artist-name">${artwork.artist}</span>
+            <span class="artwork-price">$${artwork.price.toLocaleString()}</span>
+          </div>
+          <div class="artwork-actions">
+            <button class="btn-view" onclick="viewArtworkDetail(${artwork.id})">View Details</button>
+            <button class="btn-add-to-cart" onclick="addToCart(${artwork.id})">Add to Cart</button>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    // Zoom image functionality
+    function zoomImage(imgSrc) {
+      zoomedImage.src = imgSrc;
+      zoomModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close zoom modal
+    function closeZoomModal() {
+      zoomModal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // View artwork details
+    function viewArtworkDetail(id) {
+      const artwork = artworks.find(art => art.id === id);
+      if (!artwork) return;
+
+      currentModalArtwork = artwork;
+
+      document.getElementById('modalArtworkTitle').textContent = artwork.title;
+      document.getElementById('modalArtworkImage').src = artwork.img;
+      document.getElementById('modalArtistName').textContent = artwork.artist;
+      document.getElementById('modalArtworkYear').textContent = artwork.year;
+      document.getElementById('modalArtworkMedium').textContent = artwork.medium;
+      document.getElementById('modalArtworkDimensions').textContent = artwork.dimensions;
+      document.getElementById('modalArtworkPrice').textContent = `$${artwork.price.toLocaleString()}`;
+      document.getElementById('modalArtworkDescription').textContent = artwork.description;
+
+      document.getElementById('artworkModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Add to cart from modal
+    function addToCartFromModal() {
+      if (currentModalArtwork) {
+        addToCart(currentModalArtwork.id);
+        closeModal();
+      }
+    }
+
+    // Add to cart
+    function addToCart(id) {
+      const artwork = artworks.find(art => art.id === id);
+      if (!artwork) return;
+
+      // Check if item already in cart
+      const existingItem = cart.find(item => item.id === id);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          ...artwork,
+          quantity: 1
+        });
+      }
+
+      updateCart();
+      saveCartToStorage();
+      showCartNotification(artwork.title);
+    }
+
+    // Remove from cart
+    function removeFromCart(id) {
+      cart = cart.filter(item => item.id !== id);
+      updateCart();
+      saveCartToStorage();
+    }
+
+    // Update cart UI
+    function updateCart() {
+      // Update cart count
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCount.textContent = totalItems;
+
+      // Update cart items
+      cartItems.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <img src="${item.img}" alt="${item.title}" class="cart-item-img">
+          <div class="cart-item-details">
+            <div class="cart-item-title">${item.title}</div>
+            <div class="cart-item-price">$${item.price.toLocaleString()} x ${item.quantity}</div>
+            <button class="remove-item" onclick="removeFromCart(${item.id})">Remove</button>
+          </div>
+        </div>
+      `).join('');
+
+      // Update total
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      cartTotal.textContent = total.toLocaleString();
+    }
+
+    // Show cart notification
+    function showCartNotification(title) {
+      const notification = document.createElement('div');
+      notification.className = 'cart-notification';
+      notification.innerHTML = `
+        <span>${title} added to cart</span>
+      `;
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.classList.add('show');
+      }, 10);
+
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 3000);
+    }
+
+    // Close modal
+    function closeModal() {
+      document.getElementById('artworkModal').style.display = 'none';
+      document.body.style.overflow = '';
+      currentModalArtwork = null;
+    }
+
+    // Toggle cart sidebar
+    function toggleCart() {
+      cartSidebar.classList.toggle('active');
+      cartOverlay.classList.toggle('active');
+      document.body.style.overflow = cartSidebar.classList.contains('active') ? 'hidden' : '';
+    }
+
+    // Show checkout form
+    function showCheckoutForm() {
+      cartItems.style.display = 'none';
+      document.querySelector('.cart-total').style.display = 'none';
+      checkoutBtn.style.display = 'none';
+      checkoutForm.style.display = 'block';
+      orderConfirmation.style.display = 'none';
+    }
+
+    // Cancel checkout
+    function cancelCheckoutForm() {
+      cartItems.style.display = 'block';
+      document.querySelector('.cart-total').style.display = 'block';
+      checkoutBtn.style.display = 'block';
+      checkoutForm.style.display = 'none';
+      orderConfirmation.style.display = 'none';
+    }
+
+    // Submit order
+    function submitOrderForm() {
+      // Validate form
+      const name = document.getElementById('checkout-name').value;
+      const email = document.getElementById('checkout-email').value;
+      const phone = document.getElementById('checkout-phone').value;
+      const address = document.getElementById('checkout-address').value;
+      const payment = document.getElementById('checkout-payment').value;
+
+      if (!name || !email || !phone || !address || !payment) {
+        alert('Please fill in all required fields');
+        return;
+      }
+
+      // Hide form and show confirmation message
+      checkoutForm.style.display = 'none';
+      orderConfirmation.style.display = 'block';
+
+      // Clear cart
+      cart = [];
+      updateCart();
+      localStorage.removeItem('artoraCart');
+
+      // Reset form fields
+      document.getElementById('checkout-name').value = '';
+      document.getElementById('checkout-email').value = '';
+      document.getElementById('checkout-phone').value = '';
+      document.getElementById('checkout-address').value = '';
+      document.getElementById('checkout-payment').value = '';
+    }
+
+    // Close order confirmation
+    function closeOrderConfirmation() {
+      cartItems.style.display = 'block';
+      document.querySelector('.cart-total').style.display = 'block';
+      checkoutBtn.style.display = 'block';
+      checkoutForm.style.display = 'none';
+      orderConfirmation.style.display = 'none';
+      toggleCart();
+    }
+
+    // Search artworks with scroll to result
+    function searchArtworks(query) {
+      const normalizedQuery = query.toLowerCase().trim();
+
+      if (!normalizedQuery) {
+        displayArtworks();
+        return;
+      }
+
+      // First try to find exact title match
+      const exactMatch = artworks.find(art =>
+        art.title.toLowerCase() === normalizedQuery
+      );
+
+      if (exactMatch) {
+        // Find the card element for this artwork
+        const allCards = document.querySelectorAll('.artwork-card');
+        let foundCard = null;
+
+        allCards.forEach(card => {
+          if (card.querySelector('h3').textContent.toLowerCase() === normalizedQuery) {
+            foundCard = card;
+          }
+        });
+
+        if (foundCard) {
+          // Scroll to the card with smooth behavior
+          foundCard.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+
+          // Add highlight effect
+          foundCard.style.boxShadow = '0 0 0 3px var(--gold)';
+          setTimeout(() => {
+            foundCard.style.boxShadow = '';
+          }, 2000);
+          return;
+        }
+      }
+
+      // If no exact title match, search in titles, artists and descriptions
+      const filteredArtworks = artworks.filter(art =>
+        art.title.toLowerCase().includes(normalizedQuery) ||
+        art.artist.toLowerCase().includes(normalizedQuery) ||
+        art.description.toLowerCase().includes(normalizedQuery)
+      );
+
+      if (filteredArtworks.length === 0) {
+        alert('No artworks found matching your search');
+        return;
+      }
+
+      // Clear grids
+      artworksGrid.innerHTML = '';
+      classicGrid.innerHTML = '';
+      abstractGrid.innerHTML = '';
+      landscapeGrid.innerHTML = '';
+      portraitGrid.innerHTML = '';
+
+      // Display search results in main grid
+      filteredArtworks.forEach(art => {
+        artworksGrid.appendChild(createArtworkCard(art));
+      });
+
+      // Scroll to results section
+      document.querySelector('.artworks-section').scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+
+    // Sort artworks
+    function sortArtworks(sortValue) {
+      const activeFilter = document.querySelector('.filter-btn.active');
+      const currentFilter = activeFilter ? activeFilter.dataset.category : 'all';
+      displayArtworks(currentFilter, sortValue);
+    }
+
+    // Initialize
+    window.addEventListener('load', () => {
+      displayArtworks();
+      updateCart(); // Initialize cart count from localStorage
+
+      // Cart event listeners
+      cartIcon.addEventListener('click', toggleCart);
+      closeCart.addEventListener('click', toggleCart);
+      cartOverlay.addEventListener('click', toggleCart);
+
+      // Checkout event listeners
+      checkoutBtn.addEventListener('click', showCheckoutForm);
+      cancelCheckout.addEventListener('click', cancelCheckoutForm);
+      submitOrder.addEventListener('click', submitOrderForm);
+      closeOrderConfirm.addEventListener('click', closeOrderConfirmation);
+
+      // Search event listeners
+      searchButton.addEventListener('click', () => searchArtworks(searchInput.value));
+      searchInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+          searchArtworks(searchInput.value);
+        }
+      });
+
+      // Sort event listener
+      sortDropdown.addEventListener('change', (e) => {
+        sortArtworks(e.target.value);
+      });
+
+      // Filter event listeners
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Remove active class from all buttons
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          // Add active class to clicked button
+          button.classList.add('active');
+          // Filter artworks
+          displayArtworks(button.dataset.category, sortDropdown.value);
+        });
+      });
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function (event) {
+      if (event.target === document.getElementById('artworkModal')) {
+        closeModal();
+      }
+      if (event.target === zoomModal) {
+        closeZoomModal();
+      }
+    });
+
+    // Global functions for HTML onclick attributes
+    window.viewArtworkDetail = viewArtworkDetail;
+    window.addToCart = addToCart;
+    window.removeFromCart = removeFromCart;
+    window.closeModal = closeModal;
+    window.addToCartFromModal = addToCartFromModal;
+    window.zoomImage = zoomImage;
+    window.closeZoomModal = closeZoomModal;
+
+    // Save cart to localStorage
+function saveCartToStorage() {
+    localStorage.setItem('artoraCart', JSON.stringify(cart));
+}
+
+// Load cart from localStorage
+function loadCartFromStorage() {
+    const savedCart = localStorage.getItem('artoraCart');
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+        updateCart();
+    }
+}
+
+// Update the existing addToCart function to save to localStorage
+function addToCart(id) {
+    const artwork = artworks.find(art => art.id === id);
+    if (!artwork) return;
+
+    // Check if item already in cart
+    const existingItem = cart.find(item => item.id === id);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            ...artwork,
+            quantity: 1
+        });
+    }
+
+    updateCart();
+    saveCartToStorage(); // Save to localStorage
+    showCartNotification(artwork.title);
+}
+
+// Update the existing removeFromCart function
+function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id);
+    updateCart();
+    saveCartToStorage(); // Save to localStorage
+}
+
+// Update the existing submitOrderForm function to clear localStorage
+function submitOrderForm() {
+    // Validate form
+    const name = document.getElementById('checkout-name').value;
+    const email = document.getElementById('checkout-email').value;
+    const phone = document.getElementById('checkout-phone').value;
+    const address = document.getElementById('checkout-address').value;
+    const payment = document.getElementById('checkout-payment').value;
+
+    if (!name || !email || !phone || !address || !payment) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    // Hide form and show confirmation message
+    checkoutForm.style.display = 'none';
+    orderConfirmation.style.display = 'block';
+
+    // Clear cart
+    cart = [];
+    updateCart();
+    localStorage.removeItem('artoraCart');
+
+    // Reset form fields
+    document.getElementById('checkout-name').value = '';
+    document.getElementById('checkout-email').value = '';
+    document.getElementById('checkout-phone').value = '';
+    document.getElementById('checkout-address').value = '';
+    document.getElementById('checkout-payment').value = '';
+}
+
+// Load cart from localStorage when page loads
+window.addEventListener('load', () => {
+    // ... existing initialization code ...
+    
+    // Add this line to load cart from storage
+    loadCartFromStorage();
+    
+    // ... rest of the initialization code ...
+});
+
+// Listen for storage changes to sync carts between tabs
+window.addEventListener('storage', function(e) {
+    if (e.key === 'artoraCart') {
+        loadCartFromStorage();
+    }
+});
+  </script>
+
+</body>
+
+</html>

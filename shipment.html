@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help & Support - Artora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #ffffff;        /* White background */
+      --secondary: #000000;      /* Black text */
+      --accent: #070707;         /* Dark accent */
+      --text: #000000;           /* Main text color */
+      --text-light: #313030;     /* Lighter text */
+      --gold: #2e2d2d;           /* Dark gray */
+      --gold-light: #4a4949;     /* Medium gray */
+      --card-bg: #f5f5f5;       /* Light gray for cards */
+      --panel-bg: #f0f0f0;       /* Slightly darker gray for panels */
+      --border-color: #e0e0e0;   /* Light border color */
+      --success: #4CAF50;        /* Green for success */
+      --danger: #F44336;         /* Red for danger */
+      --info: #2196F3;           /* Blue for info */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background-color: var(--primary);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+      padding-top: 150px; /* Added for navbar space */
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+   
+    /* Navbar Styles */
+    .navbar {
+      background-color: white;
+      padding: 15px 40px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+   
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      position: relative;
+    }
+   
+    /* Left Group (Icons) */
+    .left-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+   
+    /* WhatsApp Contact (Hidden on Mobile by Default) */
+    .contact {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #080808;
+    }
+   
+    .whatsapp-icon {
+      color: #25D366;
+      font-size: 18px;
+    }
+   
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+   
+    .logo-icon {
+      font-size: 20px;
+      color: #333;
+    }
+   
+    .logo-text {
+      font-weight: 700;
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #111b12;
+      letter-spacing: 1px;
+      text-decoration: none;
+      font-family: 'Playfair Display', serif;
+    }
+   
+    /* Right Icons (Desktop) */
+    .nav-icons {
+      display: flex;
+      gap: 20px;
+    }
+   
+    .nav-icons i {
+      font-size: 18px;
+      color: #333;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+   
+    .nav-icons i:hover {
+      opacity: 0.7;
+    }
+   
+    /* Navigation Rows */
+    .nav-rows {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 15px;
+    }
+   
+    .main-categories, .sub-categories {
+      display: flex;
+      gap: 25px;
+      padding: 10px 0;
+    }
+   
+    .main-categories {
+      font-weight: 500;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+   
+    .sub-categories {
+      font-weight: 400;
+      font-size: 13px;
+      color: #777;
+    }
+   
+    .nav-link {
+      color: #333;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+   
+    .nav-link:hover {
+      color: #0a0a0a;
+      font-weight: bolder;
+    }
+   
+    /* Mobile Menu Toggle (Hidden on Desktop) */
+    .mobile-menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+    }
+   
+    /* WhatsApp Contact in Mobile Menu (Hidden by Default) */
+    .mobile-contact {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #555;
+      padding: 10px 0;
+      justify-content: center;
+      border-top: 1px solid #eee;
+      margin-top: 10px;
+    }
+   
+    /* Responsive Styles for Navbar */
+    @media (max-width: 1024px) {
+      .logo {
+        position: static;
+        transform: none;
+        margin: 10px 0;
+      }
+     
+      .main-categories, .sub-categories {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
+   
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 20px;
+      }
+     
+      /* Mobile Layout Adjustments */
+      .top-bar {
+        flex-wrap: wrap;
+      }
+     
+      /* Icons forced to left */
+      .left-group {
+        order: -1;
+      }
+     
+      /* Toggle button forced to right */
+      .mobile-menu-toggle {
+        display: block;
+        order: 1;
+      }
+     
+      /* Hide desktop contact */
+      .contact {
+        display: none;
+      }
+     
+      /* Logo full width */
+      .logo {
+        width: 100%;
+        justify-content: center;
+        margin: 15px 0 10px;
+        order: 2;
+      }
+     
+      /* Navigation rows (hidden by default) */
+      .nav-rows {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        order: 3;
+        width: 100%;
+      }
+     
+      .nav-rows.active {
+        display: flex;
+      }
+     
+      .main-categories, .sub-categories {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+     
+      /* Show WhatsApp in mobile menu when toggled */
+      .mobile-contact.active {
+        display: flex;
+      }
+     
+      body {
+        padding-top: 150px; /* adjust for mobile navbar height */
+      }
+    }
+   
+    .logo img {
+      height: 30px;
+      width: auto;
+      display: block;
+      display: inline-flex;
+    }
+
+    /* Page Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px 0;
+      background-color: var(--gold-light);
+      color: white;
+      border-radius: 8px;
+    }
+
+    .page-header h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .page-header p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Support Sections */
+    .support-section {
+      margin-bottom: 50px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--gold-light);
+      color: var(--gold-light);
+    }
+
+    /* Search Box */
+    .search-box {
+      display: flex;
+      margin-bottom: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px 0 0 4px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 16px;
+    }
+
+    .search-box button {
+      padding: 12px 20px;
+      background: var(--gold-light);
+      color: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .search-box button:hover {
+      background: var(--gold);
+    }
+
+    /* FAQ Accordion */
+    .faq-accordion {
+      margin-bottom: 40px;
+    }
+
+    .accordion-item {
+      background: var(--card-bg);
+      border-radius: 8px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .accordion-header {
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .accordion-header:hover {
+      background: #e8e8e8;
+    }
+
+    .accordion-content {
+      padding: 0 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease;
+    }
+
+    .accordion-content.active {
+      max-height: 300px;
+      padding: 20px;
+    }
+
+    .accordion-icon {
+      transition: transform 0.3s;
+    }
+
+    .accordion-header.active .accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Contact Options */
+    .contact-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .contact-card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .contact-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+      color: var(--gold-light);
+    }
+
+    .contact-card h3 {
+      margin-bottom: 15px;
+      color: var(--gold-light);
+    }
+
+    .contact-card p {
+      margin-bottom: 15px;
+      color: var(--text-light);
+    }
+
+    .contact-link {
+      display: inline-block;
+      padding: 10px 20px;
+      background: var(--gold-light);
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .contact-link:hover {
+      background: var(--gold);
+    }
+
+    /* Ask Question Form */
+    .ask-form {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 16px;
+    }
+
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      padding: 12px 25px;
+      background: var(--gold-light);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: var(--gold);
+    }
+
+    /* Footer */
+    footer {
+      background: #f8f8f8;
+      color: rgb(0, 0, 0);
+      padding: 80px 0 30px;
+      margin-top: 80px;
+    }
+   
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+   
+    .footer-column h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+   
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 2px;
+      background: #000000;
+      bottom: 0;
+      left: 0;
+    }
+   
+    .footer-column p {
+      color: #080808;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+   
+    .footer-links {
+      list-style: none;
+    }
+   
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+   
+    .footer-links a {
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+   
+    .footer-links a:hover {
+      color: #444343;
+    }
+   
+    .social-links-footer {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+   
+    .social-links-footer a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background:#0000008f;
+      color: #f7f3f3;
+      transition: all 0.3s;
+    }
+   
+    .social-links-footer a:hover {
+      background: rgb(59, 59, 59);
+      color: rgb(243, 242, 242);
+    }
+   
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid #030303;
+      color: #000000;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 28px;
+      }
+     
+      .page-header p {
+        font-size: 16px;
+      }
+     
+      .section-title {
+        font-size: 24px;
+      }
+     
+      .contact-options {
+        grid-template-columns: 1fr;
+      }
+     
+      .ask-form {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .search-box {
+        flex-direction: column;
+      }
+     
+      .search-box input {
+        border-radius: 4px 4px 0 0;
+      }
+     
+      .search-box button {
+        border-radius: 0 0 4px 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="top-bar">
+      <!-- Left Group (Icons - Always Visible) -->
+      <div class="left-group">
+        <div class="nav-icons">
+          <a href="sign.html" class="user-icon-link"><i class="fas fa-user"></i></a>
+          <a href="shipment.html" class="user-icon-link"><i class="fa-solid fa-headphones"></i></a>
+
+          <!-- <i class="fas fa-shopping-bag"></i> -->
+        </div>
+      </div>
+     
+      <!-- Mobile Toggle Button (Top-Right) -->
+      <i class="fas fa-bars mobile-menu-toggle"></i>
+     
+      <!-- Logo (Centered) -->
+      <div class="logo">
+        <a href="index.html" class="logo-text">Art<span>ora</span>
+          <img src="origami.png" alt="Artora Logo" />
+        </a>
+      </div>
+     
+      <!-- Desktop Contact (Hidden on Mobile) -->
+      <div class="contact">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+        <span>+923397856555</span>
+      </div>
+    </div>
+   
+    <!-- Navigation Rows (Hidden on Mobile by Default) -->
+    <div class="nav-rows">
+      <div class="main-categories">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="artist.html" class="nav-link">Artists</a>
+        <a href="artwork.html" class="nav-link">Gallery</a>
+        <a href="auction.html" class="nav-link">Auction</a>
+        <a href="biograghy.html" class="nav-link">Biography</a>
+        <a href="exhibition.html" class="nav-link">Exhibition</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <!-- <a href="help-support.html" class="nav-link active">Help & Support</a> -->
+      </div>
+     
+      <!-- Mobile Contact (Shows When Menu is Open) -->
+      <div class="mobile-contact">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+        <span>+923397856555</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>Help & Support</h1>
+      <p>Find answers to your questions or get in touch with our support team</p>
+    </div>
+
+    <!-- Search Section -->
+    <div class="support-section">
+      <div class="search-box">
+        <input type="text" placeholder="Search for help articles...">
+        <button><i class="fas fa-search"></i> Search</button>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="support-section">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+     
+      <div class="faq-accordion">
+        <div class="accordion-item">
+          <div class="accordion-header">
+            How do I place a bid on an artwork?
+            <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="accordion-content">
+            <p>To place a bid on an artwork, navigate to the auction page, select the artwork you're interested in, enter your bid amount in the bid field, and click "Place Bid". You'll need to be logged in to your Artora account to place bids.</p>
+          </div>
+        </div>
+       
+        <div class="accordion-item">
+          <div class="accordion-header">
+            What payment methods do you accept?
+            <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="accordion-content">
+            <p>We accept various payment methods including credit cards (Visa, MasterCard, American Express), PayPal, bank transfers, and in some cases, cryptocurrency for high-value transactions.</p>
+          </div>
+        </div>
+       
+        <div class="accordion-item">
+          <div class="accordion-header">
+            How is shipping handled for purchased artworks?
+            <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="accordion-content">
+            <p>All artworks are professionally packaged and insured during shipping. We work with specialized art shipping companies to ensure safe delivery. Shipping costs are calculated based on the artwork's size, weight, and destination.</p>
+          </div>
+        </div>
+       
+        <div class="accordion-item">
+          <div class="accordion-header">
+            Can I return an artwork if I'm not satisfied?
+            <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="accordion-content">
+            <p>We offer a 14-day return policy for most artworks. The artwork must be returned in its original condition and packaging. Some commissioned or custom pieces may not be eligible for returns. Please see our Returns Policy for complete details.</p>
+          </div>
+        </div>
+       
+        <div class="accordion-item">
+          <div class="accordion-header">
+            How do I become a featured artist on Artora?
+            <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="accordion-content">
+            <p>We're always looking for talented artists to feature on our platform. Please visit our "For Artists" page and submit your portfolio for review. Our curation team will evaluate your work and get back to you within 2-3 weeks.</p>
+          </div>
+        </div>
+       
+        <div class="accordion-item">
+          <div class="accordion-header">
+            How can I verify the authenticity of an artwork?
+            <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="accordion-content">
+            <p>All artworks sold on Artora come with a certificate of authenticity signed by the artist or their estate. For high-value pieces, we also provide provenance documentation and may facilitate third-party authentication services upon request.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Options -->
+    <div class="support-section">
+      <h2 class="section-title">Get in Touch</h2>
+     
+      <div class="contact-options">
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <h3>Email Support</h3>
+          <p>Send us an email and we'll respond within 24 hours</p>
+          <a href="mailto:support@artora.com" class="contact-link">Email Us</a>
+        </div>
+       
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <h3>Phone Support</h3>
+          <p>Speak directly with our support team during business hours</p>
+          <a href="tel:+1234567890" class="contact-link">+1 (234) 567-890</a>
+        </div>
+       
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <h3>WhatsApp</h3>
+          <p>Chat with us on WhatsApp for quick assistance</p>
+          <a href="https://wa.me/923397856555" class="contact-link">Message Us</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ask a Question Form -->
+    <div class="support-section">
+      <h2 class="section-title">Ask a Question</h2>
+     
+      <div class="ask-form">
+        <form id="question-form">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" required>
+          </div>
+         
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" required>
+          </div>
+         
+          <div class="form-group">
+            <label for="category">Question Category</label>
+            <select id="category" required>
+              <option value="">Select a category</option>
+              <option value="bidding">Bidding & Auctions</option>
+              <option value="shipping">Shipping & Delivery</option>
+              <option value="payment">Payment & Pricing</option>
+              <option value="account">Account Issues</option>
+              <option value="artwork">Artwork Information</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+         
+          <div class="form-group">
+            <label for="question">Your Question</label>
+            <textarea id="question" required></textarea>
+          </div>
+         
+          <button type="submit" class="submit-btn">Submit Question</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Artora Gallery</h3>
+          <p>A virtual space where art lovers and collectors can discover, experience, and acquire exceptional contemporary artworks from around the world.</p>
+          <div class="social-links-footer">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+         <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="artist.html">Artists</a></li>
+                        <li><a href="artworks.html">Gallery</a></li>
+                        <li><a href="auction.html">Auction & Trades</a></li>
+                        <li><a href="exhibition.html">Exhibitions</a></li>
+                        <li><a href="biograghy.html">Biography</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <!-- <li><a href="#">FAQ</a></li> -->
+                        <li><a href="shipment.html">Help & Support</a></li>
+                        <li><a href="privcay policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <p><i class="fas fa-map-marker-alt"></i> 123 Gallery Street, Art District, NY 10001</p>
+          <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+          <p><i class="fas fa-envelope"></i> info@artoragallery.com</p>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 Artora Virtual Gallery. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mobile menu toggle
+      const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
+      const navRows = document.querySelector('.nav-rows');
+      const mobileContact = document.querySelector('.mobile-contact');
+     
+      mobileMenuBtn.addEventListener('click', function() {
+        navRows.classList.toggle('active');
+        mobileContact.classList.toggle('active');
+       
+        // Toggle icon between bars and times
+        if (navRows.classList.contains('active')) {
+          this.classList.remove('fa-bars');
+          this.classList.add('fa-times');
+        } else {
+          this.classList.remove('fa-times');
+          this.classList.add('fa-bars');
+        }
+      });
+     
+      // FAQ Accordion functionality
+      const accordionHeaders = document.querySelectorAll('.accordion-header');
+     
+      accordionHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+          this.classList.toggle('active');
+          const content = this.nextElementSibling;
+          content.classList.toggle('active');
+        });
+      });
+     
+      // Question form submission
+      const questionForm = document.getElementById('question-form');
+     
+      questionForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+       
+        // Get form values
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const category = document.getElementById('category').value;
+        const question = document.getElementById('question').value;
+       
+        // In a real application, you would send this data to a server
+        // For this example, we'll just show an alert
+        alert(`Thank you for your question, ${name}! We'll respond to you at ${email} within 24 hours.`);
+       
+        // Reset the form
+        questionForm.reset();
+      });
+     
+      // Search functionality
+      const searchBox = document.querySelector('.search-box');
+      const searchInput = searchBox.querySelector('input');
+      const searchButton = searchBox.querySelector('button');
+     
+      searchButton.addEventListener('click', function() {
+        performSearch(searchInput.value);
+      });
+     
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          performSearch(searchInput.value);
+        }
+      });
+     
+      function performSearch(query) {
+        if (query.trim() === '') {
+          alert('Please enter a search term');
+          return;
+        }
+       
+        // In a real application, this would search through FAQs and help articles
+        // For this example, we'll just show an alert
+        alert(`Searching for: ${query}`);
+       
+        // Clear the search input
+        searchInput.value = '';
+      }
+    });
+  </script>
+</body>
+</html>

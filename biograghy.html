@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artist Biography | Artora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #ffffff;        /* White background */
+      --secondary: #000000;      /* Black text */
+      --accent: #070707;         /* Dark accent */
+      --text: #000000;           /* Main text color */
+      --text-light: #313030;     /* Lighter text */
+      --gold: #2e2d2d;           /* Dark gray */
+      --gold-light: #4a4949;     /* Medium gray */
+      --card-bg: #f5f5f5;       /* Light gray for cards */
+      --panel-bg: #f0f0f0;       /* Slightly darker gray for panels */
+      --border-color: #e0e0e0;   /* Light border color */
+      --success: #4CAF50;        /* Green for success */
+      --danger: #F44336;         /* Red for danger */
+      --info: #2196F3;           /* Blue for info */
+    }
+
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+
+    
+     body {
+  font-family: 'Raleway', sans-serif;
+  background-color: var(--primary);
+  color: var(--text);
+  overflow-x: hidden;
+
+      line-height: 1.6;
+      padding-top: 150px; /* Added for navbar space */
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Navbar Styles */
+    .navbar {
+      background-color: white;
+      padding: 15px 40px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      position: relative;
+    }
+    
+    /* Left Group (Icons) */
+    .left-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    /* WhatsApp Contact (Hidden on Mobile by Default) */
+    .contact {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #080808;
+    }
+    
+    .whatsapp-icon {
+      color: #25D366;
+      font-size: 18px;
+    }
+    
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .logo-icon {
+      font-size: 20px;
+      color: #333;
+    }
+    
+    .logo-text {
+      font-weight: 700;
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #111b12;
+      letter-spacing: 1px;
+      text-decoration: none;
+      font-family: 'Playfair Display', serif;
+    }
+    
+    /* Right Icons (Desktop) */
+    .nav-icons {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-icons i {
+      font-size: 18px;
+      color: #333;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    
+    .nav-icons i:hover {
+      opacity: 0.7;
+    }
+    
+    /* Navigation Rows */
+    .nav-rows {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 15px;
+    }
+    
+    .main-categories, .sub-categories {
+      display: flex;
+      gap: 25px;
+      padding: 10px 0;
+    }
+    
+    .main-categories {
+      font-weight: 500;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+    
+    .sub-categories {
+      font-weight: 400;
+      font-size: 13px;
+      color: #777;
+    }
+    
+    .nav-link {
+      color: #333;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    .nav-link:hover {
+      color: #0a0a0a;
+      font-weight: bolder;
+    }
+    
+    /* Mobile Menu Toggle (Hidden on Desktop) */
+    .mobile-menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+    }
+    
+    /* WhatsApp Contact in Mobile Menu (Hidden by Default) */
+    .mobile-contact {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #555;
+      padding: 10px 0;
+      justify-content: center;
+      border-top: 1px solid #eee;
+      margin-top: 10px;
+    }
+    
+    /* Responsive Styles for Navbar */
+    @media (max-width: 1024px) {
+      .logo {
+        position: static;
+        transform: none;
+        margin: 10px 0;
+      }
+      
+      .main-categories, .sub-categories {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 20px;
+      }
+      
+      /* Mobile Layout Adjustments */
+      .top-bar {
+        flex-wrap: wrap;
+      }
+      
+      /* Icons forced to left */
+      .left-group {
+        order: -1;
+      }
+      
+      /* Toggle button forced to right */
+      .mobile-menu-toggle {
+        display: block;
+        order: 1;
+      }
+      
+      /* Hide desktop contact */
+      .contact {
+        display: none;
+      }
+      
+      /* Logo full width */
+      .logo {
+        width: 100%;
+        justify-content: center;
+        margin: 15px 0 10px;
+        order: 2;
+      }
+      
+      /* Navigation rows (hidden by default) */
+      .nav-rows {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        order: 3;
+        width: 100%;
+      }
+      
+      .nav-rows.active {
+        display: flex;
+      }
+      
+      .main-categories, .sub-categories {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      /* Show WhatsApp in mobile menu when toggled */
+      .mobile-contact.active {
+        display: flex;
+      }
+      
+      body {
+        padding-top: 150px; /* adjust for mobile navbar height */
+      }
+    }
+    
+    .logo img {
+      height: 30px;
+      width: auto;
+      display: block;
+      display: inline-flex;
+    }
+
+   
+    
+    /* Footer */
+        footer {
+            background: #f8f8f8;
+            color: rgb(0, 0, 0);
+            padding: 80px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background: #000000;
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-column p {
+            color: #080808;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #000000;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #444343;
+        }
+        
+        .social-links-footer {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links-footer a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background:#0000008f;
+            color: #f7f3f3;
+            transition: all 0.3s;
+        }
+        
+        .social-links-footer a:hover {
+            background: rgb(59, 59, 59);
+            color: rgb(243, 242, 242);
+        } 
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #030303;
+            color: #000000;
+            font-size: 0.9rem;
+        }
+        
+    /* Responsive Adjustments */
+    @media (max-width: 1200px) {
+      .hero-content {
+        margin-left: 5%;
+      }
+      
+      .biography-grid {
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .biography-hero {
+        height: auto;
+        min-height: auto;
+        padding: 100px 0;
+      }
+      
+      .hero-content {
+        margin: 0 auto;
+      }
+      
+      .biography-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .biography-image {
+        height: 400px;
+        order: -1;
+      }
+      
+      .timeline::after {
+        left: 31px;
+      }
+      
+      .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+      
+      .timeline-item::after {
+        left: 21px;
+      }
+      
+      .left::after, .right::after {
+        left: 21px;
+      }
+      
+      .right {
+        left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero-content p {
+        font-size: 1rem;
+      }
+      
+      .section-title h2 {
+        font-size: 2rem;
+      }
+      
+      .biography-text h3 {
+        font-size: 1.5rem;
+      }
+      
+      .biography-text p {
+        font-size: 1rem;
+      }
+      
+      .quote-text {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero-content {
+        padding: 30px 20px;
+      }
+      
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      
+      .section-title h2 {
+        font-size: 1.8rem;
+      }
+      
+      .biography-image {
+        height: 300px;
+      }
+      
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /*  */
+     .section-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            position: relative;
+            font-size: 2.5rem;
+            color: black;
+            /* padding-top: 5px; */
+            /* padding-bottom: 10px; */
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .artists-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .artist-card {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .artist-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .artist-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .artist-info {
+            flex: 1;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .artist-name {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: black;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .artist-name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .artist-description {
+            color: var(--dark);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .bio-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+            border: 2px solid var(--secondary);
+        }
+        
+        .bio-btn:hover {
+            background: transparent;
+            color: var(--secondary);
+        }
+        
+        .artist-image {
+            width: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+        
+        .artist-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.1), rgba(0,0,0,0));
+        }
+        
+        .artist-card:hover .artist-image {
+            transform: scale(1.05);
+        }
+        
+        .award-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (max-width: 768px) {
+            .artist-card {
+                flex-direction: column;
+                max-width: 350px;
+            }
+            
+            .artist-image {
+                width: 100%;
+                height: 250px;
+            }
+            
+            .artist-name {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.8s forwards;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="top-bar">
+      <!-- Left Group (Icons - Always Visible) -->
+      <div class="left-group">
+        <div class="nav-icons">
+      <a href="sign.html" class="user-icon-link"><i class="fas fa-user"></i></a>
+         
+          <!-- <i class="fas fa-shopping-bag"></i> -->
+           <a href="shipment.html" class="user-icon-link"><i class="fa-solid fa-headphones"></i></a>
+        </div>
+      </div>
+      
+      <!-- Mobile Toggle Button (Top-Right) -->
+      <i class="fas fa-bars mobile-menu-toggle"></i>
+      
+      <!-- Logo (Centered) -->
+      <div class="logo">
+        <a href="#" class="logo-text">Art<span>ora</span>
+          <img src="origami.png" alt="Artora Logo" />
+        </a>
+      </div>
+      
+      <!-- Desktop Contact (Hidden on Mobile) -->
+      <div class="contact">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+        <span>+923397856555</span>
+      </div>
+    </div>
+    
+    <!-- Navigation Rows (Hidden on Mobile by Default) -->
+    <div class="nav-rows">
+      <div class="main-categories">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="artist.html" class="nav-link">Artists</a>
+        <a href="artwork.html" class="nav-link">Gallery</a>
+        <a href="auction.html" class="nav-link">Auction</a>
+        <a href="biograghy.html" class="nav-link active">Biography</a>
+        <a href="exhibition.html" class="nav-link">Exhibition</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+      
+      <!-- Mobile Contact (Shows When Menu is Open) -->
+      <div class="mobile-contact">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+        <span>+923397856555</span>
+      </div>
+    </div>
+  </nav>
+
+<!--  -->
+
+ <!-- Oscar Awarded Artists -->
+    <h2 class="section-title slide-up">Oscar Awarded Artists</h2>
+    <div class="artists-container">
+        <div class="artist-card fade-in" style="animation-delay: 0.2s">
+            <div class="artist-info">
+                <h3 class="artist-name">Meryl Streep</h3>
+                <p class="artist-description">
+                    The most nominated actor in Oscar history with 21 nominations and 3 wins. Known as "the best actress of her generation."
+                </p>
+                <a href="meryl.html" class="bio-btn">Read Biography</a>
+            </div>
+            <div class="artist-image" style="background-image: url('https://www.usmagazine.com/wp-content/uploads/2018/01/903452684_meryl-streep-zoom.jpg?crop=0px%2C0px%2C1765px%2C998px&resize=1600%2C900&quality=86&strip=all');">
+                <div class="award-badge">
+                    <i class="fas fa-trophy"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="artist-card fade-in" style="animation-delay: 0.4s">
+            <div class="artist-info">
+                <h3 class="artist-name">Daniel Day-Lewis</h3>
+                <p class="artist-description">
+                    The only actor to win three Oscars for Best Actor. Known for his intense method acting and selective roles.
+                </p>
+                <a href="daniel.html" class="bio-btn" >Read Biography</a>
+            </div>
+            <div class="artist-image" style="background-image: url('https://i.pinimg.com/736x/2b/82/77/2b8277e5f75822babe27400bb4a5889e.jpg');">
+                <div class="award-badge">
+                    <i class="fas fa-trophy"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- All Time Famous Artists -->
+    <h2 class="section-title slide-up">All Time Famous Artists</h2>
+    <div class="artists-container">
+        <div class="artist-card fade-in" style="animation-delay: 0.2s">
+            <div class="artist-info">
+                <h3 class="artist-name">Leonardo da Vinci</h3>
+                <p class="artist-description">
+                    The quintessential Renaissance man - painter, sculptor, architect, inventor, and scientist. Creator of the Mona Lisa and The Last Supper.
+                </p>
+                <a href="dummy.html" class="bio-btn">Read Biography</a>
+            </div>
+            <div class="artist-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Leonardo_self.jpg/800px-Leonardo_self.jpg');"></div>
+        </div>
+        
+        <div class="artist-card fade-in" style="animation-delay: 0.4s">
+            <div class="artist-info">
+                <h3 class="artist-name">Pablo Picasso</h3>
+                <p class="artist-description">
+                    Co-founder of Cubism and one of the most influential artists of the 20th century. Created over 50,000 artworks in his lifetime.
+                </p>
+                <a href="pablo.html" class="bio-btn" >Read Biography</a>
+            </div>
+            <div class="artist-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Pablo_picasso_1.jpg/800px-Pablo_picasso_1.jpg');"></div>
+        </div>
+    </div>
+    
+    <!-- Pakistani Artists -->
+    <h2 class="section-title slide-up">Pakistani Artists</h2>
+    <div class="artists-container">
+        <div class="artist-card fade-in" style="animation-delay: 0.2s">
+            <div class="artist-info">
+                <h3 class="artist-name">Hamza Qazi </h3>
+                <p class="artist-description">
+                    One of Pakistan's most celebrated artists, known for his calligraphy and murals. His work reflects deep spiritual and philosophical themes.
+                </p>
+                <a href="sade.html" class="bio-btn" >Read Biography</a>
+            </div>
+            <div class="artist-image" style="background-image: url('hamza\ Q.jpeg');"></div>
+        </div>
+        
+        <div class="artist-card fade-in" style="animation-delay: 0.4s">
+            <div class="artist-info">
+                <h3 class="artist-name">Radia Durrani</h3>
+                <p class="artist-description">
+                    Pioneer of modern Pakistani art, blending Mughal miniatures with Art Nouveau. His work is considered the visual identity of Pakistan.
+                </p>
+                <a href="abdur.html" class="bio-btn" >Read Biography</a>
+            </div>
+            <div class="artist-image" style="background-image: url('women.jpeg');"></div>
+        </div>
+    </div>
+    
+    <!-- Contemporary Masters -->
+    <h2 class="section-title slide-up">Contemporary Masters</h2>
+    <div class="artists-container">
+        <div class="artist-card fade-in" style="animation-delay: 0.2s">
+            <div class="artist-info">
+                <h3 class="artist-name">Banksy</h3>
+                <p class="artist-description">
+                    Anonymous England-based street artist known for satirical and subversive art combining dark humor with graffiti.
+                </p>
+                <a href="banksy.html" class="bio-btn" >Read Biography</a>
+            </div>
+            <div class="artist-image" style="background-image: url('https://cdn.images.express.co.uk/img/dynamic/1/590x/secondary/Robert-Del-Naja-The-Massive-Attack-star-is-widely-regarded-as-being-the-true-Banksy-2655478.jpg?r=1599495168653');"></div>
+        </div>
+        
+        <div class="artist-card fade-in" style="animation-delay: 0.4s">
+            <div class="artist-info">
+                <h3 class="artist-name">Yayoi Kusama</h3>
+                <p class="artist-description">
+                    Japanese contemporary artist working primarily in sculpture and installation, known for her polka dots and infinity rooms.
+                </p>
+                <a href="yayoi.html" class="bio-btn" >Read Biography</a>
+            </div>
+            <div class="artist-image" style="background-image: url('https://sothebys-com.brightspotcdn.com/d4/ad/143c88174d25bdd98edfeafa614c/21-facts-yayoi-kusama-red-infinity-net.jpg');"></div>
+        </div>
+    </div>
+    
+    <!-- Rising Stars -->
+    <h2 class="section-title slide-up">Rising Stars</h2>
+    <div class="artists-container">
+        <div class="artist-card fade-in" style="animation-delay: 0.2s">
+            <div class="artist-info">
+                <h3 class="artist-name">Amrita Sher-Gil</h3>
+                <p class="artist-description">
+                    Hungarian-Indian painter considered a pioneer in modern Indian art. Her works are among the most expensive by Indian women artists.
+                </p>
+                <a href="amrita.html" class="bio-btn" >Read Biography</a>
+            </div>
+            <div class="artist-image" style="background-image: url('https://cdn.britannica.com/17/267017-050-66C49799/amrita-sher-gil-indian-modernist-artist-1935-umrao-singh-sher-gil.jpg?w=400&h=300&c=crop');"></div>
+        </div>
+        
+        <div class="artist-card fade-in" style="animation-delay: 0.4s">
+            <div class="artist-info">
+                <h3 class="artist-name">Kehinde Wiley</h3>
+                <p class="artist-description">
+                    American portrait painter known for his highly naturalistic paintings of African Americans in heroic poses.
+                </p>
+                <a href="kehinde.html" class="bio-btn" >Read Biography</a>
+            </div>
+            <div class="artist-image" style="background-image: url('https://www.artnews.com/wp-content/uploads/2015/01/897.jpg');"></div>
+        </div>
+    </div>
+
+  
+
+  <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Artora Gallery</h3>
+                    <p>A virtual space where art lovers and collectors can discover, experience, and acquire exceptional contemporary artworks from around the world.</p>
+                    <div class="social-links-footer">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                   <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="artist.html">Artists</a></li>
+                        <li><a href="artworks.html">Gallery</a></li>
+                        <li><a href="auction.html">Auction & Trades</a></li>
+                        <li><a href="exhibition.html">Exhibitions</a></li>
+                        <li><a href="biograghy.html">Biography</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <!-- <li><a href="#">FAQ</a></li> -->
+                        <li><a href="shipment.html">Help & Support</a></li>
+                        <li><a href="privcay policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Gallery Street, Art District, NY 10001</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@artoragallery.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Artora Virtual Gallery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mobile menu toggle
+      const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
+      const navRows = document.querySelector('.nav-rows');
+      const mobileContact = document.querySelector('.mobile-contact');
+      
+      mobileMenuBtn.addEventListener('click', function() {
+        navRows.classList.toggle('active');
+        mobileContact.classList.toggle('active');
+        
+        // Toggle icon between bars and times
+        if (navRows.classList.contains('active')) {
+          this.classList.remove('fa-bars');
+          this.classList.add('fa-times');
+        } else {
+          this.classList.remove('fa-times');
+          this.classList.add('fa-bars');
+        }
+      });
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 120,
+              behavior: 'smooth'
+            });
+            
+            // Close mobile menu if open
+            if (navRows.classList.contains('active')) {
+              navRows.classList.remove('active');
+              mobileContact.classList.remove('active');
+              mobileMenuBtn.classList.remove('fa-times');
+              mobileMenuBtn.classList.add('fa-bars');
+            }
+          }
+        });
+      });
+    });
+
+    // /---/ 
+
+     // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const artistCards = document.querySelectorAll('.artist-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            artistCards.forEach(card => {
+                observer.observe(card);
+            });
+            
+            // Add animation delays dynamically
+            document.querySelectorAll('.section-title').forEach((title, index) => {
+                title.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+
+  </script>
+</body>
+</html>

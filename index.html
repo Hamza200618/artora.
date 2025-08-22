@@ -1,0 +1,3028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artora - Virtual Art Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/brands.min.css" integrity="sha512-mXqwRsOznG7CS37KA7CLR1Fc72gfOgp7r8xaVdBKoBKhitcKI/mK+IamtZUf+FAkufXOvVTESu9lPsoQc+kFxg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+       :root {
+      --primary: #ffffff;        /* Black background */
+      --secondary: #000000;      /* White text */
+      --accent: #070707;         /* Golden accent */
+      --text: #000000;           /* Main text color */
+      --text-light: #313030;     /* Lighter text */
+      --gold: #2e2d2d;           /* Bright gold */
+      --gold-light: #4a4949;
+      --card-bg: #f5f5f5;
+      --panel-bg: #f0f0f0;
+      --border-color: #e0e0e0;
+    }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background-color: var(--primary);
+  color: var(--text);
+  overflow-x: hidden;
+}
+        
+    
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+         /* Navbar Styles */
+        .navbar {
+            background-color: white;
+            padding: 15px 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+        
+        /* Left Group (Icons) */
+        .left-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        /* WhatsApp Contact (Hidden on Mobile by Default) */
+        .contact {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #080808;
+        }
+        
+        .whatsapp-icon {
+            color: #25D366;
+            font-size: 18px;
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .logo-icon {
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 24px;
+            text-transform: uppercase;
+            color: #111b12;
+            letter-spacing: 1px;
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Right Icons (Desktop) */
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-icons i {
+            font-size: 18px;
+            color: #333;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .nav-icons i:hover {
+            opacity: 0.7;
+        }
+        
+        /* Navigation Rows */
+        .nav-rows {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15px;
+        }
+        
+        .main-categories, .sub-categories {
+            display: flex;
+            gap: 25px;
+            padding: 10px 0;
+        }
+        
+        .main-categories {
+            font-weight: 500;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+        
+        .sub-categories {
+            font-weight: 400;
+            font-size: 13px;
+            color: #777;
+        }
+        
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: #0a0a0a;
+            font-weight: bolder;
+        }
+        
+        /* Mobile Menu Toggle (Hidden on Desktop) */
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            background-color: white;
+            border: none;
+        }
+        
+        /* WhatsApp Contact in Mobile Menu (Hidden by Default) */
+        .mobile-contact {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #555;
+            padding: 10px 0;
+            justify-content: center;
+            border-top: 1px solid #eee;
+            margin-top: 10px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .logo {
+                position: static;
+                transform: none;
+                margin: 10px 0;
+            }
+            
+            .main-categories, .sub-categories {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            
+            /* Mobile Layout Adjustments */
+            .top-bar {
+                flex-wrap: wrap;
+            }
+            
+            /* Icons forced to left */
+            .left-group {
+                order: -1;
+            }
+            
+            /* Toggle button forced to right */
+            .mobile-menu-toggle {
+                display: block;
+                order: 1;
+            }
+            
+            /* Hide desktop contact */
+            .contact {
+                display: none;
+            }
+            
+            /* Logo full width */
+            .logo {
+                width: 100%;
+                justify-content: center;
+                margin: 15px 0 10px;
+                order: 2;
+            }
+            
+            /* Navigation rows (hidden by default) */
+            .nav-rows {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+                order: 3;
+                width: 100%;
+            }
+            
+            .nav-rows.active {
+                display: flex;
+            }
+            
+            .main-categories, .sub-categories {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            /* Show WhatsApp in mobile menu when toggled */
+            .mobile-contact.active {
+                display: flex;
+            }
+        }
+        
+        .logo img {
+            height: 30px;
+            width: auto;
+            display: block;
+            display: inline-flex;
+        }
+
+        /* Fix header overlap on mobile */
+        body {
+            padding-top: 120px; /* prevents hero text from hiding behind header */
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 150px; /* adjust for mobile navbar height */
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #ffffff;
+            margin-top: -80px; /* compensate for fixed navbar */
+        }
+        
+        #gallery3d {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 20px;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(10, 10, 10, 0.637);
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 1px 3px rgba(67, 68, 65, 0.5);
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #3837058f;
+            border: 2px solid wheat;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+            animation: fadeInUp 1s ease 0.4s forwards;
+            opacity: 0;
+        }
+        
+        .btn:hover {
+            background:#a1a03e8f;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgb(224, 217, 107);
+        }
+        
+        .btn-primary {
+            background: #3837098f;
+            border-color: white;
+        }
+        
+        .btn-primary:hover {
+            background:#a1a03e8f;
+            color: white;
+        }
+        
+        /* Featured Artists */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background: #3f3e108f;
+            bottom: -10px;
+            left: 20%;
+        }
+        
+        .section-header p {
+            color: rgb(14, 13, 13);
+            max-width: 700px;
+            margin: 20px auto 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .artist-card {
+            background: rgba(155, 155, 155, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .artist-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .artist-img {
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .artist-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .artist-card:hover .artist-img img {
+            transform: scale(1.1);
+        }
+        
+        .artist-info {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .artist-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .artist-info p {
+            color: rgb(37, 37, 37);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        /* Artworks Section */
+        .artwork-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
+            background: #0a0a0a;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background: #131312f6;
+            color: white;
+            border-color: var(--gold);
+        }
+        
+        .artworks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .artwork-card {
+            background:rgba(155, 155, 155, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .artwork-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .artwork-img {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .artwork-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .artwork-card:hover .artwork-img img {
+            transform: scale(1.05);
+        }
+        
+        .artwork-actions {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .artwork-card:hover .artwork-actions {
+            opacity: 1;
+        }
+        
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #4747158f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: #131312f8;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .artwork-info {
+            padding: 20px;
+        }
+        
+        .artwork-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+        
+        .artist-name {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .artwork-price {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+        
+        .artwork-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        /* Virtual Tour */
+        .virtual-tour {
+            background: rgba(155, 155, 155, 0.5);
+            color: var(--secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tour-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .tour-content {
+            flex: 1;
+        }
+        
+        .tour-content h2 {
+            color: var(--secondary);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .tour-content p {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            max-width: 600px;
+        }
+        
+        .tour-preview {
+            flex: 1;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            position: relative;
+            background: #0e0d0d;
+        }
+        
+        #tour-canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Newsletter */
+        .newsletter {
+            background: var(--neutral-light);
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .newsletter h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .newsletter p {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 1px solid #ddd;
+            border-radius: 50px 0 0 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .newsletter-form button {
+            padding: 15px 30px;
+            background: #0707078f;
+            color: white;
+            border: none;
+            border-radius: 0 50px 50px 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .newsletter-form button:hover {
+            background: #494948;
+        }
+        
+        /* Footer */
+        footer {
+            background: #f8f8f8;
+            color: rgb(0, 0, 0);
+            padding: 80px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background: #000000;
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-column p {
+            color: #080808;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #000000;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #444343;
+        }
+        
+        .social-links-footer {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links-footer a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background:#0000008f;
+            color: #f7f3f3;
+            transition: all 0.3s;
+        }
+        
+        .social-links-footer a:hover {
+            background: rgb(59, 59, 59);
+            color: rgb(243, 242, 242);
+        } 
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #030303;
+            color: #000000;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cart Sidebar Styles */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        .cart-overlay.active {
+            display: block;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: #f0f0f0;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .cart-header h3 {
+            color: #2e2d2d;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: #000000;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .cart-item-img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #000000;
+            font-size: 0.9rem;
+        }
+
+        .cart-item-price {
+            color: #2e2d2d;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .cart-total {
+            padding: 20px;
+            text-align: right;
+            font-size: 1.1rem;
+            color: #2e2d2d;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .cart-checkout {
+            display: block;
+            width: calc(100% - 40px);
+            margin: 20px;
+            padding: 12px;
+            background: #2e2d2d;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cart-checkout:hover {
+            background: #4a4949;
+        }
+
+        /* Checkout Form */
+        .checkout-form {
+            display: none;
+            padding: 20px;
+        }
+
+        .checkout-form h4 {
+            margin-bottom: 20px;
+            color: #2e2d2d;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #000000;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #2e2d2d;
+            border-radius: 4px;
+            background: #ffffff;
+            color: #000000;
+            font-size: 0.9rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .form-btn {
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .btn-submit {
+            background: #2e2d2d;
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-submit:hover {
+            background: #4a4949;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            color: #000000;
+            border: 1px solid #000000;
+        }
+
+        .btn-cancel:hover {
+            color: #2e2d2d;
+            border-color: #2e2d2d;
+        }
+
+        /* Order Confirmation */
+        .order-confirmation {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .order-confirmation i {
+            font-size: 50px;
+            color: #2e2d2d;
+            margin-bottom: 20px;
+        }
+
+        .order-confirmation h3 {
+            color: #2e2d2d;
+            margin-bottom: 15px;
+        }
+
+        .order-confirmation p {
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        /* Cart Notification */
+        .cart-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2e2d2d;
+            color: #ffffff;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1002;
+        }
+
+        .cart-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Artwork Zoom Modal */
+        .artwork-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1003;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .artwork-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .artwork-modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .cart-sidebar {
+                width: 90%;
+                right: -90%;
+            }
+        }
+        
+        /* Mobile Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .tour-container {
+                flex-direction: column;
+            }
+            
+            .tour-preview {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .newsletter-form {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .newsletter-form input,
+            .newsletter-form button {
+                border-radius: 50px;
+                width: 100%;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                display: block;
+                margin: 10px auto;
+                width: 80%;
+            }
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: var(--text);
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--gold);
+        }
+                /* Meet the Curators */
+        .curators-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .curator-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .curator-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .curator-img {
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .curator-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .curator-card:hover .curator-img img {
+            transform: scale(1.05);
+        }
+
+        .curator-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .curator-card:hover .curator-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .curator-overlay h3 {
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+
+        .curator-overlay p {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .curator-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .curator-social a {
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .curator-social a:hover {
+            background: rgba(255,255,255,0.4);
+            transform: translateY(-3px);
+        }
+
+        .curator-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .curator-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .curator-title {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .curator-bio {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Art Collector's Corner */
+        .collector-corner {
+            background: #f9f9f9;
+        }
+
+        .collector-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--gold);
+            color: white;
+            border-color: var(--gold);
+        }
+
+        .collector-panels {
+            position: relative;
+            min-height: 500px;
+        }
+
+        .panel {
+            display: none;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .panel.active {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .panel-content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .panel-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .panel-content p {
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .panel-content ul {
+            margin-bottom: 30px;
+        }
+
+        .panel-content li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .panel-content li i {
+            color: var(--gold);
+            margin-top: 3px;
+        }
+
+        .panel-image {
+            flex: 1;
+            min-height: 400px;
+        }
+
+        .panel-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .panel {
+                flex-direction: column;
+            }
+            
+            .panel-image {
+                min-height: 300px;
+                order: -1;
+            }
+            
+            .panel-content {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .curator-img {
+                height: 300px;
+            }
+            
+            .panel-content {
+                padding: 25px;
+            }
+            
+            .panel-content h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .curators-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        /* Artistic Process Styles */
+.artistic-process {
+    background-color: #f9f9f9;
+}
+
+.process-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.process-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.process-step {
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    opacity: 0.7;
+}
+
+.process-step.active {
+    opacity: 1;
+    background: var(--gold);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.process-step.active h3,
+.process-step.active p {
+    color: white;
+}
+
+.step-number {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 40px;
+    height: 40px;
+    background: var(--gold-light);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.process-step.active .step-number {
+    background: white;
+    color: var(--gold);
+}
+
+.process-visualization {
+    position: relative;
+    height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.process-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.process-image.active {
+    opacity: 1;
+}
+
+.process-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.process-description {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.description-content {
+    display: none;
+}
+
+.description-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+/* AR Preview Styles */
+.ar-preview {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+}
+
+.ar-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.ar-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: var(--gold);
+}
+
+.ar-steps {
+    margin: 30px 0;
+    padding-left: 20px;
+}
+
+.ar-steps li {
+    margin-bottom: 15px;
+    position: relative;
+    list-style-type: none;
+    padding-left: 30px;
+}
+
+.ar-steps li:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 15px;
+    height: 15px;
+    background-color: var(--gold);
+    border-radius: 50%;
+}
+
+.ar-note {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-top: 20px;
+}
+
+.ar-viewer {
+    position: relative;
+    perspective: 1000px;
+}
+
+.ar-frame {
+    width: 100%;
+    height: 400px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+#arCanvas {
+    width: 100%;
+    height: 100%;
+    background: #eee;
+}
+
+.room-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80') center/cover;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.ar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.ar-control-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ar-control-btn:hover {
+    background: var(--gold);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.ar-artwork-name {
+    font-weight: 500;
+    text-align: center;
+    flex: 1;
+    padding: 0 20px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .process-container {
+        grid-template-columns: 1fr 2fr;
+    }
+    
+    .process-description {
+        grid-column: span 2;
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 992px) {
+    .ar-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .ar-viewer {
+        order: -1;
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .process-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .process-timeline {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .process-step {
+        min-width: 150px;
+    }
+    
+    .process-visualization {
+        height: 400px;
+    }
+}
+
+@media (max-width: 576px) {
+    .process-visualization {
+        height: 300px;
+    }
+    
+    .ar-frame {
+        height: 300px;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- New Navbar -->
+    <nav class="navbar">
+        <div class="top-bar">
+            <!-- Left Group (Icons - Always Visible) -->
+            <div class="left-group">
+                <div class="nav-icons">
+                    <a href="sign.html" class="user-icon-link"><i class="fas fa-user"></i></a>
+                    <a href="shipment.html" class="user-icon-link"><i class="fa-solid fa-headphones"></i></a>
+                  
+                    <!-- <i class="fas fa-shopping-bag" id="cartIcon"></i> -->
+                </div>
+            </div>
+            
+            <!-- Mobile Toggle Button (Top-Right) -->
+            <i class="fas fa-bars mobile-menu-toggle" id="mobileMenuToggle"></i>
+            
+            <!-- Logo (Centered) -->
+            <div class="logo">
+                <a href="#" class="logo-text">Art<span>ora</span>
+                    <img src="origami.png" alt="Artora Logo" />
+                </a>
+            </div>
+            
+            <!-- Desktop Contact (Hidden on Mobile) -->
+            <div class="contact">
+                <i class="fab fa-whatsapp whatsapp-icon"></i>
+                <span>+923397856555</span>
+            </div>
+        </div>
+        
+        <!-- Navigation Rows (Hidden on Mobile by Default) -->
+        <div class="nav-rows" id="navRows">
+            <div class="main-categories">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="artist.html" class="nav-link">Artists</a>
+                <a href="artwork.html" class="nav-link">Gallery</a>
+                <a href="auction.html" class="nav-link">Auction</a>
+                <a href="biograghy.html" class="nav-link">Biography</a>
+                <a href="exhibition.html" class="nav-link">Exhibition</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            
+            <!-- Mobile Contact (Shows When Menu is Open) -->
+            <div class="mobile-contact">
+                <i class="fab fa-whatsapp whatsapp-icon"></i>
+                <span>+923397856555</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart" id="closeCart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            Total: $<span id="cartTotal">0</span>
+        </div>
+        <button class="cart-checkout" id="checkoutBtn">Proceed to Checkout</button>
+
+        <!-- Checkout Form -->
+        <div class="checkout-form" id="checkoutForm">
+            <h4>Checkout Information</h4>
+            <div class="form-group">
+                <label for="checkout-name">Full Name</label>
+                <input type="text" id="checkout-name" required>
+            </div>
+            <div class="form-group">
+                <label for="checkout-email">Email</label>
+                <input type="email" id="checkout-email" required>
+            </div>
+            <div class="form-group">
+                <label for="checkout-phone">Phone Number</label>
+                <input type="tel" id="checkout-phone" required>
+            </div>
+            <div class="form-group">
+                <label for="checkout-address">Shipping Address</label>
+                <textarea id="checkout-address" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="checkout-payment">Payment Method</label>
+                <select id="checkout-payment" required>
+                    <option value="">Select Payment</option>
+                    <option value="credit">Credit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="bank">Bank Transfer</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button class="form-btn btn-cancel" id="cancelCheckout">Cancel</button>
+                <button class="form-btn btn-submit" id="submitOrder">Place Order</button>
+            </div>
+        </div>
+
+        <!-- Order Confirmation -->
+        <div class="order-confirmation" id="orderConfirmation">
+            <i class="fas fa-check-circle"></i>
+            <h3>Your Order is Placed!</h3>
+            <p>Thank you for your purchase. We'll contact you shortly with the details.</p>
+            <button class="form-btn btn-submit" id="closeOrderConfirm">Continue Shopping</button>
+        </div>
+    </div>
+
+    <!-- Artwork Zoom Modal -->
+    <div id="artworkModal" class="artwork-modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="artwork-modal-content">
+            <img id="modalImage" src="" alt="Zoomed Artwork">
+        </div>
+    </div>
+
+    <!-- Hero Section with 3D Gallery -->
+    <section class="hero" id="home">
+        <div id="gallery3d"></div>
+        <div class="hero-content">
+            <h1>Immerse Yourself in Art</h1>
+            <p>Discover and collect exceptional artworks from emerging and established artists worldwide in our virtual gallery experience.</p>
+            <a href="#artworks" class="btn btn-primary">Explore Artworks</a>
+            <a href="#virtual-tour" class="btn">Take a Virtual Tour</a>
+        </div>
+    </section>
+
+    <!-- Featured Artists -->
+    <section class="section" id="artists">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Artists</h2>
+                <p>Discover the creators behind our exceptional collection of contemporary art.</p>
+            </div>
+            <div class="artists-grid">
+                <div class="artist-card">
+                    <div class="artist-img">
+                        <img src="BEATRIZ MORALES.jpeg" alt="Artist">
+                    </div>
+                    <div class="artist-info">
+                        <h3>BEATRIZ MORALES</h3>
+                        <p>Culture Gallery</p>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/beatriz__morales/?hl=en" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://x.com/beatrizkarina_" target="_blank"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/public/Beatriz-Morales/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="artist-card">
+                    <div class="artist-img">
+                        <img src="Craig Kerrison.jpg" alt="Artist">
+                    </div>
+                    <div class="artist-info">
+                        <h3>Craig Kerrison</h3>
+                        <p>Forrester's</p>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/craig_kerrison/?hl=en"><i class="fab fa-instagram"></i></a>
+                            <a href="https://x.com/craig_kerrison"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/craig.kerrison/"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="artist-card">
+                    <div class="artist-img">
+                        <img src="Ukiah.webp" alt="Artist">
+                    </div>
+                    <div class="artist-info">
+                        <h3>william shi </h3>
+                        <p>painting to feature</p>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/william.shi_qiming/"><i class="fab fa-instagram"></i></a>
+                            <a href="https://x.com/williamyshi/status/1718351857054335133"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/public/William-Shi"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="artist-card">
+                    <div class="artist-img">
+                        <img src="Daniel Rai.jpg" alt="Artist">
+                    </div>
+                    <div class="artist-info">
+                        <h3>Daniel Rai</h3>
+                        <p>A Physiotherapist and Painter</p>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/accounts/login/?next=%2Feyes.of.a.misfit%2F&source=omni_redirect&hl=en"><i class="fab fa-instagram"></i></a>
+                            <a href="https://x.com/danielrai_"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/daniel.rai.54738/"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+                      
+    <!-- Artworks Gallery -->
+   
+    <!-- Meet the Curators -->
+    <section class="section" id="curators">
+        <div class="container">
+            <div class="section-header">
+                <h2>Meet Our Curators</h2>
+                <p>The creative minds behind our exceptional collections and exhibitions.</p>
+            </div>
+            <div class="curators-container">
+                <div class="curator-card">
+                    <div class="curator-img">
+                        <img src="Dr. Elizabeth Morgan1.jpg" alt="Curator">
+                        <div class="curator-overlay">
+                            <h3>Dr. Elizabeth Morgan</h3>
+                            <p>Contemporary Art Specialist</p>
+                            <div class="curator-social">
+                                <a href="https://www.linkedin.com/in/ehmorgan"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.facebook.com/evangelistelizabeth.morgan/"><i class="fab fa-twitter"></i></a>
+                                <a href="elizabeth.morgan@morgan.edu"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="curator-info">
+                        <h3>Dr. Elizabeth Morgan</h3>
+                        <p class="curator-title">Contemporary Art Specialist</p>
+                        <p class="curator-bio">With over 15 years in the art world, Elizabeth has curated exhibitions for major galleries worldwide and holds a PhD in Art History from Oxford.</p>
+                    </div>
+                </div>
+                <div class="curator-card">
+                    <div class="curator-img">
+                        <img src="james chen1.webp" alt="Curator">
+                        <div class="curator-overlay">
+                            <h3>James Chen</h3>
+                            <p>Digital Art Pioneer</p>
+                            <div class="curator-social">
+                                <a href="https://au.linkedin.com/in/jamesztchen"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://x.com/jchensor?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a>
+                                <a href="james.chen@stanford.edu"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="curator-info">
+                        <h3>James Chen</h3>
+                        <p class="curator-title">Digital Art Pioneer</p>
+                        <p class="curator-bio">Former digital artist turned curator, James brings a unique perspective to the intersection of technology and traditional art forms.</p>
+                    </div>
+                </div>
+                <div class="curator-card">
+                    <div class="curator-img">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" alt="Curator">
+                        <div class="curator-overlay">
+                            <h3>Sophia Rodriguez</h3>
+                            <p>Emerging Talent Scout</p>
+                            <div class="curator-social">
+                                <a href="https://uk.linkedin.com/in/sophia-rodriguez-404b3216a?trk=people-guest_people_search-card"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://x.com/centralbkintel?lang=en"><i class="fab fa-twitter"></i></a>
+                                <a href="s******@yahoo.com"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="curator-info">
+                        <h3>Sophia Rodriguez</h3>
+                        <p class="curator-title">Emerging Talent Scout</p>
+                        <p class="curator-bio">Specializing in discovering new artists, Sophia has launched the careers of dozens of now-established contemporary artists.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Art Collector's Corner -->
+    <section class="section collector-corner" id="collectors">
+        <div class="container">
+            <div class="section-header">
+                <h2>Art Collector's Corner</h2>
+                <p>Resources and insights for both new and experienced art collectors.</p>
+            </div>
+            <div class="collector-content">
+                <div class="collector-tabs">
+                    <button class="tab-btn active" data-tab="guide">Collector's Guide</button>
+                    <button class="tab-btn" data-tab="investment">Art as Investment</button>
+                    <button class="tab-btn" data-tab="care">Art Care 101</button>
+                </div>
+                <div class="collector-panels">
+                    <div class="panel active" id="guide">
+                        <div class="panel-content">
+                            <h3>Starting Your Art Collection</h3>
+                            <p>Building an art collection can be one of life's most rewarding experiences. Our comprehensive guide walks you through the process from first purchase to building a meaningful collection.</p>
+                            <ul>
+                                <li><i class="fas fa-check-circle"></i> Define your collecting goals and interests</li>
+                                <li><i class="fas fa-check-circle"></i> Set a realistic budget</li>
+                                <li><i class="fas fa-check-circle"></i> Research artists and art movements</li>
+                                <li><i class="fas fa-check-circle"></i> Understand the market and pricing</li>
+                                <li><i class="fas fa-check-circle"></i> Build relationships with galleries and artists</li>
+                            </ul>
+                            <a href="#" class="btn btn-primary">Download Full Guide</a>
+                        </div>
+                        <div class="panel-image">
+                            <img src="https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80" alt="Art Collection">
+                        </div>
+                    </div>
+                    <div class="panel" id="investment">
+                        <div class="panel-content">
+                            <h3>Understanding Art as Investment</h3>
+                            <p>While art should first and foremost be collected for love, understanding its investment potential can help you make informed decisions.</p>
+                            <ul>
+                                <li><i class="fas fa-chart-line"></i> Market trends and historical performance</li>
+                                <li><i class="fas fa-chart-line"></i> Diversifying your art portfolio</li>
+                                <li><i class="fas fa-chart-line"></i> Emerging vs. established artists</li>
+                                <li><i class="fas fa-chart-line"></i> Tax considerations and insurance</li>
+                                <li><i class="fas fa-chart-line"></i> When and how to sell</li>
+                            </ul>
+                            <a href="#" class="btn btn-primary">View Market Reports</a>
+                        </div>
+                        <div class="panel-image">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Art Investment">
+                        </div>
+                    </div>
+                    <div class="panel" id="care">
+                        <div class="panel-content">
+                            <h3>Preserving Your Collection</h3>
+                            <p>Proper care ensures your artworks maintain their beauty and value for generations to come.</p>
+                            <ul>
+                                <li><i class="fas fa-shield-alt"></i> Proper lighting and environmental controls</li>
+                                <li><i class="fas fa-shield-alt"></i> Handling and transportation best practices</li>
+                                <li><i class="fas fa-shield-alt"></i> Conservation and restoration options</li>
+                                <li><i class="fas fa-shield-alt"></i> Digital documentation and inventory</li>
+                                <li><i class="fas fa-shield-alt"></i> Disaster preparedness for collectors</li>
+                            </ul>
+                            <a href="#" class="btn btn-primary">Get Care Checklist</a>
+                        </div>
+                        <div class="panel-image">
+                            <img src="https://images.unsplash.com/photo-1578301978018-3005759f48f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Art Care">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Artistic Process Section -->
+<section class="section artistic-process" id="process">
+    <div class="container">
+        <div class="section-header">
+            <h2>The Artistic Process</h2>
+            <p>Explore the creative journey from concept to masterpiece with our featured artists.</p>
+        </div>
+        
+        <div class="process-container">
+            <div class="process-timeline">
+                <div class="process-step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <h3>Concept & Sketch</h3>
+                    <p>Initial ideas and rough sketches</p>
+                </div>
+                <div class="process-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <h3>Color Study</h3>
+                    <p>Exploring color palettes</p>
+                </div>
+                <div class="process-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <h3>Medium Application</h3>
+                    <p>Applying the chosen medium</p>
+                </div>
+                <div class="process-step" data-step="4">
+                    <div class="step-number">4</div>
+                    <h3>Refinement</h3>
+                    <p>Details and finishing touches</p>
+                </div>
+                <div class="process-step" data-step="5">
+                    <div class="step-number">5</div>
+                    <h3>Final Artwork</h3>
+                    <p>The completed piece</p>
+                </div>
+            </div>
+            
+            <div class="process-visualization">
+                <div class="process-image active" data-step="1">
+                    <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1158&q=80" alt="Concept Sketch">
+                </div>
+                <div class="process-image" data-step="2">
+                    <img src="https://images.unsplash.com/photo-1579762715118-a6f1d4b934f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1168&q=80" alt="Color Study">
+                </div>
+                <div class="process-image" data-step="3">
+                    <img src="https://images.unsplash.com/photo-1579783901586-d88db74b4fe4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1136&q=80" alt="Medium Application">
+                </div>
+                <div class="process-image" data-step="4">
+                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1136&q=80" alt="Refinement">
+                </div>
+                <div class="process-image" data-step="5">
+                    <img src="final art.webp" alt="Final Artwork">
+                </div>
+            </div>
+            
+            <div class="process-description">
+                <div class="description-content active" data-step="1">
+                    <h3>Concept & Sketch</h3>
+                    <p>Every masterpiece begins with an idea. Our artists spend hours developing concepts through sketches and studies. This foundational stage determines the composition and emotional tone of the artwork.</p>
+                    <p>"I often create dozens of sketches before settling on a composition that feels right," says featured artist Marcus Johnson.</p>
+                </div>
+                <div class="description-content" data-step="2">
+                    <h3>Color Study</h3>
+                    <p>Color sets the mood and guides the viewer's eye. Artists experiment with different palettes to find the perfect emotional resonance for their work.</p>
+                    <p>Sophia Chen shares: "I create small color studies to test how different combinations affect the overall feeling of the piece before committing to the final work."</p>
+                </div>
+                <div class="description-content" data-step="3">
+                    <h3>Medium Application</h3>
+                    <p>This is where the artwork truly begins to take shape. Whether it's oil paint, marble, or digital brushes, the artist's technique shines through in this stage.</p>
+                    <p>"The physical act of applying paint is where the magic happens for me," explains David Rodriguez.</p>
+                </div>
+                <div class="description-content" data-step="4">
+                    <h3>Refinement</h3>
+                    <p>Details emerge as the artist refines their work. This stage can take as long as all previous steps combined, as the artist perfects every element.</p>
+                    <p>Elena Petrova notes: "It's often the smallest details that make the biggest impact in a finished piece."</p>
+                </div>
+                <div class="description-content" data-step="5">
+                    <h3>Final Artwork</h3>
+                    <p>The completed work represents hundreds of hours of thought, experimentation, and craftsmanship. Each piece is a unique expression of the artist's vision.</p>
+                    <p>"When I finally sign a piece, it's both exhilarating and bittersweet to let it go," shares Marcus Johnson.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AR Preview Section -->
+<section class="section ar-preview" id="ar-preview">
+    <div class="container">
+        <div class="section-header">
+            <h2>See It In Your Space</h2>
+            <p>Visualize how any artwork would look in your home with our augmented reality preview.</p>
+        </div>
+        
+        <div class="ar-container">
+            <div class="ar-content">
+                <h3>Try Our AR Preview</h3>
+                <p>Our augmented reality technology lets you see exactly how any artwork would look on your wall before you buy.</p>
+                <ol class="ar-steps">
+                    <li>Select an artwork from our collection</li>
+                    <li>Click the "View in AR" button</li>
+                    <li>Point your camera at your wall</li>
+                    <li>See the artwork in your space</li>
+                </ol>
+                <button class="btn btn-primary" id="tryArBtn">Try AR Preview Now</button>
+                <p class="ar-note">Works on most modern smartphones and tablets</p>
+            </div>
+            
+            <div class="ar-viewer">
+                <div class="ar-frame">
+                    <div id="arCanvas"></div>
+                    <div class="room-overlay"></div>
+                </div>
+                <div class="ar-controls">
+                    <button class="ar-control-btn" id="arLeftBtn"><i class="fas fa-chevron-left"></i></button>
+                    <span class="ar-artwork-name">"Cosmic Harmony" by Marcus Johnson</span>
+                    <button class="ar-control-btn" id="arRightBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Virtual Tour -->
+    <section class="section virtual-tour" id="virtual-tour">
+        <div class="container tour-container">
+            <div class="tour-content">
+                <h2>Experience Our Virtual Gallery</h2>
+                <p>Step into our immersive 3D gallery space and explore artworks as if you were there in person. Navigate through different exhibition rooms, view artworks from every angle, and discover new perspectives.</p>
+                <p>Our virtual gallery is accessible 24/7 from anywhere in the world. Take your time, find inspiration, and connect with art in a revolutionary new way.</p>
+                <a href="#" class="btn btn-primary">Start Virtual Tour</a>
+            </div>
+            <div class="tour-preview">
+                <div id="tour-canvas"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Join Our Art Community</h2>
+            <p>Subscribe to receive exclusive previews, artist interviews, and special offers.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Artora Gallery</h3>
+                    <p>A virtual space where art lovers and collectors can discover, experience, and acquire exceptional contemporary artworks from around the world.</p>
+                    <div class="social-links-footer">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="artist.html">Artists</a></li>
+                        <li><a href="artworks.html">Gallery</a></li>
+                        <li><a href="auction.html">Auction & Trades</a></li>
+                        <li><a href="exhibition.html">Exhibitions</a></li>
+                        <li><a href="biograghy.html">Biography</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <!-- <li><a href="#">FAQ</a></li> -->
+                        <li><a href="shipment.html">Help & Support</a></li>
+                        <li><a href="privcay policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Gallery Street, Art District, NY 10001</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@artoragallery.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Artora Virtual Gallery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Artworks data with categories
+        const artworks = [
+            {
+                id: 1,
+                title: "Cosmic Harmony",
+                artist: "Marcus Johnson",
+                price: 2400,
+                img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=745&q=80",
+                medium: "Oil on Canvas",
+                dimensions: "80x120cm",
+                description: "Abstract representation of cosmic harmony with vibrant colors and dynamic composition.",
+                category: "painting"
+            },
+            {
+                id: 2,
+                title: "Bronze Contemplation",
+                artist: "Sophia Chen",
+                price: 5200,
+                img: "photo.png",
+                medium: "Bronze Sculpture",
+                dimensions: "40x30x60cm",
+                description: "Contemporary bronze sculpture capturing human contemplation and form.",
+                category: "sculpture"
+            },
+            {
+                id: 3,
+                title: "Urban Dreams",
+                artist: "David Rodriguez",
+                price: 3800,
+                img: "https://images.unsplash.com/photo-1501084817091-a4f3d1d19e07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                medium: "Acrylic on Canvas",
+                dimensions: "100x150cm",
+                description: "Vibrant cityscape capturing the energy and dreams of urban life.",
+                category: "painting"
+            },
+            {
+                id: 4,
+                title: "Digital Nebula",
+                artist: "Elena Petrova",
+                price: 1200,
+                img: "image34.webp",
+                medium: "Digital Print",
+                dimensions: "Limited Edition",
+                description: "Futuristic digital artwork exploring cosmic themes and nebula formations.",
+                category: "digital"
+            },
+            {
+                id: 5,
+                title: "Mountain Serenity",
+                artist: "John Wilson",
+                price: 1800,
+                img: "image35.jpeg",
+                medium: "Oil on Canvas",
+                dimensions: "60x90cm",
+                description: "Peaceful mountain landscape with soft morning light.",
+                category: "painting"
+            },
+            {
+                id: 6,
+                title: "Marble Elegance",
+                artist: "Sophia Chen",
+                price: 6500,
+                img: "image78.jpg",
+                medium: "Marble Sculpture",
+                dimensions: "50x30x25cm",
+                description: "Elegant marble sculpture depicting human form.",
+                category: "sculpture"
+            },
+            {
+                id: 7,
+                title: "Urban Reflections",
+                artist: "David Rodriguez",
+                price: 950,
+                img: "image79.webp",
+                medium: "Photographic Print",
+                dimensions: "50x75cm",
+                description: "Cityscape with reflective surfaces and dramatic lighting.",
+                category: "photography"
+            },
+            {
+                id: 8,
+                title: "Abstract Code",
+                artist: "Elena Petrova",
+                price: 850,
+                img: "image80.jpeg",
+                medium: "Digital Art",
+                dimensions: "Limited Edition",
+                description: "Abstract digital composition inspired by computer code.",
+                category: "digital"
+            }
+        ];
+
+        // Shopping cart
+        let cart = [];
+
+        // DOM elements
+        const cartIcon = document.getElementById('cartIcon');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const closeCart = document.getElementById('closeCart');
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const checkoutForm = document.getElementById('checkoutForm');
+        const cancelCheckout = document.getElementById('cancelCheckout');
+        const submitOrder = document.getElementById('submitOrder');
+        const orderConfirmation = document.getElementById('orderConfirmation');
+        const closeOrderConfirm = document.getElementById('closeOrderConfirm');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navRows = document.getElementById('navRows');
+        const artworksContainer = document.getElementById('artworksContainer');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const artworkModal = document.getElementById('artworkModal');
+        const modalImage = document.getElementById('modalImage');
+
+        // Display artworks in grid
+        function displayArtworks(filter = 'all') {
+            artworksContainer.innerHTML = '';
+            
+            let filteredArtworks = artworks;
+            
+            if (filter !== 'all') {
+                if (filter === 'under-1000') {
+                    filteredArtworks = artworks.filter(art => art.price < 1000);
+                } else {
+                    filteredArtworks = artworks.filter(art => art.category === filter);
+                }
+            }
+            
+            filteredArtworks.forEach(artwork => {
+                const artworkCard = document.createElement('div');
+                artworkCard.className = 'artwork-card';
+                artworkCard.innerHTML = `
+                    <div class="artwork-img">
+                        <img src="${artwork.img}" alt="${artwork.title}">
+                        <div class="artwork-actions">
+                            <div class="action-btn"><i class="fas fa-heart"></i></div>
+                            <div class="action-btn" onclick="addToCart(${artwork.id})"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="action-btn" onclick="zoomArtwork('${artwork.img}')"><i class="fas fa-expand"></i></div>
+                        </div>
+                    </div>
+                    <div class="artwork-info">
+                        <h3>${artwork.title}</h3>
+                        <span class="artist-name">${artwork.artist}</span>
+                        <div class="artwork-price">$${artwork.price.toLocaleString()}</div>
+                        <div class="artwork-meta">
+                            <span>${artwork.medium}</span>
+                            <span>${artwork.dimensions}</span>
+                        </div>
+                    </div>
+                `;
+                artworksContainer.appendChild(artworkCard);
+            });
+        }
+
+        // Zoom artwork function
+        function zoomArtwork(imgSrc) {
+            modalImage.src = imgSrc;
+            artworkModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal() {
+            artworkModal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // Add to cart
+        function addToCart(id) {
+            const artwork = artworks.find(art => art.id === id);
+            if (!artwork) return;
+
+            // Check if item already in cart
+            const existingItem = cart.find(item => item.id === id);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...artwork,
+                    quantity: 1
+                });
+            }
+
+            updateCart();
+            showCartNotification(artwork.title);
+        }
+// Artistic Process Interaction
+const processSteps = document.querySelectorAll('.process-step');
+const processImages = document.querySelectorAll('.process-image');
+const descriptionContents = document.querySelectorAll('.description-content');
+
+processSteps.forEach(step => {
+    step.addEventListener('click', () => {
+        // Remove active class from all steps
+        processSteps.forEach(s => s.classList.remove('active'));
+        // Add active class to clicked step
+        step.classList.add('active');
+        
+        const stepNumber = step.getAttribute('data-step');
+        
+        // Update images
+        processImages.forEach(img => {
+            img.classList.remove('active');
+            if(img.getAttribute('data-step') === stepNumber) {
+                img.classList.add('active');
+            }
+        });
+        
+        // Update descriptions
+        descriptionContents.forEach(content => {
+            content.classList.remove('active');
+            if(content.getAttribute('data-step') === stepNumber) {
+                content.classList.add('active');
+            }
+        });
+    });
+});
+
+// AR Preview Simulation
+const tryArBtn = document.getElementById('tryArBtn');
+const arLeftBtn = document.getElementById('arLeftBtn');
+const arRightBtn = document.getElementById('arRightBtn');
+const arCanvas = document.getElementById('arCanvas');
+const arArtworkName = document.querySelector('.ar-artwork-name');
+
+const arArtworks = [
+    {
+        name: '"Cosmic Harmony" by Marcus Johnson',
+        color: 0x3498db,
+        size: { width: 3, height: 4 }
+    },
+    {
+        name: '"Urban Dreams" by David Rodriguez',
+        color: 0xe74c3c,
+        size: { width: 4, height: 3 }
+    },
+    {
+        name: '"Bronze Contemplation" by Sophia Chen',
+        color: 0x2ecc71,
+        size: { width: 2.5, height: 3.5 }
+    },
+    {
+        name: '"Digital Nebula" by Elena Petrova',
+        color: 0xf1c40f,
+        size: { width: 3.5, height: 3.5 }
+    }
+];
+
+let currentArIndex = 0;
+let arScene, arCamera, arRenderer, arArtwork;
+
+function initARPreview() {
+    // Set up Three.js scene for AR simulation
+    arScene = new THREE.Scene();
+    arCamera = new THREE.PerspectiveCamera(75, arCanvas.clientWidth / arCanvas.clientHeight, 0.1, 1000);
+    arRenderer = new THREE.WebGLRenderer({ antialias: true });
+    arRenderer.setSize(arCanvas.clientWidth, arCanvas.clientHeight);
+    arCanvas.appendChild(arRenderer.domElement);
+    
+    // Add lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    arScene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(5, 10, 7);
+    arScene.add(directionalLight);
+    
+    // Position camera
+    arCamera.position.z = 5;
+    arCamera.position.y = 1.5;
+    
+    // Create artwork frame
+    createArtworkMesh(currentArIndex);
+    
+    // Create room walls (simulation)
+    const roomGeometry = new THREE.BoxGeometry(10, 5, 10);
+    const roomMaterial = new THREE.MeshBasicMaterial({ 
+        color: 0xffffff,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.2
+    });
+    const room = new THREE.Mesh(roomGeometry, roomMaterial);
+    arScene.add(room);
+    
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        // Rotate artwork slightly
+        if(arArtwork) {
+            arArtwork.rotation.y += 0.002;
+        }
+        
+        arRenderer.render(arScene, arCamera);
+    }
+    
+    animate();
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        arCamera.aspect = arCanvas.clientWidth / arCanvas.clientHeight;
+        arCamera.updateProjectionMatrix();
+        arRenderer.setSize(arCanvas.clientWidth, arCanvas.clientHeight);
+    });
+}
+
+function createArtworkMesh(index) {
+    // Remove previous artwork if exists
+    if(arArtwork) {
+        arScene.remove(arArtwork);
+    }
+    
+    const artwork = arArtworks[index];
+    const geometry = new THREE.BoxGeometry(artwork.size.width, artwork.size.height, 0.2);
+    const material = new THREE.MeshStandardMaterial({ 
+        color: artwork.color,
+        roughness: 0.4,
+        metalness: 0.1
+    });
+    
+    arArtwork = new THREE.Mesh(geometry, material);
+    arScene.add(arArtwork);
+    
+    // Update artwork name
+    arArtworkName.textContent = artwork.name;
+}
+
+// Initialize AR preview when page loads
+window.addEventListener('load', initARPreview);
+
+// AR control buttons
+tryArBtn.addEventListener('click', function() {
+    alert("On a real device, this would open your camera to view the artwork in your space. In this demo, we're simulating the experience.");
+});
+
+arLeftBtn.addEventListener('click', function() {
+    currentArIndex = (currentArIndex - 1 + arArtworks.length) % arArtworks.length;
+    createArtworkMesh(currentArIndex);
+});
+
+arRightBtn.addEventListener('click', function() {
+    currentArIndex = (currentArIndex + 1) % arArtworks.length;
+    createArtworkMesh(currentArIndex);
+});
+        // Remove from cart
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCart();
+        }
+
+        // Update cart UI
+        function updateCart() {
+            // Update cart count
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartIcon.setAttribute('data-count', totalItems);
+
+            // Update cart items
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.img}" alt="${item.title}" class="cart-item-img">
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.title}</div>
+                        <div class="cart-item-price">$${item.price.toLocaleString()} x ${item.quantity}</div>
+                        <button class="remove-item" onclick="removeFromCart(${item.id})">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Update total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = total.toLocaleString();
+        }
+
+        // Show cart notification
+        function showCartNotification(title) {
+            const notification = document.createElement('div');
+            notification.className = 'cart-notification';
+            notification.innerHTML = `
+                <span>${title} added to cart</span>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Toggle cart sidebar
+        function toggleCart() {
+            cartSidebar.classList.toggle('active');
+            cartOverlay.classList.toggle('active');
+            document.body.style.overflow = cartSidebar.classList.contains('active') ? 'hidden' : '';
+        }
+
+        // Show checkout form
+        function showCheckoutForm() {
+            cartItems.style.display = 'none';
+            document.querySelector('.cart-total').style.display = 'none';
+            checkoutBtn.style.display = 'none';
+            checkoutForm.style.display = 'block';
+            orderConfirmation.style.display = 'none';
+        }
+
+        // Cancel checkout
+        function cancelCheckoutForm() {
+            cartItems.style.display = 'block';
+            document.querySelector('.cart-total').style.display = 'block';
+            checkoutBtn.style.display = 'block';
+            checkoutForm.style.display = 'none';
+            orderConfirmation.style.display = 'none';
+        }
+
+        // Submit order
+        function submitOrderForm() {
+            // Validate form
+            const name = document.getElementById('checkout-name').value;
+            const email = document.getElementById('checkout-email').value;
+            const phone = document.getElementById('checkout-phone').value;
+            const address = document.getElementById('checkout-address').value;
+            const payment = document.getElementById('checkout-payment').value;
+
+            if (!name || !email || !phone || !address || !payment) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Show confirmation
+            checkoutForm.style.display = 'none';
+            orderConfirmation.style.display = 'block';
+
+            // Clear cart
+            cart = [];
+            updateCart();
+
+            // Reset form
+            document.getElementById('checkout-form').reset();
+        }
+
+        // Close order confirmation
+        function closeOrderConfirmation() {
+            cartItems.style.display = 'block';
+            document.querySelector('.cart-total').style.display = 'block';
+            checkoutBtn.style.display = 'block';
+            checkoutForm.style.display = 'none';
+            orderConfirmation.style.display = 'none';
+            toggleCart();
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            // Display all artworks initially
+            displayArtworks();
+
+            // Cart event listeners
+            cartIcon.addEventListener('click', toggleCart);
+            closeCart.addEventListener('click', toggleCart);
+            cartOverlay.addEventListener('click', toggleCart);
+
+            // Checkout event listeners
+            checkoutBtn.addEventListener('click', showCheckoutForm);
+            cancelCheckout.addEventListener('click', cancelCheckoutForm);
+            submitOrder.addEventListener('click', submitOrderForm);
+            closeOrderConfirm.addEventListener('click', closeOrderConfirmation);
+
+            // Filter event listeners
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    // Filter artworks
+                    displayArtworks(button.dataset.filter);
+                });
+            });
+
+            // Close modal when clicking outside image
+            artworkModal.addEventListener('click', function(e) {
+                if (e.target === artworkModal) {
+                    closeModal();
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        mobileMenuToggle.addEventListener('click', function () {
+            navRows.classList.toggle('active');
+            document.body.style.overflow = navRows.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close menu when clicking on a link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navRows.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Global functions for HTML onclick attributes
+        window.addToCart = addToCart;
+        window.removeFromCart = removeFromCart;
+        window.zoomArtwork = zoomArtwork;
+        window.closeModal = closeModal;
+
+        // Initialize 3D gallery on home page
+        function init3DGallery() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('gallery3d').appendChild(renderer.domElement);
+
+            // Load textures for walls
+            const textureLoader = new THREE.TextureLoader();
+            const frontWallTexture = textureLoader.load('museum.png');
+            const leftWallTexture = textureLoader.load('s1_3993.jpg'); // Replace with actual texture URL
+            const rightWallTexture = textureLoader.load('wall.jpg'); // Replace with actual texture URL
+
+            // Gallery walls with textures
+            const wallGeometry = new THREE.BoxGeometry(30, 15, 0.5);
+            const walls = [];
+            
+            // Back wall
+            const backWallMaterial = new THREE.MeshBasicMaterial({ map: frontWallTexture });
+            const backWall = new THREE.Mesh(wallGeometry, backWallMaterial);
+            backWall.position.z = -8;
+            scene.add(backWall);
+            walls.push(backWall);
+            
+            // Left wall
+            const leftWallMaterial = new THREE.MeshBasicMaterial({ map: leftWallTexture });
+            const leftWall = new THREE.Mesh(wallGeometry, leftWallMaterial);
+            leftWall.position.x = -15;
+            leftWall.rotation.y = Math.PI / 2;
+            scene.add(leftWall);
+            walls.push(leftWall);
+            
+            // Right wall
+            const rightWallMaterial = new THREE.MeshBasicMaterial({ map: rightWallTexture });
+            const rightWall = new THREE.Mesh(wallGeometry, rightWallMaterial);
+            rightWall.position.x = 15;
+            rightWall.rotation.y = Math.PI / 2;
+            scene.add(rightWall);
+            walls.push(rightWall);
+            
+            // Floor
+            const floorGeometry = new THREE.BoxGeometry(30, 0.5, 16);
+            const floorMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.position.y = -7.5;
+            scene.add(floor);
+
+            // Artworks on walls
+            const artworks = [];
+            const artworkGeometry = new THREE.BoxGeometry(4, 5, 0.1);
+            
+            // Create 6 artworks
+            for (let i = 0; i < 6; i++) {
+                // Random colors for artworks
+                const colors = [0xff4136, 0x0074d9, 0xffdc00, 0x2ecc40, 0xb10dc9, 0xff851b];
+                const artworkMaterial = new THREE.MeshBasicMaterial({ 
+                    color: colors[i],
+                    wireframe: true
+                });
+                
+                const artwork = new THREE.Mesh(artworkGeometry, artworkMaterial);
+                
+                // Position artworks on walls
+                if (i < 2) { // Back wall
+                    artwork.position.z = -8.3;
+                    artwork.position.x = -8 + i * 8;
+                    artwork.position.y = 2;
+                } else if (i < 4) { // Left wall
+                    artwork.position.x = -15.3;
+                    artwork.position.z = -6 + (i-2) * 6;
+                    artwork.position.y = 2;
+                    artwork.rotation.y = Math.PI / 2;
+                } else { // Right wall
+                    artwork.position.x = 15.3;
+                    artwork.position.z = -6 + (i-4) * 6;
+                    artwork.position.y = 2;
+                    artwork.rotation.y = Math.PI / 2;
+                }
+                
+                scene.add(artwork);
+                artworks.push(artwork);
+            }
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 20, 15);
+            scene.add(directionalLight);
+
+            camera.position.y = 2;
+            camera.position.z = 10;
+
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Rotate camera slowly
+                camera.position.x = Math.sin(Date.now() * 0.0005) * 5;
+                camera.position.z = 10 + Math.cos(Date.now() * 0.0005) * 2;
+                camera.lookAt(0, 0, -8);
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Initialize 3D gallery when page loads
+        window.addEventListener('load', init3DGallery);
+        
+        // Initialize virtual tour preview
+        function initTourPreview() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(document.querySelector('.tour-preview').clientWidth, 
+                            document.querySelector('.tour-preview').clientHeight);
+            document.getElementById('tour-canvas').appendChild(renderer.domElement);
+            
+            // Create gallery space
+            const roomGeometry = new THREE.BoxGeometry(20, 8, 20);
+            const roomMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0xf5f5f5,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.8
+            });
+            const room = new THREE.Mesh(roomGeometry, roomMaterial);
+            scene.add(room);
+            
+            // Add some artworks
+            const artworkGeometry = new THREE.BoxGeometry(3, 4, 0.2);
+            const colors = [0x3498db, 0xe74c3c, 0x2ecc71, 0xf1c40f];
+            
+            for (let i = 0; i < 4; i++) {
+                const artworkMaterial = new THREE.MeshBasicMaterial({ color: colors[i] });
+                const artwork = new THREE.Mesh(artworkGeometry, artworkMaterial);
+                
+                if (i < 2) {
+                    artwork.position.z = -10;
+                    artwork.position.x = -5 + i * 6;
+                    artwork.position.y = 1;
+                } else {
+                    artwork.position.x = -10;
+                    artwork.position.z = -5 + (i-2) * 6;
+                    artwork.position.y = 1;
+                    artwork.rotation.y = Math.PI / 2;
+                }
+                
+                scene.add(artwork);
+            }
+            
+            // Add lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 10, 7);
+            scene.add(directionalLight);
+            
+            camera.position.set(0, 3, 12);
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Slowly rotate the camera
+                camera.position.x = Math.sin(Date.now() * 0.0008) * 10;
+                camera.position.z = 12 + Math.cos(Date.now() * 0.0008) * 3;
+                camera.lookAt(0, 0, 0);
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                camera.aspect = document.querySelector('.tour-preview').clientWidth / 
+                                document.querySelector('.tour-preview').clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(document.querySelector('.tour-preview').clientWidth, 
+                                document.querySelector('.tour-preview').clientHeight);
+            });
+        }
+        
+        // Initialize tour preview when page loads
+        window.addEventListener('load', initTourPreview);
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 120, // adjusted for new navbar height
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    document.querySelector('.nav-rows').classList.remove('active');
+                    document.querySelector('.mobile-contact').classList.remove('active');
+                }
+            });
+        });
+        
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.section-header, .artist-card, .artwork-card');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = 1;
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        // Set initial styles for animated elements
+        document.querySelectorAll('.section-header, .artist-card, .artwork-card').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+        
+        window.addEventListener('load', animateOnScroll);
+        window.addEventListener('scroll', animateOnScroll);
+                // Collector's Corner Tabs
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const panels = document.querySelectorAll('.panel');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and panels
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                panels.forEach(panel => panel.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Show corresponding panel
+                const panelId = button.getAttribute('data-tab');
+                document.getElementById(panelId).classList.add('active');
+            });
+        });
+        // Save cart to localStorage
+function saveCartToStorage() {
+    localStorage.setItem('artoraCart', JSON.stringify(cart));
+}
+
+// Load cart from localStorage
+function loadCartFromStorage() {
+    const savedCart = localStorage.getItem('artoraCart');
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+        updateCart();
+    }
+}
+
+// Update the existing addToCart function to save to localStorage
+function addToCart(id) {
+    const artwork = artworks.find(art => art.id === id);
+    if (!artwork) return;
+
+    // Check if item already in cart
+    const existingItem = cart.find(item => item.id === id);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            ...artwork,
+            quantity: 1
+        });
+    }
+
+    updateCart();
+    saveCartToStorage(); // Save to localStorage
+    showCartNotification(artwork.title);
+}
+
+// Update the existing removeFromCart function
+function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id);
+    updateCart();
+    saveCartToStorage(); // Save to localStorage
+}
+
+// Update the existing submitOrderForm function to clear localStorage
+function submitOrderForm() {
+    // ... existing validation code ...
+    
+    // Clear cart
+    cart = [];
+    updateCart();
+    localStorage.removeItem('artoraCart'); // Clear from localStorage
+    
+    // ... rest of the function ...
+}
+
+// Load cart from localStorage when page loads
+window.addEventListener('load', () => {
+    // ... existing initialization code ...
+    
+    // Add this line to load cart from storage
+    loadCartFromStorage();
+    
+    // ... rest of the initialization code ...
+});
+
+// Listen for storage changes to sync carts between tabs
+window.addEventListener('storage', function(e) {
+    if (e.key === 'artoraCart') {
+        loadCartFromStorage();
+    }
+});
+    </script>
+</body>
+</html>

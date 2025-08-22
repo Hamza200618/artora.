@@ -1,0 +1,102 @@
+[
+  {
+    "id": "auction001",
+    "title": "Abstract Sunset",
+    "artist": "Leonardo da Vinci",
+    "image": "wallright.jpg",
+    "currentBid": 10,
+    "startingBid": 10,
+    "currency": "USD",
+    "description": "A calming abstract sunset in warm tones that captures the essence of twilight."
+  },
+  {
+    "id": "auction002",
+    "title": "Urban Serenity",
+    "artist": "Vincent van Gogh",
+    "image": "13cecily-brown1-pklb-articleLarge.webp",
+    "currentBid": 10,
+    "startingBid": 10,
+    "currency": "USD",
+    "description": "A quiet moment captured in a bustling city, showing the contrast between movement and stillness."
+  },
+  {
+    "id": "auction003",
+    "title": "Nature's Whisper",
+    "artist": "Claude Monet",
+    "image": "817IpZKcCBS._AC_SL1500_.jpg",
+    "currentBid": 10,
+    "startingBid": 10,
+    "currency": "USD",
+    "description": "A serene landscape that invites tranquility, with delicate brushstrokes capturing the play of light on water."
+  },
+  {
+    "id": "auction004",
+    "title": "Whimsical Dreams",
+    "artist": "Frida Kahlo",
+    "image": "il_fullxfull.3871324283_pjer.webp",
+    "currentBid": 10,
+    "startingBid": 10,
+    "currency": "USD",
+    "description": "A playful and imaginative piece full of color and symbolism, characteristic of the artist's unique style."
+  },
+  {
+    "id": "auction005",
+    "title": "Mystic Forest",
+    "artist": "Caravaggio",
+    "image": "watercolorpainting-20.jpg",
+    "currentBid": 10,
+    "startingBid": 10,
+    "currency": "USD",
+    "description": "An enchanting forest scene that sparks curiosity with its dramatic use of light and shadow."
+  },
+  {
+    "id": "auction006",
+    "title": "Celestial Journey",
+    "artist": "Johannes Vermeer",
+    "image": "New-Modern-Figures-B.jpeg",
+    "currentBid": 10,
+    "startingBid": 10,
+    "currency": "USD",
+    "description": "A cosmic journey through the stars and beyond, with intricate details that reveal more upon closer inspection."
+  },
+  {
+    "id": "auction007",
+    "title": "Golden Horizon",
+    "artist": "Pablo Picasso",
+    "image": "21.jpg",
+    "currentBid": 10,
+    "startingBid": 10,
+    "currency": "USD",
+    "description": "A vibrant abstract piece with bold colors and dynamic composition that captures the energy of a sunset."
+  },
+  {
+    "id": "auction008",
+    "title": "Silent Echo",
+    "artist": "Salvador Dali",
+    "image": "modern-art.jpg",
+    "currentBid": 10,
+    "startingBid": 10,
+    "currency": "USD",
+    "description": "A surreal masterpiece that plays with perspective and reality, inviting viewers to explore deeper meanings."
+  },
+  {
+    "id": "auction009",
+    "title": "Ocean's Depth",
+    "artist": "Georgia O'Keeffe",
+    "image": "abstract-art.jpg",
+    "currentBid": 10,
+    "startingBid": 10,
+    "currency": "USD",
+    "description": "A mesmerizing depiction of the ocean's mysterious depths with fluid brushstrokes and cool tones."
+  },
+  {
+    "id": "auction010",
+    "title": "Mountain Majesty",
+    "artist": "Andrew Wyeth",
+    "image": "contemporary-art.jpg",
+    "currentBid": 10,
+    "startingBid": 10,
+    "currency": "USD",
+    "description": "A breathtaking landscape capturing the grandeur of towering mountains against a dramatic sky."
+  }
+]

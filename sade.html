@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamza Qazi Biography</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables */
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f4e5c2;
+            --text: #333;
+            --text-light: #555;
+            --card-bg: #fff;
+            --panel-bg: #f9f9f9;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .biography-hero {
+            position: relative;
+            height: 80vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 80px;
+        }
+        
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://ambiancehotels.net/wp-content/uploads/2022/09/final-1-scaled.jpg') center/cover no-repeat;
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 40px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-left: 10%;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: gray;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: black;
+        }
+        
+        .hero-signature {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 2rem;
+            color: black;
+            margin-top: 20px;
+        }
+        
+        /* Biography Content */
+        .biography-section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: black;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: gray;
+        }
+        
+        .biography-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .biography-image {
+            position: relative;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .biography-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .biography-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .biography-text {
+            padding: 30px;
+        }
+        
+        .biography-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: black;
+        }
+        
+        .biography-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+        
+        /* Timeline Section - Fixed Styles */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px 0;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: gray;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: gray;
+            /* border: 4px solid var(--gold-light); */
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .left::after {
+            right: -12px;
+        }
+        
+        .right::after {
+            left: -12px;
+        }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .timeline-year {
+            font-weight: 700;
+            color: lightslategray;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .timeline-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .timeline-content p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        /* Gallery Section */
+        .gallery-section {
+            padding: 80px 0;
+            background: var(--panel-bg);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 300px;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        /* Quotes Section */
+        .quotes-section {
+            padding: 80px 0;
+            background: rgb(199, 198, 198);
+            color: var(--text);
+        }
+        
+        .quote-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .quote-icon {
+            font-size: 3rem;
+            color: rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .quote-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .quote-author {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .hero-content {
+                margin-left: 5%;
+            }
+            
+            .biography-grid {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .biography-hero {
+                height: auto;
+                min-height: auto;
+                padding: 100px 0;
+            }
+            
+            .hero-content {
+                margin: 0 auto;
+            }
+            
+            .biography-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .biography-image {
+                height: 400px;
+                order: -1;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .left::after, .right::after {
+                left: 21px;
+            }
+            
+            .right {
+                left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .biography-text h3 {
+                font-size: 1.5rem;
+            }
+            
+            .biography-text p {
+                font-size: 1rem;
+            }
+            
+            .quote-text {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-content {
+                padding: 30px 20px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .biography-image {
+                height: 300px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+   .back-link{
+            display: inline-block;
+            margin: 10px 10px 10px 10px;
+            /* margin-top: 10px; */
+            padding: 10px 15px;
+            background: gray;
+            color: black;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .back-link:hover{
+            background: darkgray;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+      <a href="biograghy.html" class="back-link"> <--Back </a>
+    <section class="biography-hero">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1>Hamza Qazi</h1>
+            <p>The Renaissance polymath who redefined art and science. A visionary whose works continue to inspire generations.</p>
+            <div class="hero-signature">Hamza</div>
+        </div>
+    </section>
+
+    <!-- Biography Section -->
+    <section class="biography-section container">
+        <div class="section-title">
+            <h2>The Life of a Genius</h2>
+        </div>
+        
+        <div class="biography-grid">
+            <div class="biography-image">
+                <img src="https://d38we5ntdyxyje.cloudfront.net/1603416/profile/PTGAHNNX_avatar_medium_square.jpg" alt="Leonardo da Vinci">
+            </div>
+            <div class="biography-text">
+                <h3>Early Years</h3>
+                <p>With a bachelors in Visual Arts from National College of Arts in Lahore, his work has been exhibited in several group shows such as 'Broadcast' at O Artspace in Pakistan, The New Odyssey' at PNCA, ''Pakistan at 100' at World Bank, Islamabad and many other group exhibits in the country.</p>
+                <p>Hamza describes his work as an expressive response to his immediate surroundings. His work took a prominent shift in 2020 as a result of COVID19, where he observed his own self in an enclosed space and began to create portraits as close to his truest self as possible.</p>
+                <p>He developed this narrative by capturing his own photographs and transforming them into oil paintings, focusing on the intricacies and individuality of human anatomy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="biography-section container">
+        <div class="section-title">
+            <h2>Timeline of Achievements</h2>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-year">2005-2010</div>
+                    <h3 class="timeline-title">Early Artistic Beginnings</h3>
+                    <p>Studied fine arts at the National College of Arts (NCA) in Lahore. Developed a unique style blending traditional Pakistani motifs with modern techniques.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-year">2011-2015</div>
+                    <h3 class="timeline-title">Recognition and Exhibitions</h3>
+                    <p>Gained prominence with solo exhibitions in Karachi and Islamabad. His work "Whispers of the Past" won the Lahore Art Festival Award.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-year">2016-2018</div>
+                    <h3 class="timeline-title">International Breakthrough</h3>
+                    <p>Participated in international art fairs in Dubai and London. His series "Echoes of Heritage" was acquired by a prominent European collector.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-year">2019-2021</div>
+                    <h3 class="timeline-title">Collaborations and Teaching</h3>
+                    <p>Collaborated with UNESCO on a project preserving Pakistani cultural heritage through art. Began mentoring young artists at his alma mater, NCA.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-year">2022-Present</div>
+                    <h3 class="timeline-title">Innovation and Legacy</h3>
+                    <p>Pioneered the use of digital mediums in traditional Pakistani art. His retrospective exhibition in Lahore celebrated his 20-year career.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Masterpieces</h2>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://www.saatchiart.com/saatchi-images/saatchi/1603416/art/7765670/6833703-HSC00002-7.jpg" alt="Mona Lisa">
+                    <div class="gallery-overlay">
+                        <h3>Severance</h3>
+                        <p>2008, Louvre Museum</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://oddbird.art/cdn/shop/products/SK220511-05_11_300x.jpg?v=1657280898" alt="The Last Supper">
+                    <div class="gallery-overlay">
+                        <h3>Odd Bird Art</h3>
+                        <p>2009, Santa Maria delle Grazie</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://oartspace.com/wp-content/uploads/2025/07/WhatsApp-Image-2025-07-18-at-6.18.12-PM-300x300.jpeg" alt="Vitruvian Man">
+                    <div class="gallery-overlay">
+                        <h3>Essence</h3>
+                        <p>2011, Gallerie dell'Accademia</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://oartspace.com/wp-content/uploads/2022/12/1-300x300.jpg" alt="Lady with an Ermine">
+                    <div class="gallery-overlay">
+                        <h3>Tanglement</h3>
+                        <p>2015, Czartoryski Museum</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://oartspace.com/wp-content/uploads/2024/09/Two-chroniclers-300x300.jpg" alt="The Annunciation">
+                    <div class="gallery-overlay">
+                        <h3>Two chroniclers</h3>
+                        <p>2016, Uffizi Gallery</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://oartspace.com/wp-content/uploads/2022/12/2-300x300.jpg" alt="Salvator Mundi">
+                    <div class="gallery-overlay">
+                        <h3>Veil</h3>
+                        <p>2018, Private Collection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quotes Section -->
+    <section class="quotes-section">
+        <div class="container">
+            <div class="quote-container">
+                <div class="quote-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+                <p class="quote-text">Art is not just what you see—it’s the soul of the unseen, whispering through colors and strokes.</p>
+                <p class="quote-author">Hamza Qazi</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

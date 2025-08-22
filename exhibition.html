@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artora Exhibition Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <style>
+    :root {
+      --primary: #ffffff;        /* Black background */
+      --secondary: #000000;      /* White text */
+      --accent: #070707;         /* Golden accent */
+      --text: #000000;           /* Main text color */
+      --text-light: #313030;     /* Lighter text */
+      --gold: #2e2d2d;           /* Bright gold */
+      --gold-light: #4a4949;
+      --card-bg: #f5f5f5;
+      --panel-bg: #f0f0f0;
+      --border-color: #e0e0e0;
+    }
+
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+
+    body {
+  font-family: 'Raleway', sans-serif;
+  background-color: var(--primary);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+   /* Navbar Styles */
+        .navbar {
+            background-color: white;
+            padding: 15px 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+        
+        /* Left Group (Icons) */
+        .left-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        /* WhatsApp Contact (Hidden on Mobile by Default) */
+        .contact {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #080808;
+        }
+        
+        .whatsapp-icon {
+            color: #25D366;
+            font-size: 18px;
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .logo-icon {
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 24px;
+            text-transform: uppercase;
+            color: #111b12;
+            letter-spacing: 1px;
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Right Icons (Desktop) */
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-icons i {
+            font-size: 18px;
+            color: #333;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .nav-icons i:hover {
+            opacity: 0.7;
+        }
+        
+        /* Navigation Rows */
+        .nav-rows {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15px;
+        }
+        
+        .main-categories, .sub-categories {
+            display: flex;
+            gap: 25px;
+            padding: 10px 0;
+        }
+        
+        .main-categories {
+            font-weight: 500;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+        
+        .sub-categories {
+            font-weight: 400;
+            font-size: 13px;
+            color: #777;
+        }
+        
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: #0a0a0a;
+            font-weight: bolder;
+        }
+        
+        /* Mobile Menu Toggle (Hidden on Desktop) */
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            background-color: white;
+            border: none;
+        }
+        
+        /* WhatsApp Contact in Mobile Menu (Hidden by Default) */
+        .mobile-contact {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #555;
+            padding: 10px 0;
+            justify-content: center;
+            border-top: 1px solid #eee;
+            margin-top: 10px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .logo {
+                position: static;
+                transform: none;
+                margin: 10px 0;
+            }
+            
+            .main-categories, .sub-categories {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            
+            /* Mobile Layout Adjustments */
+            .top-bar {
+                flex-wrap: wrap;
+            }
+            
+            /* Icons forced to left */
+            .left-group {
+                order: -1;
+            }
+            
+            /* Toggle button forced to right */
+            .mobile-menu-toggle {
+                display: block;
+                order: 1;
+            }
+            
+            /* Hide desktop contact */
+            .contact {
+                display: none;
+            }
+            
+            /* Logo full width */
+            .logo {
+                width: 100%;
+                justify-content: center;
+                margin: 15px 0 10px;
+                order: 2;
+            }
+            
+            /* Navigation rows (hidden by default) */
+            .nav-rows {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+                order: 3;
+                width: 100%;
+            }
+            
+            .nav-rows.active {
+                display: flex;
+            }
+            
+            .main-categories, .sub-categories {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            /* Show WhatsApp in mobile menu when toggled */
+            .mobile-contact.active {
+                display: flex;
+            }
+        }
+        
+        .logo img {
+            height: 30px;
+            width: auto;
+            display: block;
+            display: inline-flex;
+        }
+
+        /* Fix header overlap on mobile */
+        body {
+            padding-top: 120px; /* prevents hero text from hiding behind header */
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 150px; /* adjust for mobile navbar height */
+            }
+        }
+
+
+    /* Main Content */
+    .main-content {
+      padding-top: 150px; /* Increased to account for visible navbar */
+    }
+
+    /* Exhibition Title */
+    .exhibition-title {
+      padding: 40px 0;
+      text-align: center;
+      background-color: var(--accent);
+      margin: 30px 0;
+      border-radius: 8px;
+    }
+    
+    .exhibition-title h2 {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+      margin-bottom: 10px;
+    }
+    
+    .exhibition-title p {
+      font-size: 18px;
+      color: var(--primary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .exhibition-title h2::after {
+      content: '';
+      width: 80px;
+      height: 3px;
+      background: var(--gold-light);
+      display: block;
+      margin: 10px auto 0;
+    }
+
+    /* Exhibition Slideshow */
+    .slideshow-container {
+      position: relative;
+      max-width: 1200px;
+      margin: 40px auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      height: 500px;
+    }
+
+    .slideshow {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .slide-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.85);
+      color: var(--primary);
+      padding: 30px;
+      transform: translateY(0);
+      transition: transform 0.5s ease;
+    }
+
+    .slide:hover .slide-content {
+      transform: translateY(-10px);
+    }
+
+    .slide h3 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: var(--gold-light);
+    }
+
+    .slide p {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .slide .date {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .slide-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    .slide-nav-btn {
+      background: rgba(0, 0, 0, 0.56);
+      color: var(--primary);
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .slide-nav-btn:hover {
+      background: var(--gold-light);
+      transform: scale(1.1);
+    }
+
+    .slide-indicators {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+
+    .indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .indicator.active {
+      background: var(--gold-light);
+      transform: scale(1.2);
+    }
+
+    /* Exhibition Cards */
+    #exhibition-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
+      padding: 40px 0;
+    }
+    
+    .exhibition-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+      position: relative;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .exhibition-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .exhibition-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-bottom: 3px solid var(--gold);
+    }
+    
+    .exhibition-content {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      color: var(--text);
+    }
+    
+    .exhibition-content h3 {
+      margin-bottom: 8px;
+      font-size: 22px;
+      color: var(--text);
+      font-weight: 700;
+    }
+    
+    .exhibition-info {
+      font-size: 16px;
+      margin-bottom: 12px;
+      color: var(--text-light);
+      font-style: italic;
+    }
+    
+    .exhibition-description {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 15px;
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+    
+    .exhibition-date {
+      background: rgba(0,0,0,0.05);
+      padding: 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      color: var(--text);
+      margin-bottom: 15px;
+      display: inline-block;
+    }
+    
+    .exhibition-card button {
+      padding: 12px;
+      margin-top: 10px;
+      width: 100%;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: 'Raleway', sans-serif;
+      background: var(--secondary);
+      color: var(--primary);
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 14px;
+    }
+    
+    .exhibition-card button:hover {
+      background: var(--gold);
+      transform: scale(1.03);
+    }
+
+    /* Forms */
+    .form-box {
+      max-width: 500px;
+      margin: 40px auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      display: none;
+    }
+    
+    .form-box h2 {
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    
+    .form-box input, 
+    .form-box textarea, 
+    .form-box select {
+      width: 100%; 
+      padding: 12px 15px; 
+      margin-bottom: 20px; 
+      border: 1px solid var(--border-color);
+      border-radius: 6px; 
+      background: var(--primary);
+      font-family: 'Raleway', sans-serif;
+      font-size: 16px;
+    }
+    
+    .form-box button {
+      width: 100%; 
+      padding: 14px; 
+      background: var(--secondary); 
+      color: var(--primary); 
+      border: none; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      transition: 0.3s;
+      font-weight: bold;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 10px;
+    }
+    
+    .form-box button:hover { 
+      background: var(--gold); 
+      transform: scale(1.02);
+    }
+
+    /* Arrange Exhibition Section */
+    .arrange-container {
+      background: var(--card-bg);
+      padding: 40px 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin: 60px auto;
+      max-width: 800px;
+      text-align: center;
+      color: var(--text);
+    }
+    
+    .arrange-container h2 {
+      color: var(--text);
+      margin-bottom: 15px;
+      font-size: 28px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .arrange-container h2::after {
+      content: '';
+      width: 80px;
+      height: 3px;
+      background: var(--gold);
+      display: block;
+      margin: 10px auto 0;
+    }
+    
+    .arrange-container p { 
+      margin-bottom: 30px; 
+      color: var(--text);
+      font-size: 18px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+   /* Footer */
+        footer {
+            background: #f8f8f8;
+            color: rgb(0, 0, 0);
+            padding: 80px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background: #000000;
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-column p {
+            color: #080808;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #000000;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #444343;
+        }
+        
+        .social-links-footer {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links-footer a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background:#0000008f;
+            color: #f7f3f3;
+            transition: all 0.3s;
+        }
+        
+        .social-links-footer a:hover {
+            background: rgb(59, 59, 59);
+            color: rgb(243, 242, 242);
+        } 
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #030303;
+            color: #000000;
+            font-size: 0.9rem;
+        }
+        
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .slideshow-container {
+        height: 450px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      #exhibition-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .slideshow-container {
+        height: 400px;
+      }
+      
+      .slide h3 {
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        padding-top: 90px;
+      }
+      
+      .slideshow-container {
+        height: 350px;
+      }
+      
+      .exhibition-title h2 {
+        font-size: 28px;
+      }
+      
+      .exhibition-title p {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      #exhibition-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .slideshow-container {
+        height: 300px;
+      }
+      
+      .exhibition-title h2 {
+        font-size: 24px;
+      }
+      
+      .slide h3 {
+        font-size: 20px;
+      }
+      
+      .slide p {
+        font-size: 16px;
+      }
+      
+      .logo-text {
+        font-size: 24px;
+      }
+      
+      .logo img {
+        height: 25px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .slideshow-container {
+        height: 250px;
+      }
+      
+      .top-bar {
+        padding: 10px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+ <!-- New Navbar -->
+<nav class="navbar">
+  <div class="top-bar">
+    <!-- Left Group (Icons - Always Visible) -->
+    <div class="left-group">
+      <div class="nav-icons">
+        <a href="sign.html" class="user-icon-link"><i class="fas fa-user"></i></a>
+        
+        <!-- <i class="fas fa-shopping-bag" id="cartIcon"></i> -->
+         <a href="shipment.html" class="user-icon-link"><i class="fa-solid fa-headphones"></i></a>
+      </div>
+    </div>
+    
+    <!-- Mobile Toggle Button (Top-Right) -->
+    <i class="fas fa-bars mobile-menu-toggle" id="mobileMenuToggle"></i>
+    
+    <!-- Logo (Centered on desktop, below on mobile) -->
+    <div class="logo">
+      <a href="#" class="logo-text">Art<span>ora</span>
+        <img src="origami.png" class="logo-img" alt="Artora Logo" />
+      </a>
+    </div>
+    
+    <!-- Desktop Contact (Hidden on Mobile) -->
+    <div class="contact">
+      <i class="fab fa-whatsapp whatsapp-icon"></i>
+      <span>+923397856555</span>
+    </div>
+  </div>
+  
+  <!-- Navigation Rows (Hidden on Mobile by Default) -->
+  <div class="nav-rows" id="navRows">
+    <div class="main-categories">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="artist.html" class="nav-link">Artists</a>
+      <a href="artwork.html" class="nav-link">Gallery</a>
+      <a href="auction.html" class="nav-link">Auction</a>
+      <a href="biograghy.html" class="nav-link">Biography</a>
+      <a href="exhibition.html" class="nav-link">Exhibition</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </div>
+    
+    <!-- Mobile Contact (Shows When Menu is Open) -->
+    <div class="mobile-contact">
+      <i class="fab fa-whatsapp whatsapp-icon"></i>
+      <span>+923397856555</span>
+    </div>
+  </div>
+</nav>
+
+  <div class="main-content container">
+    <!-- Exhibition Title -->
+    <div class="exhibition-title">
+      <h2>Current Exhibitions</h2>
+      <p>Experience the finest contemporary art from around the world</p>
+    </div>
+
+    <!-- Exhibition Slideshow -->
+    <div class="slideshow-container">
+      <div class="slideshow">
+        <div class="slide active" style="background-image: url('exhibition4.jpg');">
+          <div class="slide-content">
+            <h3>Modern Perspectives</h3>
+            <p>A groundbreaking exhibition featuring innovative artists pushing boundaries</p>
+            <p class="date">June 15 - August 30, 2025</p>
+          </div>
+        </div>
+        
+        <div class="slide" style="background-image: url('exhibition1.jpg');">
+          <div class="slide-content">
+            <h3>Abstract Dimensions</h3>
+            <p>Exploring the depths of abstract expressionism in contemporary art</p>
+            <p class="date">July 1 - September 15, 2025</p>
+          </div>
+        </div>
+        
+        <div class="slide" style="background-image: url('exhibition2.jpg');">
+          <div class="slide-content">
+            <h3>Urban Expressions</h3>
+            <p>Street art and urban culture in a gallery setting</p>
+            <p class="date">July 10 - October 5, 2025</p>
+          </div>
+        </div>
+        
+        <div class="slide" style="background-image: url('exhibition3.webp');">
+          <div class="slide-content">
+            <h3>Nature Reimagined</h3>
+            <p>Environmental art that transforms our perception of the natural world</p>
+            <p class="date">August 1 - November 15, 2025</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="slide-nav">
+        <button class="slide-nav-btn prev"><i class="fas fa-chevron-left"></i></button>
+        <button class="slide-nav-btn next"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      
+      <div class="slide-indicators">
+        <div class="indicator active"></div>
+        <div class="indicator"></div>
+        <div class="indicator"></div>
+        <div class="indicator"></div>
+      </div>
+    </div>
+
+    <!-- Exhibition Section -->
+    <section id="exhibitions">
+      <div id="exhibition-container" class="exhibition-grid">
+        <div class="exhibition-card">
+          <img src="art1.webp" alt="Contemporary Masters">
+          <div class="exhibition-content">
+            <h3>Contemporary Masters</h3>
+            <div class="exhibition-info">
+              <p>Curated by Artora Gallery</p>
+            </div>
+            <div class="exhibition-description">
+              A showcase of the most influential contemporary artists of our time, featuring painting, sculpture, and multimedia works.
+            </div>
+            <div class="exhibition-date">June 10 - August 20, 2025</div>
+            <button onclick="openBookingForm('Contemporary Masters')">Book Tickets</button>
+          </div>
+        </div>
+        
+        <div class="exhibition-card">
+          <img src="aer2.jpg" alt="Digital Frontiers">
+          <div class="exhibition-content">
+            <h3>Digital Frontiers</h3>
+            <div class="exhibition-info">
+              <p>Curated by TechArt Collective</p>
+            </div>
+            <div class="exhibition-description">
+              Exploring the intersection of art and technology with immersive digital installations and interactive experiences.
+            </div>
+            <div class="exhibition-date">June 15 - September 5, 2025</div>
+            <button onclick="openBookingForm('Digital Frontiers')">Book Tickets</button>
+          </div>
+        </div>
+        
+        <div class="exhibition-card">
+          <img src="art3.avif" alt="Sculptural Forms">
+          <div class="exhibition-content">
+            <h3>Sculptural Forms</h3>
+            <div class="exhibition-info">
+              <p>Curated by Modern Sculpture Society</p>
+            </div>
+            <div class="exhibition-description">
+              A celebration of three-dimensional art featuring works from emerging and established sculptors.
+            </div>
+            <div class="exhibition-date">July 1 - October 15, 2025</div>
+            <button onclick="openBookingForm('Sculptural Forms')">Book Tickets</button>
+          </div>
+        </div>
+        
+        <div class="exhibition-card">
+          <img src="art4.webp" alt="Women in Art">
+          <div class="exhibition-content">
+            <h3>Women in Art</h3>
+            <div class="exhibition-info">
+              <p>Curated by Feminist Art Alliance</p>
+            </div>
+            <div class="exhibition-description">
+              Highlighting the contributions of women artists throughout history and in contemporary practice.
+            </div>
+            <div class="exhibition-date">July 15 - November 10, 2025</div>
+            <button onclick="openBookingForm('Women in Art')">Book Tickets</button>
+          </div>
+        </div>
+        
+        <div class="exhibition-card">
+          <img src="art5.png" alt="Asian Contemporary">
+          <div class="exhibition-content">
+            <h3>Asian Contemporary</h3>
+            <div class="exhibition-info">
+              <p>Curated by East-West Art Exchange</p>
+            </div>
+            <div class="exhibition-description">
+              A journey through contemporary art movements across Asia, featuring artists from Japan, China, Korea, and beyond.
+            </div>
+            <div class="exhibition-date">August 1 - December 15, 2025</div>
+            <button onclick="openBookingForm('Asian Contemporary')">Book Tickets</button>
+          </div>
+        </div>
+        
+        <div class="exhibition-card">
+          <img src="art6.jpg" alt="Photographic Visions">
+          <div class="exhibition-content">
+            <h3>Photographic Visions</h3>
+            <div class="exhibition-info">
+              <p>Curated by Lens Culture Foundation</p>
+            </div>
+            <div class="exhibition-description">
+              Exploring the power of photography to document, interpret, and transform our understanding of the world.
+            </div>
+            <div class="exhibition-date">August 10 - January 5, 2026</div>
+            <button onclick="openBookingForm('Photographic Visions')">Book Tickets</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking Form -->
+    <div class="form-box" id="bookingForm">
+      <h2>Book Exhibition</h2>
+      <input type="text" id="userName" placeholder="Your Name" />
+      <input type="email" id="userEmail" placeholder="Email Address" />
+      <input type="text" id="userCity" placeholder="City" />
+      <input type="text" id="userNumber" placeholder="Phone Number" />
+      <select id="paymentMethod">
+        <option value="Credit Card">Credit Card</option>
+        <option value="PayPal">PayPal</option>
+        <option value="Bank Transfer">Bank Transfer</option>
+      </select>
+      <button onclick="generateTicket()">Download Ticket</button>
+    </div>
+
+    <!-- Arrange Your Own Exhibition -->
+    <div class="arrange-container">
+      <h2>Arrange Your Own Exhibition</h2>
+      <p>Host your personal art exhibition with Artora. Fill in your details to book your own event.</p>
+      <div class="form-box" style="display:block;">
+        <input type="text" id="arrangeName" placeholder="Your Name" />
+        <input type="email" id="arrangeEmail" placeholder="Email Address" />
+        <input type="text" id="arrangeCity" placeholder="City" />
+        <input type="date" id="arrangeDate" />
+        <textarea id="arrangeDetails" placeholder="Details about your exhibition" rows="4"></textarea>
+        <select id="arrangePayment">
+          <option value="Credit Card">Credit Card</option>
+          <option value="PayPal">PayPal</option>
+          <option value="Bank Transfer">Bank Transfer</option>
+        </select>
+        <button onclick="arrangeExhibition()">Arrange & Download Ticket</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Artora Gallery</h3>
+                    <p>A virtual space where art lovers and collectors can discover, experience, and acquire exceptional contemporary artworks from around the world.</p>
+                    <div class="social-links-footer">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                   <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="artist.html">Artists</a></li>
+                        <li><a href="artworks.html">Gallery</a></li>
+                        <li><a href="auction.html">Auction & Trades</a></li>
+                        <li><a href="exhibition.html">Exhibitions</a></li>
+                        <li><a href="biograghy.html">Biography</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <!-- <li><a href="#">FAQ</a></li> -->
+                        <li><a href="shipment.html">Help & Support</a></li>
+                        <li><a href="privcay policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Gallery Street, Art District, NY 10001</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@artoragallery.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Artora Virtual Gallery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mobile menu toggle - only for mobile
+      const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+      const navRows = document.querySelector('.nav-rows');
+      
+      // Only add toggle functionality if mobile menu is visible
+      if (window.innerWidth <= 992) {
+        mobileMenuToggle.addEventListener('click', function() {
+          navRows.classList.toggle('active');
+          
+          // Change icon between bars and times
+          if (navRows.classList.contains('active')) {
+            this.classList.remove('fa-bars');
+            this.classList.add('fa-times');
+            document.body.style.overflow = 'hidden';
+          } else {
+            this.classList.remove('fa-times');
+            this.classList.add('fa-bars');
+            document.body.style.overflow = '';
+          }
+        });
+        
+        // Close menu when clicking on a link (mobile only)
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            navRows.classList.remove('active');
+            mobileMenuToggle.classList.remove('fa-times');
+            mobileMenuToggle.classList.add('fa-bars');
+            document.body.style.overflow = '';
+          });
+        });
+      }
+
+      // Initialize slideshow
+      initSlideshow();
+    });
+
+    let selectedExhibition = "";
+
+    function openBookingForm(exhibition) {
+      selectedExhibition = exhibition;
+      document.getElementById("bookingForm").style.display = "block";
+      window.scrollTo({ top: document.getElementById("bookingForm").offsetTop - 50, behavior: "smooth" });
+    }
+
+    function initSlideshow() {
+      const slides = document.querySelectorAll('.slide');
+      const indicators = document.querySelectorAll('.indicator');
+      const prevBtn = document.querySelector('.prev');
+      const nextBtn = document.querySelector('.next');
+      let currentIndex = 0;
+      let autoSlideInterval;
+
+      // Function to show slide
+      function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        indicators.forEach(indicator => indicator.classList.remove('active'));
+        
+        slides[index].classList.add('active');
+        indicators[index].classList.add('active');
+        
+        currentIndex = index;
+      }
+
+      // Next slide function
+      function nextSlide() {
+        let nextIndex = (currentIndex + 1) % slides.length;
+        showSlide(nextIndex);
+      }
+
+      // Previous slide function
+      function prevSlide() {
+        let prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(prevIndex);
+      }
+
+      // Start auto slideshow
+      function startAutoSlide() {
+        autoSlideInterval = setInterval(nextSlide, 5000);
+      }
+
+      // Stop auto slideshow
+      function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+      }
+
+      // Event listeners
+      nextBtn.addEventListener('click', () => {
+        stopAutoSlide();
+        nextSlide();
+        startAutoSlide();
+      });
+
+      prevBtn.addEventListener('click', () => {
+        stopAutoSlide();
+        prevSlide();
+        startAutoSlide();
+      });
+
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          stopAutoSlide();
+          showSlide(index);
+          startAutoSlide();
+        });
+      });
+
+      // Start the slideshow
+      startAutoSlide();
+      
+      // Pause on hover
+      const slideshow = document.querySelector('.slideshow-container');
+      slideshow.addEventListener('mouseenter', stopAutoSlide);
+      slideshow.addEventListener('mouseleave', startAutoSlide);
+    }
+
+    function arrangeExhibition() {
+      const name = document.getElementById("arrangeName").value;
+      const email = document.getElementById("arrangeEmail").value;
+      const city = document.getElementById("arrangeCity").value;
+      const date = document.getElementById("arrangeDate").value;
+      const payment = document.getElementById("arrangePayment").value;
+      
+      if (!name || !email || !city || !date) {
+        alert("Please fill all required details");
+        return;
+      }
+      
+      generateTicket("Personal Exhibition", name, email, city, date, payment);
+    }
+
+    async function generateTicket() {
+      const { jsPDF } = window.jspdf;
+      
+      // Create a new PDF in portrait mode (ticket dimensions)
+      const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [100, 150] // Custom ticket size
+      });
+      
+      // Set background color
+      doc.setFillColor(0, 0, 0); // Black background
+      doc.rect(0, 0, 100, 150, 'F');
+      
+      // Add decorative gold border
+      doc.setDrawColor(46, 45, 45); // Gold border
+      doc.setLineWidth(2);
+      doc.rect(5, 5, 90, 140);
+      
+      // Add Artora logo at top
+      doc.setFontSize(28);
+      doc.setTextColor(255, 255, 255); // White text
+      doc.setFont('Playfair Display', 'bold');
+      doc.text('ARTORA', 50, 20, null, null, 'center');
+      
+      // Add exhibition title
+      doc.setFontSize(18);
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('Raleway', 'bold');
+      doc.text(selectedExhibition || "Personal Exhibition", 50, 35, null, null, 'center');
+      
+      // Add ticket details
+      doc.setFontSize(12);
+      doc.setTextColor(74, 73, 73); // Gold text
+      doc.text('Ticket Details', 50, 45, null, null, 'center');
+      
+      // Draw separator line
+      doc.setDrawColor(74, 73, 73);
+      doc.line(20, 50, 80, 50);
+      
+      // Add attendee info
+      const name = document.getElementById("userName").value || document.getElementById("arrangeName").value;
+      const email = document.getElementById("userEmail").value || document.getElementById("arrangeEmail").value;
+      const city = document.getElementById("userCity").value || document.getElementById("arrangeCity").value;
+      
+      doc.setFontSize(12);
+      doc.setTextColor(255, 255, 255);
+      doc.text(`Name: ${name}`, 20, 60);
+      doc.text(`Email: ${email}`, 20, 68);
+      doc.text(`City: ${city}`, 20, 76);
+      
+      // Add date and time
+      let dateInfo = "";
+      if (selectedExhibition) {
+        dateInfo = "August 15, 2025 | 6:00 PM";
+      } else {
+        const date = document.getElementById("arrangeDate").value;
+        dateInfo = new Date(date).toLocaleDateString() + " | 10:00 AM - 6:00 PM";
+      }
+      
+      doc.text(`Date: ${dateInfo}`, 20, 84);
+      
+      // Generate QR code
+      const ticketNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+      const qrData = `Artora Ticket\nExhibition: ${selectedExhibition || "Personal Exhibition"}\nName: ${name}\nTicket No: AR-${ticketNumber}`;
+      
+      // Create QR code
+      const qr = qrcode(0, 'L');
+      qr.addData(qrData);
+      qr.make();
+      
+      // Get QR code as data URL
+      const qrSize = 30; // mm
+      const qrCellSize = 2; // pixels per module
+      const qrMargin = 0;
+      const qrImgData = qr.createDataURL(qrCellSize, qrMargin);
+      
+      // Add QR code to PDF
+      doc.addImage(qrImgData, 'PNG', 35, 95, qrSize, qrSize);
+      
+      // Add scan text below QR
+      doc.setFontSize(8);
+      doc.setTextColor(74, 73, 73);
+      doc.text('SCAN HERE', 50, 130, null, null, 'center');
+      
+      // Add ticket number and barcode
+      doc.setFontSize(10);
+      doc.text(`Ticket No: AR-${ticketNumber}`, 50, 140, null, null, 'center');
+      
+      // Save PDF
+      doc.save(`Artora_Ticket_${ticketNumber}.pdf`);
+      
+      // Show confirmation
+      alert("Your ticket has been downloaded successfully!");
+    }
+  </script>
+</body>
+</html>

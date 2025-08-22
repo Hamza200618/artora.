@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artora - Artists</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ffffff;
+            --secondary: #000000;
+            --accent: #070707;
+            --text: #000000;
+            --text-light: #313030;
+            --gold: #2e2d2d;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+       body {
+  font-family: 'Raleway', sans-serif;
+  background-color: var(--primary);
+  color: var(--text);
+  overflow-x: hidden;
+
+            padding-top: 120px;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background-color: white;
+            padding: 15px 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+        
+        /* Left Group (Icons) */
+        .left-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        /* WhatsApp Contact (Hidden on Mobile by Default) */
+        .contact {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #080808;
+        }
+        
+        .whatsapp-icon {
+            color: #25D366;
+            font-size: 18px;
+        }
+        
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .logo-icon {
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 24px;
+            text-transform: uppercase;
+            color: #111b12;
+            letter-spacing: 1px;
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Right Icons (Desktop) */
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-icons i {
+            font-size: 18px;
+            color: #333;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .nav-icons i:hover {
+            opacity: 0.7;
+        }
+        
+        /* Navigation Rows */
+        .nav-rows {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15px;
+        }
+        
+        .main-categories, .sub-categories {
+            display: flex;
+            gap: 25px;
+            padding: 10px 0;
+        }
+        
+        .main-categories {
+            font-weight: 500;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+        
+        .sub-categories {
+            font-weight: 400;
+            font-size: 13px;
+            color: #777;
+        }
+        
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: #0a0a0a;
+            font-weight: bolder;
+        }
+        
+        /* Mobile Menu Toggle (Hidden on Desktop) */
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            background-color: white;
+            border: none;
+        }
+        
+        /* WhatsApp Contact in Mobile Menu (Hidden by Default) */
+        .mobile-contact {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #555;
+            padding: 10px 0;
+            justify-content: center;
+            border-top: 1px solid #eee;
+            margin-top: 10px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .logo {
+                position: static;
+                transform: none;
+                margin: 10px 0;
+            }
+            
+            .main-categories, .sub-categories {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            
+            /* Mobile Layout Adjustments */
+            .top-bar {
+                flex-wrap: wrap;
+            }
+            
+            /* Icons forced to left */
+            .left-group {
+                order: -1;
+            }
+            
+            /* Toggle button forced to right */
+            .mobile-menu-toggle {
+                display: block;
+                order: 1;
+            }
+            
+            /* Hide desktop contact */
+            .contact {
+                display: none;
+            }
+            
+            /* Logo full width */
+            .logo {
+                width: 100%;
+                justify-content: center;
+                margin: 15px 0 10px;
+                order: 2;
+            }
+            
+            /* Navigation rows (hidden by default) */
+            .nav-rows {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+                order: 3;
+                width: 100%;
+            }
+            
+            .nav-rows.active {
+                display: flex;
+            }
+            
+            .main-categories, .sub-categories {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            /* Show WhatsApp in mobile menu when toggled */
+            .mobile-contact.active {
+                display: flex;
+            }
+        }
+        
+        .logo img {
+            height: 30px;
+            width: auto;
+            display: block;
+            display: inline-flex;
+        }
+
+        /* Fix header overlap on mobile */
+        body {
+            padding-top: 120px; /* prevents hero text from hiding behind header */
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 150px; /* adjust for mobile navbar height */
+            }
+        }
+
+        /* ========== REST OF YOUR STYLES ========== */
+        /* Artist Page Hero */
+        .artist-hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('artisit art.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Floating Paintings Animation */
+        .floating-paintings {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-painting {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+        
+        .artist-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .artist-hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .artist-hero-content p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Artist Filter */
+        .artist-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-option {
+            padding: 10px 25px;
+            background: transparent;
+            border: 1px solid var(--gold);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .filter-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gold);
+            transition: all 0.3s;
+            z-index: -1;
+        }
+        
+        .filter-option:hover, .filter-option.active {
+            color: white;
+        }
+        
+        .filter-option:hover::before, .filter-option.active::before {
+            left: 0;
+        }
+        
+        /* Artist Grid */
+        .artist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+        
+        .artist-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            perspective: 1000px;
+        }
+        
+        .artist-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .artist-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.3));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .artist-card:hover::after {
+            opacity: 1;
+        }
+        
+        .artist-image {
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .artist-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .artist-card:hover .artist-image img {
+            transform: scale(1.05);
+        }
+        
+        .artist-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            z-index: 2;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.3s 0.2s;
+        }
+        
+        .artist-card:hover .artist-badge {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .artist-info {
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .artist-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            transition: color 0.3s;
+        }
+        
+        .artist-card:hover .artist-info h3 {
+            color: var(--gold);
+        }
+        
+        .artist-specialty {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .artist-bio {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, margin-bottom 0.3s ease;
+        }
+        
+        .artist-card:hover .artist-bio {
+            max-height: 100px;
+            margin-bottom: 20px;
+        }
+        
+        .artist-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        
+        .artist-card:hover .artist-social {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .artist-social a {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+        
+        .artist-social a:hover {
+            background: var(--gold);
+            color: white;
+            transform: translateY(-3px) scale(1.1);
+        }
+        
+        /* Featured Artist Spotlight */
+        .featured-artist {
+            background: #f9f9f9;
+            padding: 80px 0;
+            margin-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .featured-artist::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=745&q=80') center/cover fixed;
+            opacity: 0.03;
+            z-index: 0;
+        }
+        
+        .featured-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .featured-image {
+            flex: 1;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .featured-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.1), rgba(0,0,0,0));
+            z-index: 1;
+        }
+        
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .featured-image:hover img {
+            transform: scale(1.03);
+        }
+        
+        .featured-content {
+            flex: 1;
+        }
+        
+        .featured-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .featured-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: var(--gold);
+        }
+        
+        .featured-content p {
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+        
+        .artist-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            position: relative;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--gold);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #4a4949;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Famous Paintings Section */
+        .famous-paintings {
+            padding: 80px 0;
+            background: #f5f5f5;
+            margin-bottom: 80px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--gold);
+        }
+        
+        .paintings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .painting-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .painting-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .painting-image {
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .painting-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .painting-card:hover .painting-image img {
+            transform: scale(1.05);
+        }
+        
+        .painting-info {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .painting-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        .painting-artist {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .painting-year {
+            font-size: 0.9rem;
+            color: var(--gold);
+            font-weight: 500;
+        }
+        
+        /* Artist Categories */
+        .artist-categories {
+            margin-bottom: 80px;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .category-card {
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            z-index: 1;
+        }
+        
+        .category-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .category-card:hover .category-overlay {
+            background: rgba(0,0,0,0.7);
+        }
+        
+        .category-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            z-index: 3;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+        
+        .category-card:hover h3 {
+            transform: translateY(0);
+        }
+        
+        .category-card p {
+            font-size: 0.9rem;
+            z-index: 3;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s 0.1s;
+        }
+        
+        .category-card:hover p {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+       /* Footer */
+        footer {
+            background: #f8f8f8;
+            color: rgb(0, 0, 0);
+            padding: 80px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background: #000000;
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-column p {
+            color: #080808;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #000000;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #444343;
+        }
+        
+        .social-links-footer {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links-footer a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background:#0000008f;
+            color: #f7f3f3;
+            transition: all 0.3s;
+        }
+        
+        .social-links-footer a:hover {
+            background: rgb(59, 59, 59);
+            color: rgb(243, 242, 242);
+        } 
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #030303;
+            color: #000000;
+            font-size: 0.9rem;
+        }
+        
+        /* ========== UNIQUE ANIMATIONS ========== */
+        /* Brush Stroke Underline */
+        .brush-underline {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .brush-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q25,10 50,5 T100,5" fill="none" stroke="%232e2d2d" stroke-width="2"/></svg>');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        
+        .brush-underline:hover::after {
+            transform: scaleX(1);
+        }
+        
+        /* Paint Splatter Effect */
+        .paint-splatter {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M30,10 Q50,0 70,10 Q90,30 70,50 Q50,70 30,50 Q10,30 30,10" fill="%232e2d2d" opacity="0.2"/></svg>');
+            background-repeat: no-repeat;
+            background-size: contain;
+            z-index: -1;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        /* Canvas Texture Background */
+        .canvas-texture {
+            position: relative;
+        }
+        
+        .canvas-texture::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23ddd" stroke-width="0.5"/></svg>');
+            background-size: 20px 20px;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        /* ========== RESPONSIVE ADJUSTMENTS FOR CONTENT ========== */
+        @media (max-width: 1200px) {
+            .featured-container {
+                gap: 30px;
+            }
+            
+            .featured-image {
+                height: 400px;
+            }
+            
+            .artist-hero-content h1 {
+                font-size: 3.5rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .artist-hero {
+                height: 50vh;
+            }
+            
+            .artist-hero-content h1 {
+                font-size: 3rem;
+            }
+            
+            .artist-hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .featured-container {
+                flex-direction: column;
+            }
+            
+            .featured-image {
+                width: 100%;
+                height: 400px;
+                margin-bottom: 30px;
+            }
+            
+            .artist-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 30px;
+            }
+            
+            .paintings-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .artist-hero {
+                height: 45vh;
+                margin-bottom: 50px;
+            }
+            
+            .artist-hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .artist-hero-content p {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+            
+            .artist-image {
+                height: 300px;
+            }
+            
+            .featured-image {
+                height: 350px;
+            }
+            
+            .featured-content h2 {
+                font-size: 2rem;
+            }
+            
+            .artist-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .stat-item {
+                min-width: 100px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .artist-hero {
+                height: 40vh;
+            }
+            
+            .artist-hero-content h1 {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+            
+            .filter-option {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .artist-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-card {
+                height: 150px;
+            }
+            
+            .featured-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .featured-content p {
+                font-size: 0.95rem;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .paintings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+ </style>
+</head>
+<body>
+   <!-- Improved Navbar -->
+<nav class="navbar">
+    <div class="top-bar">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+            <a href="#" class="logo-text">Art<span>ora</span>
+                <img src="origami.png" alt="Artora Logo" />
+            </a>
+        </div>
+        
+        <div class="left-group">
+            <div class="nav-icons">
+                <a href="sign.html"><i class="fas fa-user"></i></a>
+                <!-- <i class="fas fa-shopping-bag" id="cartIcon"></i> -->
+                 <a href="shipment.html" class="user-icon-link"><i class="fa-solid fa-headphones"></i></a>
+            </div>
+        </div>
+        
+        <div class="contact">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+            <span>+923397856555</span>
+        </div>
+    </div>
+    
+    <div class="nav-rows" id="navRows">
+        <div class="main-categories">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="artist.html" class="nav-link">Artists</a>
+            <a href="artwork.html" class="nav-link">Gallery</a>
+            <a href="auction.html" class="nav-link">Auction</a>
+            <a href="biograghy.html" class="nav-link">Biography</a>
+            <a href="exhibition.html" class="nav-link">Exhibition</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+        
+        <div class="mobile-contact">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+            <span>+923397856555</span>
+        </div>
+    </div>
+</nav>
+
+    <!-- Artist Hero Section -->
+    <section class="artist-hero">
+        <!-- Floating Paintings Animation -->
+        <div class="floating-paintings">
+            <div class="floating-painting" style="top: 10%; left: 5%; background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1200px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg'); animation-delay: 0s;"></div>
+            <div class="floating-painting" style="top: 20%; right: 8%; background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/800px-1665_Girl_with_a_Pearl_Earring.jpg'); animation-delay: 1s;"></div>
+            <div class="floating-painting" style="bottom: 15%; left: 10%; background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/800px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg'); animation-delay: 2s;"></div>
+            <div class="floating-painting" style="bottom: 25%; right: 15%; background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Last_Supper_-_Leonardo_Da_Vinci_-_High_Resolution_32x16.jpg/800px-The_Last_Supper_-_Leonardo_Da_Vinci_-_High_Resolution_32x16.jpg'); animation-delay: 3s;"></div>
+        </div>
+        
+        <div class="artist-hero-content container">
+            <h1>Discover Master Artists</h1>
+            <p>Explore the world's most talented artists and their extraordinary creations. From classical masters to contemporary visionaries.</p>
+        </div>
+    </section>
+
+    <!-- Artist Filter Section -->
+    <section class="container">
+        <div class="artist-filter">
+            <button class="filter-option active" data-filter="all">All Artists</button>
+            <button class="filter-option" data-filter="painter">Painters</button>
+            <button class="filter-option" data-filter="sculptor">Sculptors</button>
+            <button class="filter-option" data-filter="digital">Digital Artists</button>
+            <button class="filter-option" data-filter="photographer">Photographers</button>
+            <button class="filter-option" data-filter="illustrator">Illustrators</button>
+        </div>
+    </section>
+
+    <!-- Artist Grid Section -->
+    <section class="container">
+        <div class="artist-grid">
+            <!-- Artist Card 1 -->
+            <div class="artist-card" data-category="painter">
+                <div class="artist-image">
+                    <img src="https://images.unsplash.com/photo-1541823709867-1b206113eafd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Artist Portrait">
+                    <div class="artist-badge">Featured</div>
+                </div>
+                <div class="artist-info">
+                    <h3 class="brush-underline">Mun Seok</h3>
+                    <p class="artist-specialty">Renaissance Painter & Inventor</p>
+                    <p class="artist-bio">Italian polymath of the High Renaissance who was active as a painter, draughtsman, engineer, scientist, theorist, sculptor, and architect.</p>
+                    <div class="artist-social">
+                        <!-- <a href="https://www.instagram.com/beatriz__morales/?hl=en" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/MunSeok1"><i class="fab fa-twitter"></i></a> -->
+                        <!-- <a href="#"><i class="fas fa-globe"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist Card 2 -->
+            <div class="artist-card" data-category="painter">
+                <div class="artist-image">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Artist Portrait">
+                    <div class="artist-badge">Popular</div>
+                </div>
+                <div class="artist-info">
+                    <h3 class="brush-underline">Vincent van Gogh</h3>
+                    <p class="artist-specialty">Post-Impressionist Painter</p>
+                    <p class="artist-bio">Dutch Post-Impressionist painter who posthumously became one of the most famous and influential figures in Western art history.</p>
+                    <div class="artist-social">
+                        <!-- <a href="https://www.instagram.com/accounts/login/?next=%2Fvincent_van_gogh_love%2F&source=omni_redirect&hl=en"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/vangoghartist?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a> -->
+                        <!-- <a href="#"><i class="fas fa-globe"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist Card 3 -->
+            <div class="artist-card" data-category="sculptor">
+                <div class="artist-image">
+                    <img src="https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Artist Portrait">
+                </div>
+                <div class="artist-info">
+                    <h3 class="brush-underline">Michelangelo</h3>
+                    <p class="artist-specialty">Sculptor & Painter</p>
+                    <p class="artist-bio">Italian sculptor, painter, architect and poet of the High Renaissance who exerted an unparalleled influence on the development of Western art.</p>
+                    <div class="artist-social">
+                        <!-- <a href="https://www.instagram.com/accounts/login/?next=%2Fmichelangelooficial%2F&source=omni_redirect&hl=en"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/michelangeluv"><i class="fab fa-twitter"></i></a> -->
+                        <!-- <a href="#"><i class="fas fa-globe"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist Card 4 -->
+            <div class="artist-card" data-category="painter">
+                <div class="artist-image">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Artist Portrait">
+                    <div class="artist-badge">Trending</div>
+                </div>
+                <div class="artist-info">
+                    <h3 class="brush-underline">Pablo Picasso</h3>
+                    <p class="artist-specialty">Cubist Painter</p>
+                    <p class="artist-bio">Spanish painter, sculptor, printmaker, ceramicist and theatre designer who spent most of his adult life in France.</p>
+                    <div class="artist-social">
+                        <!-- <a href="https://www.instagram.com/accounts/login/?next=%2Fpablopicasso_arty%2F&source=omni_redirect&hl=en"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/pablocubist?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a> -->
+                        <!-- <a href="#"><i class="fas fa-globe"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist Card 5 -->
+            <div class="artist-card" data-category="photographer">
+                <div class="artist-image">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Artist Portrait">
+                </div>
+                <div class="artist-info">
+                    <h3 class="brush-underline">Ansel Adams</h3>
+                    <p class="artist-specialty">Landscape Photographer</p>
+                    <p class="artist-bio">American landscape photographer and environmentalist known for his black-and-white images of the American West.</p>
+                    <div class="artist-social">
+                        <!-- <a href="https://www.instagram.com/anseladams/?hl=en"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/i/flow/login?redirect_after_login=%2Fsearch%3Fq%3D%2523AnselAdams%26src%3Dtyped_query%26f%3Duser"><i class="fab fa-twitter"></i></a> -->
+                        <!-- <a href="#"><i class="fas fa-globe"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist Card 6 -->
+            <div class="artist-card" data-category="illustrator">
+                <div class="artist-image">
+                    <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Artist Portrait">
+                    <div class="artist-badge">New</div>
+                </div>
+                <div class="artist-info">
+                    <h3 class="brush-underline">Beatrix Potter</h3>
+                    <p class="artist-specialty">Children's Illustrator</p>
+                    <p class="artist-bio">English writer, illustrator, natural scientist and conservationist best known for her children's books featuring animals.</p>
+                    <div class="artist-social">
+                        <!-- <a href="https://www.instagram.com/officialbeatrixpotter/?hl=en"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/btrixpotter?lang=bn"><i class="fab fa-twitter"></i></a> -->
+                        <!-- <a href="#"><i class="fas fa-globe"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist Card 7 -->
+            <div class="artist-card" data-category="digital">
+                <div class="artist-image">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" alt="Artist Portrait">
+                </div>
+                <div class="artist-info">
+                    <h3 class="brush-underline">Loish</h3>
+                    <p class="artist-specialty">Digital Illustrator</p>
+                    <p class="artist-bio">Dutch digital artist known for her distinctive, colorful style and expressive female characters in digital paintings.</p>
+                    <div class="artist-social">
+                        <!-- <a href="https://www.instagram.com/loisvb/?hl=en"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/loishh?lang=ko"><i class="fab fa-twitter"></i></a> -->
+                        <!-- <a href="#"><i class="fas fa-globe"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist Card 8 -->
+            <div class="artist-card" data-category="painter">
+                <div class="artist-image">
+                    <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=699&q=80" alt="Artist Portrait">
+                    <div class="artist-badge">Featured</div>
+                </div>
+                <div class="artist-info">
+                    <h3 class="brush-underline">Frida Kahlo</h3>
+                    <p class="artist-specialty">Surrealist Painter</p>
+                    <p class="artist-bio">Mexican painter known for her many portraits, self-portraits, and works inspired by the nature and artifacts of Mexico.</p>
+                    <div class="artist-social">
+                        <!-- <a href="https://www.instagram.com/fridakahlo/?hl=en"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/FridaKahlo?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a> -->
+                        <!-- <a href="#"><i class="fas fa-globe"></i></a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Artist Spotlight -->
+    <section class="featured-artist">
+        <div class="container featured-container">
+            <div class="featured-image">
+                <img src="Claude.jpg" alt="Featured Artist">
+            </div>
+            <div class="featured-content">
+                <h2>Artist Spotlight: Claude Monet</h2>
+                <p>Oscar-Claude Monet was a French painter and founder of impressionist painting who is seen as a key precursor to modernism, especially in his attempts to paint nature as he perceived it.</p>
+                <p>During his long career, he was the most consistent and prolific practitioner of impressionism's philosophy of expressing one's perceptions before nature, especially as applied to plein air landscape painting.</p>
+                
+                <div class="artist-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">2,500+</div>
+                        <div class="stat-label">Artworks</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">86</div>
+                        <div class="stat-label">Years</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">$110M</div>
+                        <div class="stat-label">Record Sale</div>
+                    </div>
+                </div>
+                
+                <a href="#" class="btn">View Full Portfolio</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Famous Paintings Section -->
+    <section class="famous-paintings container">
+        <div class="section-title">
+            <h2>Iconic Masterpieces</h2>
+        </div>
+        
+        <div class="paintings-grid">
+            <!-- Painting 1 -->
+            <div class="painting-card">
+                <div class="painting-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1200px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" alt="Starry Night">
+                </div>
+                <div class="painting-info">
+                    <h3>Starry Night</h3>
+                    <p class="painting-artist">Vincent van Gogh</p>
+                    <p class="painting-year">1889</p>
+                </div>
+            </div>
+            
+            <!-- Painting 2 -->
+            <div class="painting-card">
+                <div class="painting-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/800px-1665_Girl_with_a_Pearl_Earring.jpg" alt="Girl with a Pearl Earring">
+                </div>
+                <div class="painting-info">
+                    <h3>Girl with a Pearl Earring</h3>
+                    <p class="painting-artist">Johannes Vermeer</p>
+                    <p class="painting-year">1665</p>
+                </div>
+            </div>
+            
+            <!-- Painting 3 -->
+            <div class="painting-card">
+                <div class="painting-image">
+                    <img src="https://cdn.overstockart.com/blog/wp-content/uploads/2014/05/botticelli_birth_venus_2.jpg" alt="The Birth of Venus">
+                </div>
+                <div class="painting-info">
+                    <h3>The Birth of Venus</h3>
+                    <p class="painting-artist">Sandro Botticelli</p>
+                    <p class="painting-year">1485</p>
+                </div>
+            </div>
+            
+            <!-- Painting 4 -->
+            <div class="painting-card">
+                <div class="painting-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Leonardo_da_Vinci_-_Last_Supper_%28copy%29_-_WGA12732.jpg/500px-Leonardo_da_Vinci_-_Last_Supper_%28copy%29_-_WGA12732.jpg" alt="The Last Supper">
+                </div>
+                <div class="painting-info">
+                    <h3>The Last Supper</h3>
+                    <p class="painting-artist">Leonardo da Vinci</p>
+                    <p class="painting-year">1498</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Artist Categories Section -->
+    <section class="artist-categories container">
+        <div class="section-title">
+            <h2>Art Categories</h2>
+        </div>
+        
+        <div class="categories-grid">
+            <!-- Category 1 -->
+            <div class="category-card">
+                <img src="https://media.istockphoto.com/id/1353307239/vector/cabin-by-the-lake-vintage-oil-painting.jpg?s=612x612&w=0&k=20&c=L8WIfaFVClD3DohbPGRRcA7KWjVQMsX8-HTJW6I3g1g=" alt="Oil Painting">
+                <div class="category-overlay">
+                    <h3>Oil Painting</h3>
+                    <p>Explore classical and contemporary oil masterpieces</p>
+                </div>
+            </div>
+            
+            <!-- Category 2 -->
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1587583770025-32851bad462e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Sculpture">
+                <div class="category-overlay">
+                    <h3>Sculpture</h3>
+                    <p>Three-dimensional art forms through history</p>
+                </div>
+            </div>
+            
+            <!-- Category 3 -->
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Digital Art">
+                <div class="category-overlay">
+                    <h3>Digital Art</h3>
+                    <p>Contemporary creations using digital technology</p>
+                </div>
+            </div>
+            
+            <!-- Category 4 -->
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Photography">
+                <div class="category-overlay">
+                    <h3>Photography</h3>
+                    <p>Capturing moments through the lens</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Artora Gallery</h3>
+                    <p>A virtual space where art lovers and collectors can discover, experience, and acquire exceptional contemporary artworks from around the world.</p>
+                    <div class="social-links-footer">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                   <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="artist.html">Artists</a></li>
+                        <li><a href="artworks.html">Gallery</a></li>
+                        <li><a href="auction.html">Auction & Trades</a></li>
+                        <li><a href="exhibition.html">Exhibitions</a></li>
+                        <li><a href="biograghy.html">Biography</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <!-- <li><a href="#">FAQ</a></li> -->
+                        <li><a href="shipment.html">Help & Support</a></li>
+                        <li><a href="privcay policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Gallery Street, Art District, NY 10001</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@artoragallery.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Artora Virtual Gallery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Enhanced Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navRows = document.getElementById('navRows');
+        const menuIcon = mobileMenuToggle.querySelector('i');
+        
+        mobileMenuToggle.addEventListener('click', function() {
+            // Toggle menu visibility
+            navRows.classList.toggle('active');
+            
+            // Toggle icon between bars and times
+            if (navRows.classList.contains('active')) {
+                menuIcon.classList.replace('fa-bars', 'fa-times');
+                document.body.style.overflow = 'hidden';
+            } else {
+                menuIcon.classList.replace('fa-times', 'fa-bars');
+                document.body.style.overflow = '';
+            }
+            
+            // Toggle mobile contact visibility
+            document.querySelector('.mobile-contact').classList.toggle('active');
+        });
+
+        // Close menu when clicking on links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navRows.classList.remove('active');
+                menuIcon.classList.replace('fa-times', 'fa-bars');
+                document.body.style.overflow = '';
+                document.querySelector('.mobile-contact').classList.remove('active');
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+        });
+        
+        // Artist filter functionality
+        const filterOptions = document.querySelectorAll('.filter-option');
+        const artistCards = document.querySelectorAll('.artist-card');
+        
+        filterOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterOptions.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                option.classList.add('active');
+                
+                const filterValue = option.getAttribute('data-filter');
+                
+                // Filter artist cards
+                artistCards.forEach(card => {
+                    if (filterValue === 'all') {
+                        card.style.display = 'block';
+                    } else {
+                        const cardCategory = card.getAttribute('data-category');
+                        if (cardCategory === filterValue) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 120,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.artist-card, .featured-container, .category-card, .painting-card, .section-title');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = 1;
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        // Set initial styles for animated elements
+        document.querySelectorAll('.artist-card, .featured-container, .category-card, .painting-card, .section-title').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+        
+        window.addEventListener('load', animateOnScroll);
+        window.addEventListener('scroll', animateOnScroll);
+        
+        // Create floating paint splatters
+        function createPaintSplatters() {
+            const colors = ['#2e2d2d', '#8B4513', '#556B2F', '#800020'];
+            const container = document.querySelector('body');
+            
+            for (let i = 0; i < 8; i++) {
+                const splatter = document.createElement('div');
+                splatter.className = 'paint-splatter';
+                
+                // Random position
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                
+                // Random size
+                const size = 50 + Math.random() * 150;
+                
+                // Random color
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                splatter.style.left = `${left}%`;
+                splatter.style.top = `${top}%`;
+                splatter.style.width = `${size}px`;
+                splatter.style.height = `${size}px`;
+                splatter.style.backgroundImage = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M30,10 Q50,0 70,10 Q90,30 70,50 Q50,70 30,50 Q10,30 30,10" fill="${color}" opacity="0.1"/></svg>')`;
+                splatter.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(splatter);
+            }
+        }
+        
+        // Call the function to create splatters
+        createPaintSplatters();
+    </script>
+</body>
+</html>

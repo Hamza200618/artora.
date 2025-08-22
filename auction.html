@@ -1,0 +1,2569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artora - Trading & Auction Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #ffffff;        /* White background */
+      --secondary: #000000;      /* Black text */
+      --accent: #070707;         /* Dark accent */
+      --text: #000000;           /* Main text color */
+      --text-light: #313030;     /* Lighter text */
+      --gold: #2e2d2d;           /* Dark gray */
+      --gold-light: #4a4949;     /* Medium gray */
+      --card-bg: #f5f5f5;       /* Light gray for cards */
+      --panel-bg: #f0f0f0;       /* Slightly darker gray for panels */
+      --border-color: #e0e0e0;   /* Light border color */
+      --success: #4CAF50;        /* Green for success */
+      --danger: #F44336;         /* Red for danger */
+      --info: #2196F3;           /* Blue for info */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+   body {
+  font-family: 'Raleway', sans-serif;
+  background-color: var(--primary);
+  color: var(--text);
+  overflow-x: hidden;
+
+      line-height: 1.6;
+      padding-top: 150px; /* Added for navbar space */
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+   
+    /* Navbar Styles */
+    .navbar {
+      background-color: white;
+      padding: 15px 40px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+   
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      position: relative;
+    }
+   
+    /* Left Group (Icons) */
+    .left-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+   
+    /* WhatsApp Contact (Hidden on Mobile by Default) */
+    .contact {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #080808;
+    }
+   
+    .whatsapp-icon {
+      color: #25D366;
+      font-size: 18px;
+    }
+   
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+   
+    .logo-icon {
+      font-size: 20px;
+      color: #333;
+    }
+   
+    .logo-text {
+      font-weight: 700;
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #111b12;
+      letter-spacing: 1px;
+      text-decoration: none;
+      font-family: 'Playfair Display', serif;
+    }
+   
+    /* Right Icons (Desktop) */
+    .nav-icons {
+      display: flex;
+      gap: 20px;
+    }
+   
+    .nav-icons i {
+      font-size: 18px;
+      color: #333;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+   
+    .nav-icons i:hover {
+      opacity: 0.7;
+    }
+   
+    /* Navigation Rows */
+    .nav-rows {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 15px;
+    }
+   
+    .main-categories, .sub-categories {
+      display: flex;
+      gap: 25px;
+      padding: 10px 0;
+    }
+   
+    .main-categories {
+      font-weight: 500;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+   
+    .sub-categories {
+      font-weight: 400;
+      font-size: 13px;
+      color: #777;
+    }
+   
+    .nav-link {
+      color: #333;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+   
+    .nav-link:hover {
+      color: #0a0a0a;
+      font-weight: bolder;
+    }
+   
+    /* Mobile Menu Toggle (Hidden on Desktop) */
+    .mobile-menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+    }
+   
+    /* WhatsApp Contact in Mobile Menu (Hidden by Default) */
+    .mobile-contact {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #555;
+      padding: 10px 0;
+      justify-content: center;
+      border-top: 1px solid #eee;
+      margin-top: 10px;
+    }
+   
+    /* Responsive Styles for Navbar */
+    @media (max-width: 1024px) {
+      .logo {
+        position: static;
+        transform: none;
+        margin: 10px 0;
+      }
+     
+      .main-categories, .sub-categories {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
+   
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 20px;
+      }
+     
+      /* Mobile Layout Adjustments */
+      .top-bar {
+        flex-wrap: wrap;
+      }
+     
+      /* Icons forced to left */
+      .left-group {
+        order: -1;
+      }
+     
+      /* Toggle button forced to right */
+      .mobile-menu-toggle {
+        display: block;
+        order: 1;
+      }
+     
+      /* Hide desktop contact */
+      .contact {
+        display: none;
+      }
+     
+      /* Logo full width */
+      .logo {
+        width: 100%;
+        justify-content: center;
+        margin: 15px 0 10px;
+        order: 2;
+      }
+     
+      /* Navigation rows (hidden by default) */
+      .nav-rows {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        order: 3;
+        width: 100%;
+      }
+     
+      .nav-rows.active {
+        display: flex;
+      }
+     
+      .main-categories, .sub-categories {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+     
+      /* Show WhatsApp in mobile menu when toggled */
+      .mobile-contact.active {
+        display: flex;
+      }
+     
+      body {
+        padding-top: 150px; /* adjust for mobile navbar height */
+      }
+    }
+   
+    .logo img {
+      height: 30px;
+      width: auto;
+      display: block;
+      display: inline-flex;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding-top: 30px;
+    }
+
+    /* Trading Section */
+    .trading-section {
+      background: var(--panel-bg);
+      border-radius: 8px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      margin: 20px 0 30px;
+      border: 1px solid var(--border-color);
+    }
+   
+    .trading-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      background: #e5e5e5;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+   
+    .price-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+   
+    .current-price {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+    }
+   
+    .price-change {
+      font-size: 16px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+   
+    .positive {
+      background: rgba(76, 175, 80, 0.2);
+      color: var(--success);
+    }
+   
+    .negative {
+      background: rgba(244, 67, 54, 0.2);
+      color: var(--danger);
+    }
+   
+    .symbol-selector {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+   
+    select, button {
+      background: #e5e5e5;
+      color: var(--text);
+      border: 1px solid var(--border-color);
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+    }
+   
+    button {
+      background: linear-gradient(to right, var(--gold-light), #3b8bcc);
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      color: white;
+    }
+   
+    button:hover {
+      background: linear-gradient(to right, #3b8bcc, #2a6ba0);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+   
+    .timeframe-selector {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+   
+    .time-btn {
+      padding: 6px 10px;
+      background: #e5e5e5;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text);
+      font-size: 14px;
+    }
+   
+    .time-btn.active {
+      background: var(--gold-light);
+      color: white;
+      border-color: var(--gold-light);
+    }
+   
+    .chart-wrapper {
+      height: 400px;
+      padding: 15px;
+      position: relative;
+    }
+   
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+   
+    .indicators {
+      display: flex;
+      gap: 10px;
+      padding: 12px;
+      background: #e5e5e5;
+      border-top: 1px solid var(--border-color);
+      flex-wrap: wrap;
+    }
+   
+    .indicator {
+      padding: 6px 12px;
+      background: #e5e5e5;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text);
+      font-size: 14px;
+    }
+   
+    .indicator.active {
+      background: var(--gold-light);
+      color: white;
+    }
+   
+    .trading-dashboard {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+   
+    .panel {
+      background: var(--panel-bg);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border-color);
+    }
+   
+    .panel h3 {
+      margin-bottom: 15px;
+      color: var(--gold-light);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+      font-size: 20px;
+    }
+   
+    .order-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+   
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+   
+    .form-group label {
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #666;
+    }
+   
+    .form-group input, .form-group select {
+      background: #e5e5e5;
+      border: 1px solid var(--border-color);
+      color: var(--text);
+      padding: 10px;
+      border-radius: 4px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+    }
+   
+    .order-buttons {
+      grid-column: span 2;
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+   
+    .buy-btn {
+      background: linear-gradient(to right, var(--success), #2E7D32);
+    }
+   
+    .sell-btn {
+      background: linear-gradient(to right, var(--danger), #C62828);
+    }
+   
+    .order-buttons button {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+    }
+   
+    .positions-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+   
+    .positions-table th {
+      text-align: left;
+      padding: 10px 12px;
+      background: #e5e5e5;
+      color: var(--gold-light);
+      font-weight: 600;
+      font-size: 14px;
+    }
+   
+    .positions-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text);
+    }
+   
+    .positions-table tr:last-child td {
+      border-bottom: none;
+    }
+   
+    .profit {
+      color: var(--success);
+    }
+   
+    .loss {
+      color: var(--danger);
+    }
+   
+    /* Auction Title */
+    .auction-title {
+      padding: 20px 0;
+      text-align: center;
+      background-color: var(--gold-light);
+      margin: 30px 0;
+      border-radius: 8px;
+      color: white;
+    }
+   
+    .auction-title h2 {
+      font-size: 32px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+      margin-bottom: 10px;
+    }
+   
+    .auction-title p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+   
+    .auction-title h2::after {
+      content: '';
+      width: 80px;
+      height: 3px;
+      background: white;
+      display: block;
+      margin: 10px auto 0;
+    }
+   
+    /* New Auction Cards Design */
+    #auction-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      padding-bottom: 40px;
+    }
+   
+    .auction-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+   
+    .auction-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+   
+    .auction-card .art-image-container {
+      position: relative;
+      overflow: hidden;
+      height: 250px;
+    }
+   
+    .auction-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+   
+    .auction-card:hover img {
+      transform: scale(1.05);
+    }
+   
+    .auction-card .art-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      z-index: 1;
+    }
+   
+    .auction-content {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+   
+    .auction-content h3 {
+      margin-bottom: 10px;
+      font-size: 22px;
+      color: var(--text);
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 10px;
+    }
+   
+    .auction-content h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--gold-light);
+    }
+   
+    .art-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-size: 16px;
+      color: #555;
+    }
+   
+    .art-artist {
+      font-weight: 600;
+      color: var(--gold-light);
+    }
+   
+    .art-description {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+   
+    .auction-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 15px;
+      background: rgba(0,0,0,0.03);
+      border-radius: 8px;
+    }
+   
+    .current-bid-display {
+      text-align: center;
+    }
+   
+    .current-bid-label {
+      font-size: 12px;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+   
+    .current-bid-amount {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+   
+    .timer-container {
+      text-align: center;
+    }
+   
+    .timer-label {
+      font-size: 12px;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+   
+    .timer {
+      font-weight: bold;
+      color: var(--danger);
+      font-size: 18px;
+    }
+   
+    .bid-section {
+      margin-top: 15px;
+    }
+   
+    .bid-input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+   
+    .bid-input-group input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      background: white;
+      width: 100%; /* Added to fix alignment */
+    }
+   
+    .place-bid {
+      width: 100%;
+      padding: 12px;
+      background: var(--gold-light);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+   
+    .place-bid:hover {
+      background: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+   
+    .bid-message {
+      min-height: 25px;
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+      padding: 5px;
+      border-radius: 4px;
+    }
+   
+    .success-message {
+      background: rgba(76, 175, 80, 0.1);
+      color: var(--success);
+    }
+   
+    .error-message {
+      background: rgba(244, 67, 54, 0.1);
+      color: var(--danger);
+    }
+   
+    .bid-history-container {
+      margin-top: 20px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 15px;
+    }
+   
+    .bid-history-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+   
+    .bid-history {
+      max-height: 150px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+   
+    .bid-history-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px dashed rgba(0,0,0,0.1);
+      font-size: 13px;
+    }
+   
+    .bidder-name {
+      font-weight: 600;
+      color: var(--gold-light);
+    }
+   
+    .bid-amount {
+      font-weight: 600;
+    }
+   
+    /* Winners Section */
+    .winners-section {
+      margin-top: 50px;
+      padding: 30px 0;
+      border-top: 1px solid var(--border-color);
+    }
+   
+    .winners-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+   
+    .winners-title h2 {
+      font-size: 32px;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+   
+    .winners-title p {
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+   
+    .winners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+    }
+   
+    .winner-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+   
+    .winner-card:hover {
+      transform: translateY(-5px);
+    }
+   
+    .winner-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--gold-light);
+      margin-bottom: 15px;
+    }
+   
+    .winner-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--text);
+    }
+   
+    .winner-art {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+   
+    .winner-bid {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--success);
+    }
+   
+    .no-winners {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+      font-size: 16px;
+      grid-column: 1 / -1;
+    }
+   
+    /* Cooldown Section */
+    .cooldown-section {
+      text-align: center;
+      padding: 50px 20px;
+      background: var(--panel-bg);
+      border-radius: 8px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border-color);
+    }
+   
+    .cooldown-title {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: var(--gold-light);
+    }
+   
+    .cooldown-timer {
+      font-size: 36px;
+      font-weight: bold;
+      color: var(--danger);
+      margin-bottom: 20px;
+    }
+   
+    .cooldown-message {
+      font-size: 18px;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+   
+    /* Card Cooldown */
+    .card-cooldown {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      z-index: 2;
+      padding: 20px;
+      text-align: center;
+    }
+   
+    .card-cooldown h4 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+   
+    .card-cooldown-timer {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--danger);
+      margin-bottom: 15px;
+    }
+   
+    /* Footer */
+        footer {
+            background: #f8f8f8;
+            color: rgb(0, 0, 0);
+            padding: 80px 0 30px;
+        }
+       
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+       
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+       
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background: #000000;
+            bottom: 0;
+            left: 0;
+        }
+       
+        .footer-column p {
+            color: #080808;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+       
+        .footer-links {
+            list-style: none;
+        }
+       
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+       
+        .footer-links a {
+            color: #000000;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+       
+        .footer-links a:hover {
+            color: #444343;
+        }
+       
+        .social-links-footer {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+       
+        .social-links-footer a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background:#0000008f;
+            color: #f7f3f3;
+            transition: all 0.3s;
+        }
+       
+        .social-links-footer a:hover {
+            background: rgb(59, 59, 59);
+            color: rgb(243, 242, 242);
+        }
+       
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #030303;
+            color: #000000;
+            font-size: 0.9rem;
+        }
+       
+    /* Loading spinner */
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left: 4px solid var(--gold-light);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+      display: none;
+    }
+   
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .trading-dashboard {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 992px) {
+      #auction-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+     
+      .chart-wrapper {
+        height: 350px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #auction-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+     
+      .trading-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+     
+      .symbol-selector {
+        width: 100%;
+        justify-content: space-between;
+      }
+     
+      .timeframe-selector {
+        width: 100%;
+        justify-content: center;
+      }
+     
+      .auction-title h2 {
+        font-size: 28px;
+      }
+     
+      .auction-title p {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .main-content {
+        padding-top: 30px;
+      }
+     
+      #auction-container {
+        grid-template-columns: 1fr;
+      }
+     
+      .price-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+     
+      .symbol-selector {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+     
+      .chart-wrapper {
+        height: 300px;
+      }
+     
+      .auction-title h2 {
+        font-size: 24px;
+      }
+     
+      .order-form {
+        grid-template-columns: 1fr;
+      }
+     
+      .order-buttons {
+        grid-column: span 1;
+        flex-direction: column;
+      }
+     
+      .panel h3 {
+        font-size: 18px;
+      }
+     
+      .positions-table {
+        font-size: 13px;
+      }
+     
+      .positions-table th,
+      .positions-table td {
+        padding: 8px 10px;
+      }
+     
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .current-price {
+        font-size: 20px;
+      }
+     
+      .price-change {
+        font-size: 14px;
+      }
+     
+      .chart-wrapper {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="top-bar">
+      <!-- Left Group (Icons - Always Visible) -->
+      <div class="left-group">
+        <div class="nav-icons">
+          <a href="sign.html" class="user-icon-link"><i class="fas fa-user"></i></a>
+       
+          <!-- <i class="fas fa-shopping-bag"></i> -->
+           <a href="shipment.html" class="user-icon-link"><i class="fa-solid fa-headphones"></i></a>
+        </div>
+      </div>
+     
+      <!-- Mobile Toggle Button (Top-Right) -->
+     <i class="fas fa-bars mobile-menu-toggle" id="mobile-menu-toggle"></i>
+     
+      <!-- Logo (Centered) -->
+      <div class="logo">
+        <a href="#" class="logo-text">Art<span>ora</span>
+          <img src="origami.png" alt="Artora Logo" />
+        </a>
+      </div>
+     
+      <!-- Desktop Contact (Hidden on Mobile) -->
+      <div class="contact">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+        <span>+923397856555</span>
+      </div>
+    </div>
+   
+    <!-- Navigation Rows (Hidden on Mobile by Default) -->
+    <div class="nav-rows">
+      <div class="main-categories">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="artist.html" class="nav-link">Artists</a>
+        <a href="artwork.html" class="nav-link">Gallery</a>
+        <a href="auction.html" class="nav-link active">Auction</a>
+        <a href="biograghy.html" class="nav-link">Biography</a>
+        <a href="exhibition.html" class="nav-link">Exhibition</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+     
+      <!-- Mobile Contact (Shows When Menu is Open) -->
+      <div class="mobile-contact">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+        <span>+923397856555</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-content container">
+    <!-- Trading Chart Section -->
+    <section class="trading-section">
+      <div class="trading-header">
+        <div class="price-info">
+          <div class="current-price">$172.35</div>
+          <div class="price-change positive">+2.45%</div>
+          <div>24h Volume: 64.2M</div>
+        </div>
+       
+        <div class="symbol-selector">
+          <select id="symbol-select">
+            <option value="AAPL">AAPL - Apple Inc</option>
+            <option value="MSFT">MSFT - Microsoft</option>
+            <option value="GOOGL">GOOGL - Alphabet</option>
+            <option value="AMZN">AMZN - Amazon</option>
+            <option value="TSLA">TSLA - Tesla</option>
+          </select>
+          <button id="refresh-btn">Refresh Data</button>
+        </div>
+       
+        <div class="timeframe-selector">
+          <div class="time-btn active">1D</div>
+          <div class="time-btn">1W</div>
+          <div class="time-btn">1M</div>
+          <div class="time-btn">3M</div>
+          <div class="time-btn">1Y</div>
+          <div class="time-btn">All</div>
+        </div>
+      </div>
+     
+      <div class="chart-wrapper">
+        <canvas id="price-chart"></canvas>
+      </div>
+     
+      <div class="indicators">
+        <div class="indicator active">MA</div>
+        <div class="indicator">MACD</div>
+        <div class="indicator">RSI</div>
+        <div class="indicator">Bollinger Bands</div>
+        <div class="indicator">Volume</div>
+      </div>
+    </section>
+   
+    <!-- Trading Dashboard -->
+    <!-- <div class="trading-dashboard">
+      <div class="panel">
+        <h3>Place Order</h3>
+        <div class="order-form">
+          <div class="form-group">
+            <label for="order-type">Order Type</label>
+            <select id="order-type">
+              <option>Market</option>
+              <option>Limit</option>
+              <option>Stop</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="order-side">Side</label>
+            <select id="order-side">
+              <option>Buy</option>
+              <option>Sell</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" value="10">
+          </div>
+          <div class="form-group">
+            <label for="price">Price ($)</label>
+            <input type="number" id="price" value="172.35" step="0.01">
+          </div>
+          <div class="order-buttons">
+            <button class="buy-btn">Buy</button>
+            <button class="sell-btn">Sell</button>
+          </div>
+        </div>
+      </div>
+     
+      <div class="panel">
+        <h3>Open Positions</h3>
+        <table class="positions-table">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Position</th>
+              <th>Price</th>
+              <th>Current</th>
+              <th>P/L</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AAPL</td>
+              <td>20 Shares</td>
+              <td>$165.50</td>
+              <td>$172.35</td>
+              <td class="profit">+$137.00</td>
+            </tr>
+            <tr>
+              <td>MSFT</td>
+              <td>15 Shares</td>
+              <td>$327.80</td>
+              <td>$325.10</td>
+              <td class="loss">-$40.50</td>
+            </tr>
+            <tr>
+              <td>TSLA</td>
+              <td>5 Shares</td>
+              <td>$850.25</td>
+              <td>$865.40</td>
+              <td class="profit">+$75.75</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> -->
+
+    <!-- Auction Title -->
+    <div class="auction-title">
+      <h2>Live Art Auctions</h2>
+      <p>Bid on exclusive artworks from renowned artists</p>
+    </div>
+
+    <!-- Cooldown Section (Hidden by default) -->
+    <section class="cooldown-section" id="cooldown-section" style="display: none;">
+      <h2 class="cooldown-title">Auctions Will Resume Shortly</h2>
+      <div class="cooldown-timer" id="cooldown-timer">05:00</div>
+      <p class="cooldown-message">Our current auction cycle has ended. New auctions will begin in:</p>
+    </section>
+
+    <!-- Auction Section -->
+    <section id="artworks">
+      <div id="auction-container" class="auction-grid">
+        <div class="spinner" id="loading-spinner"></div>
+      </div>
+    </section>
+
+    <!-- Winners Section -->
+    <section class="winners-section">
+      <div class="winners-title">
+        <h2>Auction Winners</h2>
+        <p>Recent winners of our exclusive art auctions</p>
+      </div>
+      <div class="winners-grid" id="winners-container">
+        <div class="no-winners">No auctions have ended yet. Check back soon!</div>
+      </div>
+    </section>
+  </div>
+
+<!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Artora Gallery</h3>
+                    <p>A virtual space where art lovers and collectors can discover, experience, and acquire exceptional contemporary artworks from around the world.</p>
+                    <div class="social-links-footer">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="artist.html">Artists</a></li>
+                        <li><a href="artworks.html">Gallery</a></li>
+                        <li><a href="auction.html">Auction & Trades</a></li>
+                        <li><a href="exhibition.html">Exhibitions</a></li>
+                        <li><a href="biograghy.html">Biography</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <!-- <li><a href="#">FAQ</a></li> -->
+                        <li><a href="shipment.html">Help & Support</a></li>
+                        <li><a href="privcay policy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Gallery Street, Art District, NY 10001</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@artoragallery.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Artora Virtual Gallery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    // Global variable to store winners and bidding history
+  const winners = [];
+  const biddingHistory = {}; // Stores bid history for each artwork
+  const auctionStorageKey = 'artora_auction_times';
+  const bidHistoryStorageKey = 'artora_bid_history';
+  const currentBidsStorageKey = 'artora_current_bids';
+  const winnersStorageKey = 'artora_winners';
+  const cooldownStorageKey = 'artora_cooldown';
+  const auctionCycleStateKey = 'artora_auction_cycle_state';
+  const auctionCooldownsKey = 'artora_auction_cooldowns';
+
+  // Initialize everything when DOM is fully loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize trading chart - now showing actual art price trends
+    initArtPriceChart();
+   
+    // Check auction cycle state (will load saved data if available)
+    checkAuctionCycleState();
+   
+    // Setup event listeners
+    setupTradingEvents();
+   
+    // Setup mobile menu toggle
+    setupMobileMenu();
+   
+    // Load winners from localStorage if available
+    try {
+      const savedWinners = JSON.parse(localStorage.getItem(winnersStorageKey)) || [];
+      savedWinners.forEach(winner => {
+        winners.push(winner);
+      });
+      updateWinnersDisplay();
+    } catch (e) {
+      console.error('Error loading winners:', e);
+    }
+  });
+
+  // Mobile menu functionality
+  function setupMobileMenu() {
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const navRows = document.querySelector('.nav-rows');
+    const mobileContact = document.querySelector('.mobile-contact');
+    
+    if (!mobileMenuToggle || !navRows) {
+      console.error('Mobile menu elements not found');
+      return;
+    }
+    
+    mobileMenuToggle.addEventListener('click', function() {
+      // Toggle menu visibility
+      navRows.classList.toggle('active');
+      
+      // Toggle icon between bars and times
+      const icon = this.querySelector('i');
+      if (navRows.classList.contains('active')) {
+        icon.classList.replace('fa-bars', 'fa-times');
+        document.body.style.overflow = 'hidden';
+      } else {
+        icon.classList.replace('fa-times', 'fa-bars');
+        document.body.style.overflow = '';
+      }
+      
+      // Toggle mobile contact visibility
+      if (mobileContact) {
+        mobileContact.classList.toggle('active');
+      }
+    });
+
+    // Close menu when clicking on links
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navRows.classList.remove('active');
+        const icon = mobileMenuToggle.querySelector('i');
+        icon.classList.replace('fa-times', 'fa-bars');
+        document.body.style.overflow = '';
+        
+        if (mobileContact) {
+          mobileContact.classList.remove('active');
+        }
+      });
+    });
+  }
+
+  // Check if we're in cooldown or auction phase
+  function checkAuctionCycleState() {
+    const cooldownSection = document.getElementById('cooldown-section');
+    const auctionContainer = document.getElementById('auction-container');
+   
+    // Check if we're in cooldown
+    const cooldownEnd = localStorage.getItem(cooldownStorageKey);
+   
+    if (cooldownEnd) {
+      const now = new Date();
+      const cooldownEndTime = new Date(cooldownEnd);
+     
+      if (now < cooldownEndTime) {
+        // Still in cooldown
+        showCooldown(cooldownEndTime);
+        return;
+      } else {
+        // Cooldown ended, start new auctions
+        localStorage.removeItem(cooldownStorageKey);
+        localStorage.setItem(auctionCycleStateKey, 'auction');
+        // Clear all previous winners and history when new cycle starts
+        clearAllAuctionData();
+      }
+    }
+   
+    // Not in cooldown, load auctions (will use saved data if available)
+    if (cooldownSection) cooldownSection.style.display = 'none';
+    if (auctionContainer) auctionContainer.style.display = 'grid';
+    loadAuctions();
+  }
+
+  // Clear all auction data when a new cycle starts
+  function clearAllAuctionData() {
+    // Clear winners
+    winners.length = 0;
+    localStorage.removeItem(winnersStorageKey);
+   
+    // Clear bidding history
+    for (const key in biddingHistory) {
+      delete biddingHistory[key];
+    }
+    localStorage.removeItem(bidHistoryStorageKey);
+   
+    // Clear current bids
+    localStorage.removeItem(currentBidsStorageKey);
+   
+    // Clear auction times
+    localStorage.removeItem(auctionStorageKey);
+   
+    // Clear cooldowns
+    localStorage.removeItem(auctionCooldownsKey);
+   
+    // Update winners display
+    updateWinnersDisplay();
+  }
+
+  // Show cooldown timer
+  function showCooldown(endTime) {
+    const cooldownSection = document.getElementById('cooldown-section');
+    const auctionContainer = document.getElementById('auction-container');
+    const cooldownTimer = document.getElementById('cooldown-timer');
+   
+    cooldownSection.style.display = 'block';
+    auctionContainer.style.display = 'none';
+   
+    function updateCooldownTimer() {
+      const now = new Date();
+      const timeLeft = endTime - now;
+     
+      if (timeLeft <= 0) {
+        // Cooldown ended, start new auctions
+        cooldownSection.style.display = 'none';
+        auctionContainer.style.display = 'grid';
+        localStorage.removeItem(cooldownStorageKey);
+        localStorage.setItem(auctionCycleStateKey, 'auction');
+        // Clear all previous winners and history when new cycle starts
+        clearAllAuctionData();
+        loadAuctions();
+        return;
+      }
+     
+      // Calculate minutes and seconds
+      const minutes = Math.floor(timeLeft / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+     
+      // Format as MM:SS
+      const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      cooldownTimer.textContent = formattedTime;
+    }
+   
+    // Update immediately and every second
+    updateCooldownTimer();
+    const interval = setInterval(updateCooldownTimer, 1000);
+   
+    // Cleanup interval when cooldown ends
+    setTimeout(() => {
+      clearInterval(interval);
+    }, endTime - new Date());
+  }
+
+  // Trading Chart Functions - Now using real bidding data
+  function initArtPriceChart() {
+    const ctx = document.getElementById('price-chart').getContext('2d');
+   
+    // Create the chart with empty initial data
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Bid Price',
+            data: [],
+            borderColor: '#4dabf7',
+            backgroundColor: 'rgba(77, 171, 247, 0.1)',
+            borderWidth: 2,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+            fill: true,
+            tension: 0.4,
+            yAxisID: 'y'
+          },
+          {
+            label: 'Bid Volume',
+            data: [],
+            borderColor: '#ff9800',
+            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: true,
+            tension: 0.1,
+            yAxisID: 'y1',
+            hidden: true // Hide volume by default
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            backgroundColor: 'rgza(30, 43, 55, 0.9)',
+            titleColor: '#4dabf7',
+            bodyColor: '#e0e0e0',
+            borderColor: '#2a3a4a',
+            borderWidth: 1,
+            padding: 12,
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.datasetIndex === 0) {
+                  label += '$' + context.parsed.y.toFixed(2);
+                } else {
+                  label += context.parsed.y + ' bids';
+                }
+                return label;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              color: 'rgba(42, 58, 74, 0.5)'
+            },
+            ticks: {
+              color: '#a0a0a0',
+              maxRotation: 0,
+              autoSkip: true,
+              maxTicksLimit: 10
+            }
+          },
+          y: {
+            position: 'left',
+            grid: {
+              color: 'rgba(42, 58, 74, 0.5)'
+            },
+            ticks: {
+              color: '#a0a0a0',
+              callback: function(value) {
+                return '$' + value;
+              }
+            },
+            title: {
+              display: true,
+              text: 'Bid Price ($)'
+            }
+          },
+          y1: {
+            position: 'right',
+            grid: {
+              drawOnChartArea: false
+            },
+            ticks: {
+              color: '#a0a0a0'
+            },
+            title: {
+              display: true,
+              text: 'Bid Volume'
+            }
+          }
+        },
+        interaction: {
+          mode: 'index',
+          intersect: false
+        }
+      }
+    });
+   
+    return chart;
+  }
+ 
+  // Update chart with actual bidding data for selected artwork
+  function updateChartForArtwork(artworkId) {
+    const chart = Chart.getChart("price-chart");
+    if (!chart) return;
+   
+    // Get bidding history for this artwork
+    const history = biddingHistory[artworkId] || [];
+   
+    if (history.length === 0) {
+      // No bids yet - show empty chart
+      chart.data.labels = [];
+      chart.data.datasets[0].data = [];
+      chart.data.datasets[1].data = [];
+      chart.update();
+      return;
+    }
+   
+    // Process history into chart data
+    const labels = [];
+    const priceData = [];
+    const volumeData = [];
+   
+    // Group bids by minute to prevent overcrowding
+    const groupedBids = {};
+    history.forEach(bid => {
+      const date = new Date(bid.timestamp);
+      const minuteKey = `${date.getHours()}:${date.getMinutes()}`;
+     
+      if (!groupedBids[minuteKey]) {
+        groupedBids[minuteKey] = {
+          maxBid: bid.amount,
+          count: 1,
+          time: date
+        };
+      } else {
+        groupedBids[minuteKey].maxBid = Math.max(groupedBids[minuteKey].maxBid, bid.amount);
+        groupedBids[minuteKey].count += 1;
+      }
+    });
+   
+    // Convert grouped data to arrays
+    Object.keys(groupedBids).forEach(key => {
+      const bidData = groupedBids[key];
+      labels.push(bidData.time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+      priceData.push(bidData.maxBid);
+      volumeData.push(bidData.count);
+    });
+   
+    // Update chart data
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = priceData;
+    chart.data.datasets[1].data = volumeData;
+    chart.update();
+  }
+ 
+  // Auction Data and Functions with persistent timers
+  function loadAuctions() {
+    // Show loading spinner
+    const spinner = document.getElementById('loading-spinner');
+    spinner.style.display = 'block';
+   
+    // Load saved auction times from localStorage
+    let savedTimes = {};
+    try {
+      savedTimes = JSON.parse(localStorage.getItem(auctionStorageKey)) || {};
+    } catch (e) {
+      console.error('Error loading auction times:', e);
+    }
+   
+    // Load saved bidding history from localStorage
+    try {
+      const savedBidHistory = JSON.parse(localStorage.getItem(bidHistoryStorageKey)) || {};
+      Object.assign(biddingHistory, savedBidHistory);
+    } catch (e) {
+      console.error('Error loading bid history:', e);
+    }
+   
+    // Load saved current bids from localStorage
+    let savedCurrentBids = {};
+    try {
+      savedCurrentBids = JSON.parse(localStorage.getItem(currentBidsStorageKey)) || {};
+    } catch (e) {
+      console.error('Error loading current bids:', e);
+    }
+   
+    // Load saved cooldowns
+    let savedCooldowns = {};
+    try {
+      savedCooldowns = JSON.parse(localStorage.getItem(auctionCooldownsKey)) || {};
+    } catch (e) {
+      console.error('Error loading cooldowns:', e);
+    }
+   
+    // Simulate loading delay
+    setTimeout(() => {
+      // Auction data from the provided JSON
+      const auctions = [
+        {
+          "id": "auction001",
+          "title": "Abstract Sunset",
+          "artist": "Leonardo da Vinci",
+          "image": "wallright.jpg",
+          "currentBid": 10,
+          "startingBid": 10,
+          "currency": "USD",
+          "description": "A calming abstract sunset in warm tones that captures the essence of twilight.",
+          "endTime": savedTimes["auction001"] || getFutureDate(0, 0, 0, 0, 5, 0) // Use saved time or create new
+        },
+        {
+          "id": "auction002",
+          "title": "Urban Serenity",
+          "artist": "Vincent van Gogh",
+          "image": "13cecily-brown1-pklb-articleLarge.webp",
+          "currentBid": 10,
+          "startingBid": 10,
+          "currency": "USD",
+          "description": "A quiet moment captured in a bustling city, showing the contrast between movement and stillness.",
+          "endTime": savedTimes["auction002"] || getFutureDate(0, 0, 0, 0, 7, 30)
+        },
+        {
+          "id": "auction003",
+          "title": "Nature's Whisper",
+          "artist": "Claude Monet",
+          "image": "817IpZKcCBS._AC_SL1500_.jpg",
+          "currentBid": 10,
+          "startingBid": 10,
+          "currency": "USD",
+          "description": "A serene landscape that invites tranquility, with delicate brushstrokes capturing the play of light on water.",
+          "endTime": savedTimes["auction003"] || getFutureDate(0, 0, 0, 0, 10, 0)
+        },
+        {
+          "id": "auction004",
+          "title": "Whimsical Dreams",
+          "artist": "Frida Kahlo",
+          "image": "il_fullxfull.3871324283_pjer.webp",
+          "currentBid": 10,
+          "startingBid": 10,
+          "currency": "USD",
+          "description": "A playful and imaginative piece full of color and symbolism, characteristic of the artist's unique style.",
+          "endTime": savedTimes["auction004"] || getFutureDate(0, 0, 0, 0, 12, 30)
+        },
+        {
+          "id": "auction005",
+          "title": "Mystic Forest",
+          "artist": "Caravaggio",
+          "image": "watercolorpainting-20.jpg",
+          "currentBid": 10,
+          "startingBid": 10,
+          "currency": "USD",
+          "description": "An enchanting forest scene that sparks curiosity with its dramatic use of light and shadow.",
+          "endTime": savedTimes["auction005"] || getFutureDate(0, 0, 0, 0, 15, 0)
+        },
+        {
+          "id": "auction006",
+          "title": "Celestial Journey",
+          "artist": "Johannes Vermeer",
+          "image": "New-Modern-Figures-B.jpeg",
+          "currentBid": 10,
+          "startingBid": 10,
+          "currency": "USD",
+          "description": "A cosmic journey through the stars and beyond, with intricate details that reveal more upon closer inspection.",
+          "endTime": savedTimes["auction006"] || getFutureDate(0, 0, 0, 0, 17, 30)
+        },
+        {
+          "id": "auction007",
+          "title": "Golden Horizon",
+          "artist": "Pablo Picasso",
+          "image": "21.jpg",
+          "currentBid": 10,
+          "startingBid": 10,
+          "currency": "USD",
+          "description": "A vibrant abstract piece with bold colors and dynamic composition that captures the energy of a sunset.",
+          "endTime": savedTimes["auction007"] || getFutureDate(0, 0, 0, 0, 20, 0)
+        },
+        {
+          "id": "auction008",
+          "title": "Silent Echo",
+          "artist": "Salvador Dali",
+          "image": "modern-art.jpg",
+          "currentBid": 10,
+          "startingBid": 10,
+          "currency": "USD",
+          "description": "A surreal masterpiece that plays with perspective and reality, inviting viewers to explore deeper meanings.",
+          "endTime": savedTimes["auction008"] || getFutureDate(0, 0, 0, 0, 22, 30)
+        },
+        {
+          "id": "auction009",
+          "title": "Ocean's Depth",
+          "artist": "Georgia O'Keeffe",
+          "image": "abstract-art.jpg",
+          "currentBid": 10,
+          "startingBid": 10,
+          "currency": "USD",
+          "description": "A mesmerizing depiction of the ocean's mysterious depths with fluid brushstrokes and cool tones.",
+          "endTime": savedTimes["auction009"] || getFutureDate(0, 0, 0, 0, 25, 0)
+        },
+        {
+          "id": "auction010",
+          "title": "Mountain Majesty",
+          "artist": "Andrew Wyeth",
+          "image": "contemporary-art.jpg",
+          "currentBid": 10,
+          "startingBid": 10,
+          "currency": "USD",
+          "description": "A breathtaking landscape capturing the grandeur of towering mountains against a dramatic sky.",
+          "endTime": savedTimes["auction010"] || getFutureDate(0, 0, 0, 0, 27, 30)
+        }
+      ];
+     
+      // Update current bids from saved data if available
+      auctions.forEach(auction => {
+        if (savedCurrentBids[auction.id]) {
+          auction.currentBid = savedCurrentBids[auction.id];
+        }
+      });
+     
+      const container = document.getElementById('auction-container');
+      container.innerHTML = '';
+
+      auctions.forEach(auction => {
+        const card = document.createElement('div');
+        card.className = 'auction-card';
+        card.dataset.artworkId = auction.id;
+        card.innerHTML = `
+          <div class="art-image-container">
+            <img src="${auction.image}" alt="${auction.title}">
+            <div class="art-badge">Live Auction</div>
+          </div>
+          <div class="auction-content">
+            <h3>${auction.title}</h3>
+            <div class="art-info">
+              <span class="art-artist">${auction.artist}</span>
+            </div>
+            <div class="art-description">${auction.description}</div>
+           
+            <div class="auction-details">
+              <div class="current-bid-display">
+                <div class="current-bid-label">Current Bid</div>
+                <div class="current-bid-amount">$${auction.currentBid}</div>
+              </div>
+              <div class="timer-container">
+                <div class="timer-label">Time Remaining</div>
+                <div class="timer" data-id="${auction.id}"></div>
+              </div>
+            </div>
+           
+            <div class="bid-section">
+              <div class="bid-input-group">
+                <input type="text" placeholder="Your Name" class="bidder-name">
+                <input type="number" placeholder="Your Bid" class="bid-amount" min="${auction.currentBid + 1}">
+              </div>
+              <button class="place-bid">Place Bid</button>
+              <div class="bid-message"></div>
+            </div>
+           
+            <div class="bid-history-container">
+              <div class="bid-history-title">Bid History</div>
+              <ul class="bid-history"></ul>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+
+        // Check if this auction is in cooldown
+        const cooldownEnd = savedCooldowns[auction.id];
+        if (cooldownEnd) {
+          const now = new Date();
+          const cooldownEndTime = new Date(cooldownEnd);
+         
+          if (now < cooldownEndTime) {
+            // Still in cooldown, show cooldown overlay
+            showCardCooldown(card, auction.id, cooldownEndTime);
+            return;
+          } else {
+            // Cooldown ended, remove from storage
+            delete savedCooldowns[auction.id];
+            localStorage.setItem(auctionCooldownsKey, JSON.stringify(savedCooldowns));
+          }
+        }
+
+        // Initialize bidding history for this artwork if not already loaded
+        if (!biddingHistory[auction.id]) {
+          biddingHistory[auction.id] = [];
+          // Add initial bid if there's a current bid
+          if (auction.currentBid > auction.startingBid) {
+            biddingHistory[auction.id].push({
+              amount: auction.currentBid,
+              bidder: "Initial Bid",
+              timestamp: new Date().toISOString()
+            });
+          }
+        }
+       
+        // Start timer for this auction with persistent time
+        startTimer(card.querySelector('.timer'), new Date(auction.endTime), card, auction.id);
+       
+        // Setup bid handler for this card
+        setupBidHandler(card, auction.id, auction.title, auction.artist, auction.image);
+       
+        // Initialize bid history display
+        updateBidHistoryDisplay(card, auction.id);
+      });
+     
+      // Set default chart to first artwork
+      if (auctions.length > 0) {
+        updateChartForArtwork(auctions[0].id);
+      }
+     
+      // Hide spinner after loading
+      spinner.style.display = 'none';
+    }, 1000);
+  }
+
+  // Show cooldown for individual card
+  function showCardCooldown(card, auctionId, cooldownEnd) {
+    // Disable bidding inputs
+    card.querySelector('.place-bid').disabled = true;
+    card.querySelector('.bid-amount').disabled = true;
+    card.querySelector('.bidder-name').disabled = true;
+   
+    // Create cooldown overlay
+    const cooldownOverlay = document.createElement('div');
+    cooldownOverlay.className = 'card-cooldown';
+    cooldownOverlay.innerHTML = `
+      <h4>Auction Will Restart Shortly</h4>
+      <div class="card-cooldown-timer"></div>
+      <p>This auction will restart in:</p>
+    `;
+    card.querySelector('.art-image-container').appendChild(cooldownOverlay);
+   
+    const timerElement = cooldownOverlay.querySelector('.card-cooldown-timer');
+   
+    function updateCooldownTimer() {
+      const now = new Date();
+      const timeLeft = cooldownEnd - now;
+     
+      if (timeLeft <= 0) {
+        // Cooldown ended, restart auction
+        cooldownOverlay.remove();
+        card.querySelector('.place-bid').disabled = false;
+        card.querySelector('.bid-amount').disabled = false;
+        card.querySelector('.bidder-name').disabled = false;
+       
+        // Remove winner for this artwork
+        removeWinnerForArtwork(card.querySelector('h3').textContent);
+       
+        // Remove from cooldown storage
+        const savedCooldowns = JSON.parse(localStorage.getItem(auctionCooldownsKey)) || {};
+        delete savedCooldowns[auctionId];
+        localStorage.setItem(auctionCooldownsKey, JSON.stringify(savedCooldowns));
+       
+        // Reset auction with new end time (5 minutes from now)
+        const newEndTime = new Date();
+        newEndTime.setMinutes(newEndTime.getMinutes() + 5);
+       
+        // Update saved auction times
+        const savedTimes = JSON.parse(localStorage.getItem(auctionStorageKey)) || {};
+        savedTimes[auctionId] = newEndTime.toISOString();
+        localStorage.setItem(auctionStorageKey, JSON.stringify(savedTimes));
+       
+        // Reset current bid to starting bid
+        const startingBid = 10; // Default starting bid
+        card.querySelector('.current-bid-amount').textContent = `$${startingBid}`;
+        card.querySelector('.bid-amount').min = startingBid + 1;
+       
+        // Clear bid history
+        biddingHistory[auctionId] = [];
+        localStorage.setItem(bidHistoryStorageKey, JSON.stringify(biddingHistory));
+       
+        // Update current bids
+        const savedCurrentBids = JSON.parse(localStorage.getItem(currentBidsStorageKey)) || {};
+        savedCurrentBids[auctionId] = startingBid;
+        localStorage.setItem(currentBidsStorageKey, JSON.stringify(savedCurrentBids));
+       
+        // Start new timer
+        startTimer(card.querySelector('.timer'), newEndTime, card, auctionId);
+       
+        // Clear the interval
+        clearInterval(interval);
+        return;
+      }
+     
+      // Calculate minutes and seconds
+      const minutes = Math.floor(timeLeft / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+     
+      // Format as MM:SS
+      const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      timerElement.textContent = formattedTime;
+    }
+   
+    // Update immediately and then every second
+    updateCooldownTimer();
+    const interval = setInterval(updateCooldownTimer, 1000);
+  }
+
+  // Start cooldown period
+  function startCooldown() {
+    const cooldownSection = document.getElementById('cooldown-section');
+    const auctionContainer = document.getElementById('auction-container');
+   
+    // Set cooldown end time (5 minutes from now)
+    const cooldownEnd = new Date();
+    cooldownEnd.setMinutes(cooldownEnd.getMinutes() + 5);
+   
+    // Save to localStorage
+    localStorage.setItem(cooldownStorageKey, cooldownEnd.toISOString());
+    localStorage.setItem(auctionCycleStateKey, 'cooldown');
+   
+    // Show cooldown timer
+    showCooldown(cooldownEnd);
+   
+    // Clear auction container
+    auctionContainer.innerHTML = '';
+  }
+
+  // Helper function to get future date
+  function getFutureDate(days = 0, hours = 0, minutes = 0, seconds = 0, milliseconds = 0) {
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+    date.setHours(date.getHours() + hours);
+    date.setMinutes(date.getMinutes() + minutes);
+    date.setSeconds(date.getSeconds() + seconds);
+    date.setMilliseconds(date.getMilliseconds() + milliseconds);
+    return date.toISOString();
+  }
+
+  function startTimer(timerElement, endTime, card, auctionId) {
+    // Save the end time to localStorage
+    function saveEndTime() {
+      try {
+        const savedTimes = JSON.parse(localStorage.getItem(auctionStorageKey)) || {};
+        savedTimes[auctionId] = endTime.toISOString();
+        localStorage.setItem(auctionStorageKey, JSON.stringify(savedTimes));
+      } catch (e) {
+        console.error('Error saving auction time:', e);
+      }
+    }
+   
+    function updateTimer() {
+      const now = new Date();
+      const timeLeft = endTime - now;
+     
+      if (timeLeft <= 0) {
+        timerElement.textContent = "Auction Ended";
+        timerElement.style.color = "var(--danger)";
+       
+        // Get the winner info
+        const bidHistory = biddingHistory[auctionId] || [];
+        let winnerName = "No winner";
+        let winningBid = 0;
+       
+        if (bidHistory.length > 0) {
+          // Find the highest bid
+          const highestBid = bidHistory.reduce((prev, current) =>
+            (prev.amount > current.amount) ? prev : current
+          );
+          winnerName = highestBid.bidder;
+          winningBid = highestBid.amount;
+         
+          // Update current bid display
+          card.querySelector('.current-bid-amount').textContent = `$${winningBid.toFixed(2)}`;
+         
+          // Get artwork info
+          const artTitle = card.querySelector('h3')?.textContent || "";
+          const artist = card.querySelector('.art-artist')?.textContent || "";
+          const image = card.querySelector('img')?.src || "";
+         
+          // Add to winners if there was a bid
+          addWinner(winnerName, winningBid, artTitle, artist, image);
+        }
+       
+        // Disable bidding
+        card.querySelector('.place-bid').disabled = true;
+        card.querySelector('.bid-amount').disabled = true;
+        card.querySelector('.bidder-name').disabled = true;
+       
+        // Clear the timer interval
+        clearInterval(interval);
+       
+        // Start cooldown for this card (1 minute)
+        const cooldownEnd = new Date();
+        cooldownEnd.setMinutes(cooldownEnd.getMinutes() + 1);
+       
+        // Save to cooldown storage
+        const savedCooldowns = JSON.parse(localStorage.getItem(auctionCooldownsKey)) || {};
+        savedCooldowns[auctionId] = cooldownEnd.toISOString();
+        localStorage.setItem(auctionCooldownsKey, JSON.stringify(savedCooldowns));
+       
+        // Show cooldown overlay
+        showCardCooldown(card, auctionId, cooldownEnd);
+       
+        return;
+      }
+     
+      // Calculate days, hours, minutes, seconds
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+     
+      // Format the timer display
+      let timerText = '';
+      if (days > 0) {
+        timerText = `${days}d ${hours}h ${minutes}m`;
+      } else if (hours > 0) {
+        timerText = `${hours}h ${minutes}m ${seconds}s`;
+      } else {
+        timerText = `${minutes}m ${seconds}s`;
+      }
+     
+      timerElement.textContent = timerText;
+     
+      // Change color when less than 1 hour remains
+      if (timeLeft < 3600000) { // 1 hour in milliseconds
+        timerElement.style.color = "var(--danger)";
+      }
+    }
+   
+    // Save the initial end time
+    saveEndTime();
+   
+    // Update immediately and then every second
+    updateTimer();
+    const interval = setInterval(() => {
+      updateTimer();
+      saveEndTime(); // Persist the time on each update
+    }, 1000);
+  }
+
+  function removeAuctionFromStorage(auctionId) {
+    try {
+      // Remove from auction times
+      const savedTimes = JSON.parse(localStorage.getItem(auctionStorageKey)) || {};
+      delete savedTimes[auctionId];
+      localStorage.setItem(auctionStorageKey, JSON.stringify(savedTimes));
+     
+      // Remove from current bids
+      const savedCurrentBids = JSON.parse(localStorage.getItem(currentBidsStorageKey)) || {};
+      delete savedCurrentBids[auctionId];
+      localStorage.setItem(currentBidsStorageKey, JSON.stringify(savedCurrentBids));
+     
+      // Remove from bid history
+      const savedBidHistory = JSON.parse(localStorage.getItem(bidHistoryStorageKey)) || {};
+      delete savedBidHistory[auctionId];
+      localStorage.setItem(bidHistoryStorageKey, JSON.stringify(savedBidHistory));
+    } catch (e) {
+      console.error('Error removing auction from storage:', e);
+    }
+  }
+
+  function addWinner(name, bid, artTitle, artist, image) {
+    // Check if this winner already exists
+    const existingWinnerIndex = winners.findIndex(w => w.artTitle === artTitle);
+   
+    if (existingWinnerIndex !== -1) {
+      // Remove existing winner for this artwork
+      winners.splice(existingWinnerIndex, 1);
+    }
+   
+    // Add to winners array
+    const winner = {
+      name,
+      bid,
+      artTitle,
+      artist,
+      image
+    };
+   
+    winners.push(winner);
+   
+    // Save to localStorage
+    try {
+      localStorage.setItem(winnersStorageKey, JSON.stringify(winners));
+    } catch (e) {
+      console.error('Error saving winners:', e);
+    }
+   
+    // Update winners display
+    updateWinnersDisplay();
+  }
+
+  function removeWinnerForArtwork(artTitle) {
+    const existingWinnerIndex = winners.findIndex(w => w.artTitle === artTitle);
+   
+    if (existingWinnerIndex !== -1) {
+      // Remove winner from array
+      winners.splice(existingWinnerIndex, 1);
+     
+      // Update localStorage
+      try {
+        localStorage.setItem(winnersStorageKey, JSON.stringify(winners));
+      } catch (e) {
+        console.error('Error saving winners:', e);
+      }
+     
+      // Update display
+      updateWinnersDisplay();
+    }
+  }
+
+  function updateWinnersDisplay() {
+    const container = document.getElementById('winners-container');
+   
+    if (winners.length === 0) {
+      container.innerHTML = '<div class="no-winners">No auctions have ended yet. Check back soon!</div>';
+      return;
+    }
+   
+    container.innerHTML = '';
+   
+    winners.forEach(winner => {
+      const card = document.createElement('div');
+      card.className = 'winner-card';
+      card.innerHTML = `
+        <img src="${winner.image}" alt="${winner.artTitle}" class="winner-image">
+        <h4 class="winner-name">${winner.name}</h4>
+        <p class="winner-art">"${winner.artTitle}" by ${winner.artist}</p>
+        <p class="winner-bid">Winning Bid: $${winner.bid}</p>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function setupBidHandler(card, auctionId, artTitle, artist, image) {
+    const bidBtn = card.querySelector('.place-bid');
+    const bidInput = card.querySelector('.bid-amount');
+    const nameInput = card.querySelector('.bidder-name');
+    const currentBidElement = card.querySelector('.current-bid-amount');
+    const messageElement = card.querySelector('.bid-message');
+    const bidHistory = card.querySelector('.bid-history');
+
+    bidBtn.addEventListener('click', () => {
+      const newBid = parseFloat(bidInput.value);
+      const bidderName = nameInput.value.trim();
+      const currentBid = parseFloat(currentBidElement.textContent.replace('$', ''));
+
+      // Validate inputs
+      if (!bidderName) {
+        showMessage(messageElement, "Please enter your name!", false);
+        return;
+      }
+     
+      if (isNaN(newBid)) {
+        showMessage(messageElement, "Please enter a valid bid amount!", false);
+        return;
+      }
+     
+      if (newBid <= currentBid) {
+        showMessage(messageElement, `Your bid must be higher than $${currentBid}!`, false);
+        return;
+      }
+
+      // Successful bid
+      currentBidElement.textContent = `$${newBid.toFixed(2)}`;
+      showMessage(messageElement, "Your bid was successful!", true);
+     
+      // Record the bid in history
+      const bidRecord = {
+        amount: newBid,
+        bidder: bidderName,
+        timestamp: new Date().toISOString()
+      };
+     
+      // Add to bidding history
+      if (!biddingHistory[auctionId]) {
+        biddingHistory[auctionId] = [];
+      }
+      biddingHistory[auctionId].push(bidRecord);
+     
+      // Save to localStorage
+      saveBidData(auctionId, newBid);
+     
+      // Update bid history display
+      addBidToHistory(bidHistory, bidderName, newBid);
+     
+      // Update the chart for this artwork
+      updateChartForArtwork(auctionId);
+     
+      // Flash animation for visual feedback
+      bidBtn.style.backgroundColor = 'var(--success)';
+      setTimeout(() => {
+        bidBtn.style.backgroundColor = '';
+      }, 300);
+     
+      // Clear inputs
+      bidInput.value = "";
+      bidInput.min = newBid + 1;
+    });
+  }
+
+  function saveBidData(auctionId, currentBid) {
+    try {
+      // Save bid history
+      localStorage.setItem(bidHistoryStorageKey, JSON.stringify(biddingHistory));
+     
+      // Save current bid
+      const savedCurrentBids = JSON.parse(localStorage.getItem(currentBidsStorageKey)) || {};
+      savedCurrentBids[auctionId] = currentBid;
+      localStorage.setItem(currentBidsStorageKey, JSON.stringify(savedCurrentBids));
+    } catch (e) {
+      console.error('Error saving bid data:', e);
+    }
+  }
+
+  function updateBidHistoryDisplay(card, auctionId) {
+    const bidHistory = card.querySelector('.bid-history');
+    bidHistory.innerHTML = '';
+   
+    const history = biddingHistory[auctionId] || [];
+    history.forEach(bid => {
+      addBidToHistory(bidHistory, bid.bidder, bid.amount);
+    });
+  }
+
+  function showMessage(element, text, isSuccess) {
+    element.textContent = text;
+    element.className = 'bid-message ' + (isSuccess ? 'success-message' : 'error-message');
+   
+    // Clear message after 3 seconds
+    setTimeout(() => {
+      element.textContent = '';
+      element.className = 'bid-message';
+    }, 3000);
+  }
+
+  function addBidToHistory(container, name, amount) {
+    const li = document.createElement('li');
+    li.className = 'bid-history-item';
+    li.innerHTML = `
+      <span class="bidder-name">${name}</span>
+      <span class="bid-amount">$${amount.toFixed(2)}</span>
+    `;
+    container.prepend(li);
+  }
+ 
+  // Trading Event Handlers - Updated for art trading
+  function setupTradingEvents() {
+    // Timeframe buttons
+    const timeBtns = document.querySelectorAll('.time-btn');
+    timeBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        timeBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+   
+    // Indicator buttons - now showing art-specific metrics
+    const indicators = document.querySelectorAll('.indicator');
+    indicators.forEach(ind => {
+      ind.addEventListener('click', function() {
+        indicators.forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+       
+        // Show/hide volume based on selection
+        const chart = Chart.getChart("price-chart");
+        if (chart) {
+          if (this.textContent === "Volume") {
+            chart.setDatasetVisibility(1, true);
+          } else {
+            chart.setDatasetVisibility(1, false);
+          }
+          chart.update();
+        }
+      });
+    });
+   
+    // Symbol selector - now showing artworks instead of stocks
+    const symbolSelect = document.getElementById('symbol-select');
+    symbolSelect.innerHTML = `
+      <option value="auction001">SUNSET - Abstract Sunset</option>
+      <option value="auction002">URBAN - Urban Serenity</option>
+      <option value="auction003">NATURE - Nature's Whisper</option>
+      <option value="auction004">DREAMS - Whimsical Dreams</option>
+      <option value="auction005">FOREST - Mystic Forest</option>
+      <option value="auction006">CELESTIAL - Celestial Journey</option>
+      <option value="auction007">GOLDEN - Golden Horizon</option>
+      <option value="auction008">ECHO - Silent Echo</option>
+      <option value="auction009">OCEAN - Ocean's Depth</option>
+      <option value="auction010">MOUNTAIN - Mountain Majesty</option>
+    `;
+   
+    symbolSelect.addEventListener('change', function() {
+      const selectedArtworkId = this.value;
+      updateChartForArtwork(selectedArtworkId);
+     
+      // Update the current price display
+      const card = document.querySelector(`.auction-card[data-artwork-id="${selectedArtworkId}"]`);
+      if (card) {
+        const currentBid = card.querySelector('.current-bid-amount')?.textContent.replace('$', '') || "0";
+        document.querySelector('.current-price').textContent = '$' + currentBid;
+       
+        // Calculate price change (simplified for demo)
+        const history = biddingHistory[selectedArtworkId] || [];
+        let change = 0;
+        if (history.length > 1) {
+          const firstBid = history[0].amount;
+          const lastBid = history[history.length - 1].amount;
+          change = ((lastBid - firstBid) / firstBid) * 100;
+        }
+       
+        const changeElem = document.querySelector('.price-change');
+        changeElem.textContent = (change > 0 ? '+' : '') + change.toFixed(2) + '%';
+        changeElem.className = change >= 0 ? 'price-change positive' : 'price-change negative';
+      }
+    });
+   
+    // Refresh button
+    document.getElementById('refresh-btn').addEventListener('click', function() {
+      const originalText = this.textContent;
+      this.textContent = 'Refreshing...';
+      this.disabled = true;
+     
+      // Get currently selected artwork
+      const symbolSelect = document.getElementById('symbol-select');
+      const selectedArtworkId = symbolSelect.value;
+     
+      // Simulate refresh delay
+      setTimeout(() => {
+        updateChartForArtwork(selectedArtworkId);
+        this.textContent = originalText;
+        this.disabled = false;
+      }, 1000);
+    });
+   
+    // Order buttons - now for art trading
+    document.querySelector('.buy-btn').addEventListener('click', function() {
+      const quantity = document.getElementById('quantity').value;
+      const price = document.getElementById('price').value;
+      alert(`Buy order placed for ${quantity} shares at $${price} each!`);
+    });
+   
+    document.querySelector('.sell-btn').addEventListener('click', function() {
+      const quantity = document.getElementById('quantity').value;
+      const price = document.getElementById('price').value;
+      alert(`Sell order placed for ${quantity} shares at $${price} each!`);
+    });
+  }
+</script>
+</body>
+</html>
